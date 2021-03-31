@@ -1,0 +1,18 @@
+{
+  "mysql": {
+    "host": "127.0.0.1",
+    "user": "website",
+    "password": "",
+    "charset": "utf8",
+    "database": "coronahh"
+  },
+  "memcache": {
+    "host": "localhost",
+    "port": 11211
+  },
+  "settings": {
+    "dev": true,
+    "caching": false,
+    "plausible": false
+  }
+}
