@@ -1,0 +1,95 @@
+<?php
+$chartColors = ['rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(113,1,98)', 'rgb(17,1,65)'];
+$chartId = uniqid('chart');
+$total = array_sum($chart['data']);
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-blue">
+                    <h4 class="card-title "><?= $chart['title'] ?></h4>
+                    <p class="card-category"><?= $chart['subtitle'] ?></p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-md-6" style="overflow:auto">
+
+                            <table class="minitable2">
+                                <tr>
+                                    <td style="background-color:<?= $chartColors[4] ?>">
+                                        <div style="width:40px;height:40px"></div>
+                                    </td>
+                                    <td><?= $chart['labels'][1] ?></td>
+                                    <td class="text-right"><?= $this->nf($chart['data'][1]) ?></td>
+                                    <td class="text-right"><?= round(100 / $total * $chart['data'][1], 1) ?>%</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:<?= $chartColors[2] ?>">
+                                        <div style="width:40px;height:40px"></div>
+                                    </td>
+                                    <td><?= $chart['labels'][2] ?></td>
+                                    <td class="text-right"><?= $this->nf($chart['data'][2]) ?></td>
+                                    <td class="text-right"><?= round(100 / $total * $chart['data'][2], 1) ?>%</td>
+                                </tr>
+                                <tr>
+                                    <td style="background-color:#ccc">
+                                        <div style="width:40px;height:40px"></div>
+                                    </td>
+                                    <td><?= $chart['labels'][0] ?></td>
+                                    <td class="text-right"><?= $this->nf($chart['data'][0]) ?></td>
+                                    <td class="text-right"><?= round(100 / $total * $chart['data'][0], 1) ?>%</td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="<?= $chartId ?>"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var <?= $chartId ?> =
+    {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: <?=json_encode($chart['data'])?>,
+                backgroundColor: [
+                    '#ccc',
+                    '<?=$chartColors[4]?>',
+                    '<?=$chartColors[2]?>'
+                ],
+                label: 'Dataset 1'
+            }],
+            labels: <?=json_encode($chart['labels'])?>
+        },
+        options: {
+            legend: {
+                display: false,
+            },
+            responsive: true,
+            tooltips: {
+                callbacks: {
+
+                    label: function(tooltipItem, data) {
+                        let x = data.labels[tooltipItem.index] + " " + (100/<?=$total?>*data.datasets[tooltipItem.datasetIndex].data[ tooltipItem.index]).toFixed(1) + "%";
+                        return x;
+                    },
+                }
+            }
+        }
+    }
+    ;
+
+    window.onload = function () {
+        var ctx = document.getElementById('<?= $chartId ?>').getContext('2d');
+        window.myPie = new Chart(ctx, <?= $chartId ?>);
+    };
+</script>

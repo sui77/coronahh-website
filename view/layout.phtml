@@ -1,0 +1,178 @@
+<?php
+$chartColors = ['rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(113,1,98)', 'rgb(17,1,65)'];
+
+?><!--
+=========================================================
+Material Dashboard - v2.1.2
+=========================================================
+
+Product Page: https://www.creative-tim.com/product/material-dashboard
+Copyright 2020 Creative Tim (https://www.creative-tim.com)
+Coded by Creative Tim
+
+=========================================================
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>
+        coronahh.de
+    </title>
+    <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport'/>
+
+    <link href="/css/material-dashboard-custom.css?v=1" rel="stylesheet"/>
+
+    <style>
+        .hr {
+            border-top: solid 2px #000 !important;
+        }
+
+        .card .card-header-blue .card-icon,
+        .card .card-header-blue .card-text,
+        .card .card-header-blue:not(.card-header-icon):not(.card-header-text),
+        .card.bg-blue,
+        .card.card-rotate.bg-blue .front,
+        .card.card-rotate.bg-blue .back {
+            background: linear-gradient(60deg, #104E8B, #185795);
+        }
+
+        .card .card-header-blue .card-icon,
+        .card .card-header-blue:not(.card-header-icon):not(.card-header-text),
+        .card .card-header-blue .card-text {
+            box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(10, 78, 139, 0.4);
+        }
+
+        canvas {
+            height: 500px;
+        }
+
+        @media (max-width: 991px) {
+            .nav-open .sidebar {
+                background-color: #ddd !important;
+            }
+
+            canvas {
+                height: 350px;
+            }
+
+        }
+
+        .sidebar[data-color="blue"] li.active > a {
+            background-color: #104E8B;
+            box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(10, 78, 139, 0.4);
+        }
+
+        table.minitable td {
+            border: solid 1px #888 !important;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        table.minitable2 td {
+            border: solid 1px #888 !important;
+            padding-left: 10px;
+            padding-right: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+        .card-body a {
+            color:#000;
+            text-decoration: underline;
+        }
+
+    </style>
+    <script src="/material-dashboard-master/assets/js/core/jquery.min.js"></script>
+    <script src="/js/script.js?v=1" type="text/javascript"></script>
+</head>
+
+<body class="">
+<div class="wrapper ">
+    <div class="sidebar" data-color="blue" data-background-color="white" xdata-image="">
+
+        <div class="logo"><a href="/" class="simple-text logo-normal">
+                coronahh
+            </a></div>
+        <div class="sidebar-wrapper">
+            <ul class="nav">
+                <?php foreach ($navigation as $n => $title) { ?>
+                    <li class="nav-item <?= ($n == $page) ? 'active' : '' ?>">
+                        <a class="nav-link"
+                           href="/<?= $n ?>" <?= ($n == $page) ? 'styxle="background-color:#104E8B"' : '' ?>>
+                            <i class="material-icons"><!--show_chart--></i>
+                            <p><?= $title ?></p>
+                        </a>
+                    </li>
+                <?php } ?>
+
+
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <a class="navbar-brand" href="javascript:;"></a>
+                </div>
+                <button style="background-color:black;height:30px;" class="navbar-toggler" type="button"
+                        data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                </button>
+
+            </div>
+        </nav>
+        <!-- End Navbar -->
+
+        <div>
+            <?php include dirname(__FILE__) . '/' . $page . '.phtml'; ?>
+        </div>
+
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="float-left">
+                    <ul>
+                        <!--                        <li>
+                                                    <a href="/impressum">
+                                                        Impressum &amp; Datenschutz
+                                                    </a>
+                                                </li>-->
+                        <li>
+                            <a>
+                                Alle Angaben ohne Gewähr und Anspruch auf Vollständigkeit. Als
+                                Berechnungsgrundlage wurden die Daten der jeweils angegebenen Quellen nach
+                                bestem Wissen und Gewissen übernommen. <a href="/impressum">
+                                    Impressum &amp; Datenschutzerklärung
+                                </a>
+                            </a>
+                        </li>
+                    </ul>
+
+                </nav>
+                <div class="copyright float-right">
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+
+<script src="/js/chart.js"></script>
+<script async defer data-domain="coronahh.de" src="https://plausible.io/js/plausible.js"></script>
+
+
+</body>
+
+</html>

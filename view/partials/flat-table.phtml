@@ -1,0 +1,45 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-blue">
+                    <h4 class="card-title "><?=$rtable['title']?></h4>
+                    <p class="card-category"><?=$rtable['subtitle']?></a>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <?php
+
+                        echo '<table class="table">';
+                        echo '<thead class="text font-weight-bold">';
+
+                        echo '<tr><td></td>';
+                        foreach ($rtable['data'] as $col => $v) {
+                            echo '<td class="text-right small font-weight-bold">' . $v['label'] . '</td>';
+                        }
+                        echo '</tr>';
+
+                        echo '</thead>';
+
+                        foreach ($rtable['data'][0]['values'] as $index => $v) {
+                            echo '<tr>';
+                            echo '<td>' . $rtable['cols'][$index] . '</td>';
+                            foreach ($rtable['data'] as $col => $v) {
+                                echo '<td class="text-right">' . $rtable['data'][$col]['values'][$index] . '</td>';
+                            }
+                            echo '</tr>';
+                        }
+
+                        echo '</table>';
+                        ?>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

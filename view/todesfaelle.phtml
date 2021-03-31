@@ -1,0 +1,39 @@
+
+<?php
+$chart = [
+    'title' => 'Todesfälle',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => 'Todesfälle',
+    'labelX' => '',
+    /*'labelCb' => 'inzidenzLabel',*/
+    'datasets' => [
+        [
+            'label' => 'Todesfälle',
+            'values' => $values
+        ]
+    ]
+];
+include dirname(__FILE__) . '/partials/bar-diagram.phtml';
+?>
+
+
+<?php
+include dirname(__FILE__) . '/partials/rolling-table.phtml';
+?>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title ">Anmerkungen</h4>
+                </div>
+                <div class="card-body">
+                    Quelle: <a href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html">https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html</a>
+                    Einwohnerzahl: <?=$this->nf($ewz)?><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

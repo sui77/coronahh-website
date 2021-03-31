@@ -1,0 +1,88 @@
+<?php
+$chartColors = ['rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(113,1,98)', 'rgb(17,1,65)'];
+$chartId = uniqid('chart');
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-blue">
+                    <h4 class="card-title "><?= $chart['title'] ?></h4>
+                    <p class="card-category"><?= $chart['subtitle'] ?></p>
+                </div>
+                <div class="card-body">
+                    <canvas id="<?=$chartId?>" class="bar-diagram"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var  <?=$chartId?> = {
+        type: 'bar',
+        data: {
+            labels: <?=json_encode($chart['labels'])?>,
+            datasets: [
+                <?php $color = 0; foreach ($chart['datasets'] as $key => $ds) { $color++; ?>
+                {
+                    label: "<?=addslashes($ds['label'])?>",
+                    backgroundColor: '<?=$chartColors[$color]?>',
+                    borderColor: '<?=$chartColors[$color]?>',
+                    data: <?=json_encode($ds['values'])?>,
+                    fill: false,
+                },
+                <?php } ?>
+            ]
+        },
+        options: {
+            elements: {
+                point: {
+                    radius: 0
+                }
+            },
+            responsive: true,
+            hover: {
+                mode: 'nearest',
+                intersect: true
+            },
+            scales: {
+                xAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: '<?=$chart['labelX']?>'
+                    }
+                }],
+                yAxes: [{
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: '<?=$chart['labelY']?>'
+                    }
+                }]
+            },
+
+
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+                callbacks: {
+                    <?php if (isset($chart['labelCb'])) { ?>
+                    label: <?=$chart['labelCb']?>,
+                    <?php } ?>
+                }
+            }
+
+        }
+    };
+
+    $( () => {
+        console.log('load <?=$chartId?>')
+        var ctx = document.getElementById('<?=$chartId?>').getContext('2d');
+        //ctx.style.backgroundColor = 'rgba(255,0,0,255)';
+        window.myLine = new Chart(ctx,  <?=$chartId?>);
+    });
+</script>
+

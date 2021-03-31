@@ -1,0 +1,38 @@
+<?php
+$chart = [
+    'title' => '7 Tage Inzidenz Hamburg',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
+    'labelX' => '',
+    'labelCb' => 'inzidenzLabel',
+    'datasets' => [
+        [
+            'label' => '7 Tage Inzidenz',
+            'values' => $values
+        ]
+    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+<?php
+    include dirname(__FILE__) . '/partials/rolling-table.phtml';
+?>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title ">Anmerkungen</h4>
+                </div>
+                <div class="card-body">
+                    Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a><br>
+                    Einwohnerzahl: <?=$this->nf($ewz)?><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

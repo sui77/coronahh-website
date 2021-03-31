@@ -1,0 +1,81 @@
+<?php
+$colors = [
+    '#ffbaba',
+    '#ff7b7b',
+    '#ff5252',
+    '#ff0000',
+    '#a70000',
+];
+
+$colors = [
+    "#ffebee",
+    "#ffcdd2",
+    "#ef9a9a",
+    "#e57373",
+    "#ef5350",
+    "#f44336",
+    "#e53935",
+    "#d32f2f",
+    "#c62828",
+    "#b71c1c"
+]
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-blue">
+                    <h4 class="card-title "><?=$rtable['title']?></h4>
+                    <p class="card-category"><?=$rtable['subtitle']?></a>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <?php
+
+                        echo '<table class="table">';
+                        echo '<thead class="text font-weight-bold">';
+
+                        echo '<tr><td></td>';
+                        foreach ($rtable['data'] as $col => $v) {
+                            echo '<td class="text-right small font-weight-bold">' . $v['label'] . '</td>';
+                        }
+                        echo '</tr>';
+
+                        echo '</thead>';
+
+                        foreach ($rtable['data'][0]['values'] as $index => $v) {
+                            echo '<tr>';
+                            echo '<td>' . $rtable['cols'][$index] . '</td>';
+                            foreach ($rtable['data'] as $col => $v) {
+                                $value =  $rtable['data'][$col]['values'][$index];
+                                $colr = '';
+                                if ($value > 35) { $colr = $colors[0]; }
+                                if ($value > 50) { $colr = $colors[1]; }
+                                if ($value > 100) { $colr = $colors[2]; }
+                                if ($value > 150) { $colr = $colors[3]; }
+                                if ($value > 200) { $colr = $colors[4]; }
+                                if ($value > 250) { $colr = $colors[6]; }
+                                if ($value > 300) { $colr = $colors[8]; }
+                                echo '<td class="text-right" style="background-color:' . $colr . '">' . $this->nf($value,2) ;
+                                if (isset($rtable['data'][$col]['totalValues'])) {
+
+                                    echo '<br><small>(' . $rtable['data'][$col]['totalValues'][$index] . ')</small>';
+                                }
+                                echo '</td>';
+                            }
+                            echo '</tr>';
+                        }
+
+                        echo '</table>';
+                        ?>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

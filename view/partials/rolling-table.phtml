@@ -1,0 +1,61 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-blue">
+                    <h4 class="card-title "><?=$rtable['title']?></h4>
+                    <p class="card-category"><?=$rtable['subtitle']?></a>
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <?php
+                        $wdGerman = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
+
+                        echo '<table class="table">';
+                        echo '<thead class="text font-weight-bold">';
+
+                        echo '<tr><td>&nbsp;</td>';
+                        for ($i = $showNumWeeks; $i >= 0; $i--) {
+                            echo '<td class="text-right small font-weight-bold">' . date('d.m.', strtotime($weekD[$i])) . ' - ' . date('d.m.', strtotime($weekD[$i]) + 60 * 60 * 24 * 6) . '</td>';
+                        }
+                        echo '</tr>';
+                        echo '</thead>';
+
+                        for ($wd = 0; $wd < 7; $wd++) {
+                            echo '<tr>';
+                            echo '<td class="text font-weight-bold">' . $wdGerman[1 * date('N', strtotime($weekD[0]) + 60 * 60 * 24 * $wd)] . '</td>';
+                            for ($i = $showNumWeeks; $i >= 0; $i--) {
+                                echo '<td class="text-right">' . $data[$i][$wd] . '</td>';
+                            }
+                            echo '</tr>';
+                        }
+
+                        echo '<tr>';
+                        echo '<td class="font-weight-bold hr">Summe</td>';
+                        for ($i = $showNumWeeks; $i >= 0; $i--) {
+                            echo '<td class="text-right hr">' . array_sum($data[$i]) . '</td>';
+                        }
+                        echo '</tr>';
+                        if ($page == 'neuinfektionen') {
+                            echo '<tr>';
+                            echo '<td class="text font-weight-bold">7 Tage Inz.</td>';
+                            for ($i = $showNumWeeks; $i >= 0; $i--) {
+                                echo '<td class="text-right">' . round((100000 / $ewz * array_sum($data[$i])), 2) . '</td>';
+                            }
+                            echo '</tr>';
+                        }
+
+
+                        echo '</table>';
+                        ?>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

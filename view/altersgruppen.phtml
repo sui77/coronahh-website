@@ -1,0 +1,65 @@
+
+<?php
+$chart = [
+    'title' => 'Inzidenz nach Altersgruppen',
+    'subtitle' => '', //Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a>',
+    'labels' => $dates,
+    'labelY' => '7 Tage Inzidenz',
+    'labelX' => 'Meldewoche',
+    'labelCb' => 'inzidenzLabelW',
+    'datasets' =>
+        $values
+
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+
+
+<?php
+
+$rtable = [
+    'title' => 'Inzidenz nach Altersgruppen',
+    'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut)',
+    'cols' => $dates,
+    'data' => $values
+];
+
+include dirname(__FILE__) . '/partials/flat-table-color.phtml';
+
+?>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title ">Anmerkungen</h4>
+                </div>
+                <div class="card-body">
+
+                    Quelle für die Infektionszahlen: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a>
+                    <br><br>
+                    Quelle für die Bevölkerungszahlen der Altersgruppen:<br>
+                    Statistikamt Nord, Bevölkerung nach Einzelalter und Geschlecht am 31.12.2019, Quelle Melderegister
+                    <table class="minitable">
+                        <tr>
+                            <td>Altersgruppe</td>
+                            <td class="border-1 text-right">Einwohner</td>
+                        </tr>
+                    <?php foreach ($bevoelkerungszahlen as $k => $v) { ?>
+                        <tr>
+                            <td><?=$k?></td>
+                            <td style="text-align:right"><?=$this->nf($v)?></td>
+                        </tr>
+                    <?php } ?>
+                        <tr>
+                            <td>Summe</td>
+                            <td class="border-1 text-right"><?=$this->nf(array_sum($bevoelkerungszahlen))?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

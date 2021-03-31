@@ -1,0 +1,67 @@
+<?php
+
+$chart = [
+    'title' => 'Impfungen',
+    'subtitle' => '',
+
+    'labelY' => 'Anzahl',
+    'labelX' => 'Tag',
+    /*'labelCb' => 'inzidenzLabel',*/
+    'data' => [        $ewz - array_sum($values[0]['values']), array_sum($values[0]['values'])-array_sum($values[1]['values']), array_sum($values[1]['values']) ],
+    'labels' => ['Ungeimpft', 'Erstimpfung', 'Erst- und Zweitimpfung'],
+
+];
+include dirname(__FILE__) . '/partials/pie-diagram.phtml';
+
+$chart = [
+    'title' => 'Impfungen kumuliert',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => 'Anzahl',
+    'labelX' => 'Tag',
+    /*'labelCb' => 'inzidenzLabel',*/
+    'datasets' =>
+        $tableValues
+
+];
+include dirname(__FILE__) . '/partials/bar-diagram.phtml';
+
+$chart = [
+    'title' => 'Tägliche Impfungen',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => 'Anzahl',
+    'labelX' => 'Tag',
+    /*'labelCb' => 'inzidenzLabel',*/
+    'datasets' =>
+        $values
+
+];
+include dirname(__FILE__) . '/partials/bar-diagram.phtml';
+
+$rtable = [
+    'title' => 'Impfungen',
+    'subtitle' => '',
+    'cols' => $dates,
+    'data' => array_merge($values, $tableValues),
+];
+
+
+include dirname(__FILE__) . '/partials/flat-table.phtml';
+
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title ">Anmerkungen</h4>
+                </div>
+                <div class="card-body">
+                    Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a><br>
+                    Einwohnerzahl: <?=$this->nf($ewz)?><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
