@@ -1,3 +1,29 @@
+window.phonePortrait = $( window ).width()<576;
+window.initialWidth =  $( window ).width();
+/*$( window ).resize(function() {
+    window.phonePortrait = $( window ).width()<576;
+    for (n in window.charts) {
+        window.charts[n].options.responsive = window.phonePortrait?false:true;
+        var ctx = document.getElementById(n).getContext('2d');
+        window.myLine = new Chart(ctx,  window.charts[n]);
+    }
+});*/
+
+$(window).resize(function() {
+    clearTimeout(window.resizedFinished);
+    window.resizedFinished = setTimeout(function(){
+        if (
+            (initialWidth > 576 &&  $( window ).width() < 576)
+            || (initialWidth < 576 &&  $( window ).width() > 576)
+        )
+        {
+            top.location.reload();
+        }
+        console.log('Resized finished.');
+    }, 250);
+});
+
+
 const inzidenzLabel = function (tooltipItem, data) {
     let index = tooltipItem.index;
     let datasetIndex = tooltipItem.datasetIndex;
@@ -36,6 +62,11 @@ $( () => {
         var ctx = document.getElementById(n).getContext('2d');
         window.myLine = new Chart(ctx,  window.charts[n]);
     }
+
+    if (window.phonePortrait) {
+        $('.card-body').animate({scrollLeft: 500}, 2000, 'swing');
+    }
+
 })
 
 var plugin = {
@@ -50,20 +81,21 @@ var plugin = {
             ctx = chart.chart.ctx;
         ctx.restore();
         ctx.font = "0.8em sans-serif";
-        ctx.textAlign = "right";
+
         ctx.textBaseline = "middle";
         ctx.rect(0, 0, width, height);
         ctx.fillStyle = "white";
         ctx.fill();
         ctx.fillStyle = "black";
-       // ctx.fillText("www.coronahh.de", width - 10, height - 30);
         ctx.textAlign = "left";
         for (n in chart.config.footer) {
             let index = (chart.config.footer.length-1 - n) ;
             ctx.fillText(chart.config.footer[n], 10, height-10-index*15);
         }
 
-       // ctx.drawImage(this.img, width-80-14, height-22, 80, 15);
+        ctx.textAlign = "right";
+        ctx.fillText("www.coronahh.de", width-100, height - 10);
+        ctx.drawImage(this.img, width-90, height-21, 80, 15);
 /*
         ctx.beginPath();
         ctx.moveTo(0, height-chart.config.options.layout.padding.bottom);

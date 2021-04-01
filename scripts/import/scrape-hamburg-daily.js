@@ -11,6 +11,8 @@ const db = new MySQL(config.mysql);
     const page = await fetch (url);
     let text = await page.text();
     text = text.replace(/.*?<\/head>/si, '');
+    text = text.replace(/<div class="header__weather.*?\/div>/si, '');
+    text = text.replace(/<span class="weather-temp".*?\/span>/si, '');
 
     const sha1 = crypto.createHash('sha1');
     sha1.update(text);

@@ -1,5 +1,5 @@
 <?php
-$chartColors = ['rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(113,1,98)', 'rgb(17,1,65)'];
+$chartColors = ['#cccccc', '#01545a', '#03c383'];
 $chartId = uniqid('chart');
 $total = array_sum($chart['data']);
 ?>
@@ -11,43 +11,10 @@ $total = array_sum($chart['data']);
                     <h4 class="card-title "><?= $chart['title'] ?></h4>
                     <p class="card-category"><?= $chart['subtitle'] ?></p>
                 </div>
-                <div class="card-body">
-                    <div class="row">
+                <div class="card-body" style="overflow:auto">
 
-                        <div class="col-md-6" style="overflow:auto">
+                            <canvas id="<?= $chartId ?>" style="height:350px;"></canvas>
 
-                            <table class="minitable2">
-                                <tr>
-                                    <td style="background-color:<?= $chartColors[2] ?>">
-                                        <div style="width:40px;height:40px"></div>
-                                    </td>
-                                    <td><?= $chart['labels'][1] ?></td>
-                                    <td class="text-right"><?= $this->nf($chart['data'][1]) ?></td>
-                                    <td class="text-right"><?= round(100 / $total * $chart['data'][1], 1) ?>%</td>
-                                </tr>
-                                <tr>
-                                    <td style="background-color:<?= $chartColors[4] ?>">
-                                        <div style="width:40px;height:40px"></div>
-                                    </td>
-                                    <td><?= $chart['labels'][2] ?></td>
-                                    <td class="text-right"><?= $this->nf($chart['data'][2]) ?></td>
-                                    <td class="text-right"><?= round(100 / $total * $chart['data'][2], 1) ?>%</td>
-                                </tr>
-                                <tr>
-                                    <td style="background-color:#ccc">
-                                        <div style="width:40px;height:40px"></div>
-                                    </td>
-                                    <td><?= $chart['labels'][0] ?></td>
-                                    <td class="text-right"><?= $this->nf($chart['data'][0]) ?></td>
-                                    <td class="text-right"><?= round(100 / $total * $chart['data'][0], 1) ?>%</td>
-                                </tr>
-                            </table>
-
-                        </div>
-                        <div class="col-md-6">
-                            <canvas id="<?= $chartId ?>"></canvas>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -56,35 +23,65 @@ $total = array_sum($chart['data']);
 
 <script>
     charts['<?= $chartId ?>'] =
-    {
-        type: 'pie',
-        data: {
-            datasets: [{
-                data: <?=json_encode($chart['data'])?>,
-                backgroundColor: [
-                    '#ccc',
-                    '<?=$chartColors[2]?>',
-                    '<?=$chartColors[4]?>'
-                ],
-                label: 'Dataset 1'
-            }],
-            labels: <?=json_encode($chart['labels'])?>
-        },
-        options: {
-            legend: {
-                display: false,
+        {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: <?=json_encode($chart['data'])?>,
+                    backgroundColor: [
+                        '#ccc',
+                        '<?=$chartColors[1]?>',
+                        '<?=$chartColors[2]?>'
+                    ],
+                    label: 'Dataset 1'
+                }],
+                labels: <?=json_encode($chart['labels'])?>
             },
-            responsive: true,
-            tooltips: {
-                callbacks: {
-                    label: function (tooltipItem, data) {
-                        let x = data.labels[tooltipItem.index] + " " + (100 / <?=$total?> * data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(1) + "%";
-                        return x;
+            options: {
+                legend: {
+                    display: false,
+                },
+
+                responsive: false,
+                layout: {
+                    padding: {
+                        left: 280,
+                        right:10,
                     },
+                },
+
+            },
+            footer: <?=json_encode($chart['footer'] ?? [])?>,
+            plugins: {
+                afterDraw: function(chart) {
+                    var width = chart.chart.width,
+                        height = chart.chart.height,
+                        ctx = chart.chart.ctx;
+                    ctx.restore();
+                    var data = "<svg xmlns='http://www.w3.org/2000/svg' width='280' height='350'>" +
+                        "<foreignObject width='400px' height='100%'>" +
+                        "<div xmlns='http://www.w3.org/1999/xhtml' style='width:400px;color:#333;font-weight:bold;font-family:sans-serif;font-size:12px'>" +
+                        "<table border='0' cellspacing='2' cellpadding='10'>" +
+                        "<tr><td bgcolor='<?=$chartColors[0]?>'> </td><td><?=$chart['labels'][0]?></td><td align='right'><?= round(100 / $total * $chart['data'][0], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][0]) ?></td></tr>" +
+                        "<tr><td bgcolor='<?=$chartColors[1]?>'> </td><td><?=$chart['labels'][1]?></td><td align='right'><?= round(100 / $total * $chart['data'][1], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][1]) ?></td></tr>" +
+                        "<tr><td bgcolor='<?=$chartColors[2]?>'> </td><td>Erst- und <br/>Zweitimpfung</td><td align='right'><?= round(100 / $total * $chart['data'][2], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][2]) ?></td></tr>" +
+                        "<tr><td> </td><td>Gesamt</td><td align='right'></td><td align='right'><?= $this->nf($chart['data'][2]+$chart['data'][1]) ?></td></tr>" +
+                        "</table></div>" +
+                        "</foreignObject>" +
+                        "</svg>";
+                    var DOMURL = self.URL || self.webkitURL || self;
+                    var img = new Image();
+                    var svg = new Blob([data], {type: "image/svg+xml;charset=utf-8"});
+                    var url = DOMURL.createObjectURL(svg);
+                    img.onload = function() {
+                        ctx.drawImage(img, 10, 50);
+                        DOMURL.revokeObjectURL(url);
+                        ctx.save();
+                    };
+                    img.src = url;
+
                 }
             }
-        },
-        footer: <?=json_encode($chart['footer']??[])?>
-    };
+        };
 
 </script>

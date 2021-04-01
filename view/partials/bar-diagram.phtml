@@ -43,7 +43,7 @@ $chartId = uniqid('chart');
                     radius: 0
                 }
             },
-            responsive: true,
+            responsive: window.phonePortrait?false:true,
             hover: {
                 mode: 'nearest',
                 intersect: true

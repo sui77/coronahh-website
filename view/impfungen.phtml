@@ -7,6 +7,12 @@ $chart = [
     'labelX' => 'Tag',
     'data' => [        $ewz - array_sum($values[0]['values']), array_sum($values[0]['values'])-array_sum($values[1]['values']), array_sum($values[1]['values']) ],
     'labels' => ['Ungeimpft', 'Erstimpfung', 'Erst- und Zweitimpfung'],
+    'footer' => [
+        'Quelle:',
+        'Schutzimpfungen in Hamburg auf www.hamburg.de/corona-zahlen/',
+        'Bevölkerungszahl laut Melderegister: ' . $ewz,
+    ]
+
 
 ];
 include dirname(__FILE__) . '/partials/pie-diagram.phtml';
@@ -33,9 +39,7 @@ $chart = [
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
     /*'labelCb' => 'inzidenzLabel',*/
-    'datasets' =>
-        $values
-
+    'datasets' =>$values,
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 

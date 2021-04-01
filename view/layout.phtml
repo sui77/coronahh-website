@@ -49,6 +49,17 @@ The above copyright notice and this permission notice shall be included in all c
             height: 600px;
         }
 
+        @media (max-width: 575.98px) {
+            div.card-body {
+                overflow:auto;
+            }
+            canvas {
+                width:800px;
+                height:700px;
+            }
+
+        }
+
         @media (max-width: 991px) {
             .nav-open .sidebar {
                 background-color: #ddd !important;
@@ -57,8 +68,9 @@ The above copyright notice and this permission notice shall be included in all c
             canvas {
                 height: 350px;
             }
-
         }
+
+
 
         .sidebar[data-color="blue"] li.active > a {
             background-color: #104E8B;
@@ -92,7 +104,7 @@ The above copyright notice and this permission notice shall be included in all c
     </style>
     <script src="/material-dashboard-master/assets/js/core/jquery.min.js"></script>
     <script src="/js/chart.js"></script>
-    <script src="/js/script.js?v=4" type="text/javascript"></script>
+    <script src="/js/script.js?v=7" type="text/javascript"></script>
     <script>
         var charts = {};
     </script>

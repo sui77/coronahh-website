@@ -56,7 +56,7 @@ $chartId = uniqid('chart');
                     tension: 0,
                 }
             },
-            responsive: true,
+            responsive: window.phonePortrait?false:true,
             maintainAspectRatio: false,
              scales: {
                 xAxes: [{
