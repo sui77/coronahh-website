@@ -89,6 +89,7 @@ abstract class AbstractController {
 
     protected function _csv($sql) {
             header('Content-type: text/csv');
+            header('Access-Control-Allow-Origin: *');
             header('Content-Disposition: attachment; filename=coronahh-' . $this->_template . '-' . date('Y-m-d') . '.csv');
             $first = true;
             foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {

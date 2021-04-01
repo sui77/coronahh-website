@@ -47,17 +47,8 @@ class Neuinfektionen extends AbstractController {
     }
 
     public function csv() {
-        header('Content-type: text/csv');
-        header('Content-Disposition: attachment; filename=coronahh-' . $this->_template . '-' . date('Y-m-d') . '.csv');
         $sql = "SELECT date, cases as neuinfektionen FROM cases ORDER BY date asc";
-        $first = true;
-        foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
-            if ($first == true) {
-                echo implode(';', array_keys($row)) . "\n";
-                $first = false;
-            }
-            echo implode(';', $row)."\n";
-        }
+        $this->_csv($sql);
     }
 
 }

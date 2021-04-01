@@ -1,0 +1,29 @@
+
+
+<?php
+
+$chart = [
+    'title' => 'Hospitalisierung',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => '',
+    'labelX' => 'Tag',
+    'datasets' => $values,
+    'footer' => [
+        'Quellen:',
+        '...',
+    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+
+
+$rtable = [
+    'title' => 'Hospitalisierung',
+    'subtitle' => '',
+    'cols' => $dates,
+    'data' => $values
+];
+
+include dirname(__FILE__) . '/partials/flat-table.phtml';
+
+?>
