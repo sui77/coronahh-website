@@ -46,7 +46,7 @@ The above copyright notice and this permission notice shall be included in all c
         }
 
         canvas {
-            height: 500px;
+            height: 600px;
         }
 
         @media (max-width: 991px) {
@@ -87,9 +87,14 @@ The above copyright notice and this permission notice shall be included in all c
             text-decoration: underline;
         }
 
+
     </style>
     <script src="/material-dashboard-master/assets/js/core/jquery.min.js"></script>
-    <script src="/js/script.js?v=1" type="text/javascript"></script>
+    <script src="/js/chart.js"></script>
+    <script src="/js/script.js?v=2" type="text/javascript"></script>
+    <script>
+        var charts = {};
+    </script>
 </head>
 
 <body class="">
@@ -101,14 +106,16 @@ The above copyright notice and this permission notice shall be included in all c
             </a></div>
         <div class="sidebar-wrapper">
             <ul class="nav">
-                <?php foreach ($navigation as $n => $title) { ?>
+                <?php foreach ($navigation as $n => $nav) { ?>
+                    <?php if (!isset($nav['visible']) || $nav['visible'] == true) { ?>
                     <li class="nav-item <?= ($n == $page) ? 'active' : '' ?>">
                         <a class="nav-link"
                            href="/<?= $n ?>" <?= ($n == $page) ? 'styxle="background-color:#104E8B"' : '' ?>>
                             <i class="material-icons"><!--show_chart--></i>
-                            <p><?= $title ?></p>
+                            <p><?= $nav['title'] ?></p>
                         </a>
                     </li>
+                        <?php } ?>
                 <?php } ?>
 
 
@@ -117,8 +124,8 @@ The above copyright notice and this permission notice shall be included in all c
     </div>
     <div class="main-panel">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
-            <div class="container-fluid">
+
+        <nav   style="height:1px !important;" class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top fixed-right ">
                 <div class="navbar-wrapper">
                     <a class="navbar-brand" href="javascript:;"></a>
                 </div>
@@ -130,9 +137,8 @@ The above copyright notice and this permission notice shall be included in all c
                     <span class="navbar-toggler-icon icon-bar"></span>
                     <span class="navbar-toggler-icon icon-bar"></span>
                 </button>
-
-            </div>
         </nav>
+
         <!-- End Navbar -->
 
         <div>
@@ -144,24 +150,28 @@ The above copyright notice and this permission notice shall be included in all c
             <div class="container-fluid">
                 <nav class="float-left">
                     <ul>
-                        <!--                        <li>
-                                                    <a href="/impressum">
-                                                        Impressum &amp; Datenschutz
-                                                    </a>
-                                                </li>-->
+
                         <li>
-                            <a>
+
                                 Alle Angaben ohne Gewähr und Anspruch auf Vollständigkeit. Als
                                 Berechnungsgrundlage wurden die Daten der jeweils angegebenen Quellen nach
-                                bestem Wissen und Gewissen übernommen. <a href="/impressum">
+                                bestem Wissen und Gewissen übernommen.
+
+                            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="/img/cc_compact.png" /></a>
+
+
+
+                            <a href="/impressum">
                                     Impressum &amp; Datenschutzerklärung
                                 </a>
-                            </a>
+
                         </li>
                     </ul>
 
                 </nav>
                 <div class="copyright float-right">
+
+
                 </div>
             </div>
         </footer>
@@ -169,7 +179,6 @@ The above copyright notice and this permission notice shall be included in all c
 </div>
 
 
-<script src="/js/chart.js"></script>
 <script async defer data-domain="coronahh.de" src="https://plausible.io/js/plausible.js"></script>
 
 

@@ -6,7 +6,6 @@ $chart = [
 
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
-    /*'labelCb' => 'inzidenzLabel',*/
     'data' => [        $ewz - array_sum($values[0]['values']), array_sum($values[0]['values'])-array_sum($values[1]['values']), array_sum($values[1]['values']) ],
     'labels' => ['Ungeimpft', 'Erstimpfung', 'Erst- und Zweitimpfung'],
 
@@ -19,12 +18,12 @@ $chart = [
     'labels' => $dates,
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
-    /*'labelCb' => 'inzidenzLabel',*/
     'datasets' =>
         $tableValues
 
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';
+
 
 $chart = [
     'title' => 'Tägliche Impfungen',

@@ -11,7 +11,7 @@ $chartId = uniqid('chart');
                     <p class="card-category"><?= $chart['subtitle'] ?></p>
                 </div>
                 <div class="card-body">
-                    <canvas id="<?=$chartId?>" class="bar-diagram"></canvas>
+                    <canvas id="<?= $chartId ?>" class="bar-diagram"></canvas>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@ $chartId = uniqid('chart');
 
 <script>
 
-    var  <?=$chartId?> = {
+    charts['<?=$chartId?>'] = {
         type: 'bar',
         data: {
             labels: <?=json_encode($chart['labels'])?>,
@@ -64,7 +64,9 @@ $chartId = uniqid('chart');
                 }]
             },
 
+            layout: {
 
+            },
             tooltips: {
                 mode: 'index',
                 intersect: false,
@@ -75,14 +77,9 @@ $chartId = uniqid('chart');
                 }
             }
 
-        }
+        },
+        footer: <?=json_encode($chart['footer'] ?? [])?>
     };
 
-    $( () => {
-        console.log('load <?=$chartId?>')
-        var ctx = document.getElementById('<?=$chartId?>').getContext('2d');
-        //ctx.style.backgroundColor = 'rgba(255,0,0,255)';
-        window.myLine = new Chart(ctx,  <?=$chartId?>);
-    });
 </script>
 

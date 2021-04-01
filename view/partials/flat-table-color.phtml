@@ -18,7 +18,15 @@ $colors = [
     "#d32f2f",
     "#c62828",
     "#b71c1c"
-]
+];
+
+foreach ($rtable['data'] as $n => $datset) {
+    $rtable['data'][$n]['values'] = array_reverse($rtable['data'][$n]['values']);
+    $rtable['data'][$n]['totalValues'] = array_reverse($rtable['data'][$n]['totalValues']);
+}
+$rtable['cols'] = array_reverse($rtable['cols']);
+
+
 ?>
 <div class="container-fluid">
     <div class="row">

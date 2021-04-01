@@ -7,7 +7,9 @@ abstract class AbstractController {
     protected $_pdo;
 
     public function __construct() {
-        $this->_pdo = new PDO('mysql:host=localhost;dbname=coronahh', 'website', '');
+        $config = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), 1);
+        $this->config = $config;
+        $this->_pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
         $this->assign('page', $this->_template);
         $this->initNavigation();
         $this->action();
@@ -16,21 +18,41 @@ abstract class AbstractController {
 
     abstract public function action();
 
-    protected function nf($n, $prec=0) {
+    protected function nf($n, $prec = 0) {
         return number_format($n, $prec, ',', '.');
     }
 
     public function initNavigation() {
         $this->assign('navigation', [
-            'neuinfektionen' => 'Neuinfektionen',
-            'todesfaelle' => 'Todesfälle',
-            //'hospitalisierungen' => '(3 Hospitalisierungen)',
-            'altersgruppen' => 'Altersgruppen',
-            'bezirke' => 'Bezirke',
-            'impfungen' => 'Impfungen',
-            //'_faq' => '(FAQ)',
-            'impressum' => 'Impressum',
-            //'test' => '(Test)'
+
+            'neuinfektionen' => [
+                'title' => 'Neuinfektionen',
+
+            ],
+            'todesfaelle' => [
+                'title' => 'Todesfälle',
+            ],
+
+            'hospitalisierungen' => [
+                'title' => '(3 Hospitalisierungen)',
+                'visible' => $this->config['settings']['dev'],
+            ],
+            'altersgruppen' => [
+                'title' => 'Altersgruppen',
+            ],
+            'bezirke' => [
+                'title' => 'Bezirke',
+            ],
+            'impfungen' => [
+                'title' => 'Impfungen',
+            ],
+            'faq' => [
+                'title' => '(FAQ)',
+                'visible' => $this->config['settings']['dev'],
+            ],
+            'impressum' => [
+                'title' => 'Impressum',
+            ]
         ]);
     }
 

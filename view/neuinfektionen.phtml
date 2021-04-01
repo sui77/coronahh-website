@@ -4,14 +4,21 @@ $chart = [
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
-    'labelX' => '',
+    'labelX' => 'Tag',
     'labelCb' => 'inzidenzLabel',
+    'lineWidth' => 1,
+    'circleRadius' => 1,
     'datasets' => [
         [
             'label' => '7 Tage Inzidenz',
             'values' => $values
         ]
-    ]
+    ],
+    'footer' => [
+    'Quellen:',
+    'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
+    'Bevölkerungszahl laut Melderegister: ' . $ewz,
+]
 ];
 include dirname(__FILE__) . '/partials/line-diagram.phtml';
 ?>

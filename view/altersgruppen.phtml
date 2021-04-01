@@ -1,14 +1,17 @@
-
 <?php
 $chart = [
-    'title' => 'Inzidenz nach Altersgruppen',
-    'subtitle' => '', //Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a>',
+    'title' => '7-Tage-Inzidenz nach Altersgruppen',
+    'subtitle' => '',
     'labels' => $dates,
     'labelY' => '7 Tage Inzidenz',
-    'labelX' => 'Meldewoche',
+    'labelX' => 'Kalenderwoche',
     'labelCb' => 'inzidenzLabelW',
-    'datasets' =>
-        $values
+    'datasets' => $values,
+    'footer' => [
+        'Quellen:',
+        'Infektionszahlen: Verteilung der Infizierten nach Alter und Geschlecht auf www.hamburg.de/corona-zahlen/',
+        'Bevölkerungszahlen: Bevölkerung nach Einzelalter und Geschlecht am 31.12.2019 lt. Melderegister, Statistikamt Nord',
+    ]
 
 ];
 include dirname(__FILE__) . '/partials/line-diagram.phtml';

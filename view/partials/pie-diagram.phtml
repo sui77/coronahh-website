@@ -55,7 +55,7 @@ $total = array_sum($chart['data']);
 </div>
 
 <script>
-    var <?= $chartId ?> =
+    charts['<?= $chartId ?>'] =
     {
         type: 'pie',
         data: {
@@ -77,19 +77,14 @@ $total = array_sum($chart['data']);
             responsive: true,
             tooltips: {
                 callbacks: {
-
-                    label: function(tooltipItem, data) {
-                        let x = data.labels[tooltipItem.index] + " " + (100/<?=$total?>*data.datasets[tooltipItem.datasetIndex].data[ tooltipItem.index]).toFixed(1) + "%";
+                    label: function (tooltipItem, data) {
+                        let x = data.labels[tooltipItem.index] + " " + (100 / <?=$total?> * data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index]).toFixed(1) + "%";
                         return x;
                     },
                 }
             }
-        }
-    }
-    ;
-
-    window.onload = function () {
-        var ctx = document.getElementById('<?= $chartId ?>').getContext('2d');
-        window.myPie = new Chart(ctx, <?= $chartId ?>);
+        },
+        footer: <?=json_encode($chart['footer']??[])?>
     };
+
 </script>

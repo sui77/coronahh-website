@@ -5,7 +5,7 @@ class Impfungen extends AbstractController {
     protected $_template = 'impfungen';
 
     public function action() {
-        $sql = "SELECT * FROM impfungen ORDER BY date";
+        $sql = "SELECT `date`, `vaccination-1st`, `vaccination-2nd` FROM cases WHERE date > '2020-12-26' and `vaccination-1st` IS NOT NULL ORDER BY date";
 
         $erstTotal = 0;
         $zweitTotal = 0;
@@ -14,10 +14,11 @@ class Impfungen extends AbstractController {
             $dates[] = $row['date'];
             $values[0]['label'] = 'Erstimpfungen';
             $values[1]['label'] = 'Zweitimpfungen';
-            $values[0]['values'][] = $row['erstimpfung'];
-            $values[1]['values'][] = $row['zweitimpfung'];
-$erstTotal += $row['erstimpfung'];
-$zweitTotal += $row['zweitimpfung'];
+            $values[0]['values'][] = $row['vaccination-1st'];
+            $values[1]['values'][] = $row['vaccination-2nd'];
+
+            $erstTotal += $row['vaccination-1st'];
+            $zweitTotal += $row['vaccination-2nd'];
             $tableValues[0]['label'] = 'Erstimpfungen kumuliert';
             $tableValues[1]['label'] = 'Zweitimpfungen kumuliert';
             $tableValues[0]['values'][] = $erstTotal;

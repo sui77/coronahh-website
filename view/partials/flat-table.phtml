@@ -1,3 +1,12 @@
+<?php
+foreach ($rtable['data'] as $n => $datset) {
+    $rtable['data'][$n]['values'] = array_reverse($rtable['data'][$n]['values']);
+    if (isset($rtable['data'][$n]['totalValues'])) {
+        $rtable['data'][$n]['totalValues'] = array_reverse($rtable['data'][$n]['totalValues']);
+    }
+}
+$rtable['cols'] = array_reverse($rtable['cols']);
+?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">

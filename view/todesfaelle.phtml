@@ -12,6 +12,10 @@ $chart = [
             'label' => 'Todesfälle',
             'values' => $values
         ]
+    ],
+    'footer' => [
+        'Quelle:',
+        'Infektionszahlen: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html',
     ]
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';
@@ -30,7 +34,7 @@ include dirname(__FILE__) . '/partials/rolling-table.phtml';
                     <h4 class="card-title ">Anmerkungen</h4>
                 </div>
                 <div class="card-body">
-                    Quelle: <a href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html">https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html</a>
+                    Quelle: <a href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html">https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html</a><br>
                     Einwohnerzahl: <?=$this->nf($ewz)?><br>
                 </div>
             </div>
