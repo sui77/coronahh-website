@@ -14,5 +14,8 @@
     "dev": true,
     "caching": false,
     "plausible": false
+  },
+  "s3": {
+    "bucket": "foo"
   }
 }
