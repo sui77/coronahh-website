@@ -19,10 +19,10 @@ class Impfungen extends AbstractController {
 
             $erstTotal += $row['vaccination-1st'];
             $zweitTotal += $row['vaccination-2nd'];
-            $tableValues[0]['label'] = 'Erstimpfungen kumuliert';
-            $tableValues[1]['label'] = 'Zweitimpfungen kumuliert';
-            $tableValues[0]['values'][] = $erstTotal;
-            $tableValues[1]['values'][] = $zweitTotal;
+            $tableValues[1]['label'] = 'Erstimpfungen kumuliert';
+            $tableValues[0]['label'] = 'Zweitimpfungen kumuliert';
+            $tableValues[1]['values'][] = $erstTotal;
+            $tableValues[0]['values'][] = $zweitTotal;
 
         }
         $this->assign('rtable', [

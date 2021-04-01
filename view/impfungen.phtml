@@ -3,7 +3,6 @@
 $chart = [
     'title' => 'Impfungen',
     'subtitle' => '',
-
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
     'data' => [        $ewz - array_sum($values[0]['values']), array_sum($values[0]['values'])-array_sum($values[1]['values']), array_sum($values[1]['values']) ],
@@ -12,14 +11,16 @@ $chart = [
 ];
 include dirname(__FILE__) . '/partials/pie-diagram.phtml';
 
+foreach ($tableValues as &$tv) {
+    $tv['fill'] = 1;
+}
 $chart = [
     'title' => 'Impfungen kumuliert',
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
-    'datasets' =>
-        $tableValues
+    'datasets' => $tableValues
 
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';

@@ -14,6 +14,7 @@ abstract class AbstractController {
         $this->initNavigation();
         $this->action();
         $this->assign('ewz', 1899160);
+        $this->assign('settings', $config['settings']);
     }
 
     abstract public function action();
@@ -52,6 +53,9 @@ abstract class AbstractController {
             ],
             'impressum' => [
                 'title' => 'Impressum',
+            ],
+            'test' => [
+                'title' => 'Test',
             ]
         ]);
     }

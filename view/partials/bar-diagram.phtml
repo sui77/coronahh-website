@@ -1,5 +1,6 @@
 <?php
 $chartColors = ['rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(113,1,98)', 'rgb(17,1,65)'];
+
 $chartId = uniqid('chart');
 ?>
 <div class="container-fluid">
@@ -25,7 +26,7 @@ $chartId = uniqid('chart');
         data: {
             labels: <?=json_encode($chart['labels'])?>,
             datasets: [
-                <?php $color = 0; foreach ($chart['datasets'] as $key => $ds) { $color++; ?>
+                <?php $color = 2; foreach ($chart['datasets'] as $key => $ds) { $color++; ?>
                 {
                     label: "<?=addslashes($ds['label'])?>",
                     backgroundColor: '<?=$chartColors[$color]?>',
@@ -50,6 +51,7 @@ $chartId = uniqid('chart');
             scales: {
                 xAxes: [{
                     display: true,
+                    stacked: true,
                     scaleLabel: {
                         display: true,
                         labelString: '<?=$chart['labelX']?>'
@@ -57,6 +59,7 @@ $chartId = uniqid('chart');
                 }],
                 yAxes: [{
                     display: true,
+                    stacked: true,
                     scaleLabel: {
                         display: true,
                         labelString: '<?=$chart['labelY']?>'

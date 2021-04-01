@@ -3,12 +3,14 @@ $chart = [
     'title' => 'Inzidenz nach Bezirken',
     'subtitle' => '',
     'labels' => $dates,
-    'labelY' => 'Anzahl',
-    'labelX' => 'Meldewoche',
-    /*'labelCb' => 'inzidenzLabel',*/
-    'datasets' =>
-        $values
-
+    'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
+    'labelX' => 'Veröffentlichungstag (?)',
+    'datasets' => $values,
+    'footer' => [
+        'Quellen:',
+        'Infektionszahlen: Entwicklung der Zahl der positiv auf COVID-19 getesteten Personen nach Bezirken auf www.hamburg.de/corona-zahlen/',
+        'Bevölkerungszahlen: Melderegister, Statistikamt Nord auf https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister',
+    ]
 ];
 include dirname(__FILE__) . '/partials/line-diagram.phtml';
 
@@ -35,7 +37,8 @@ include dirname(__FILE__) . '/partials/flat-table-color.phtml';
                     <br><br>
 
                     Quelle für die Bevölkerungszahlen der Bezirke:<br>
-                    Hamburger Melderegister <a href="https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister">https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister</a>
+                    Hamburger Melderegister <a
+                            href="https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister">https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister</a>
                     <table class="minitable">
                         <tr>
                             <td>Bezirk</td>
@@ -43,13 +46,13 @@ include dirname(__FILE__) . '/partials/flat-table-color.phtml';
                         </tr>
                         <?php foreach ($bevoelkerungszahlen as $k => $v) { ?>
                             <tr>
-                                <td><?=ucfirst($k)?></td>
-                                <td style="text-align:right"><?=$this->nf($v)?></td>
+                                <td><?= ucfirst($k) ?></td>
+                                <td style="text-align:right"><?= $this->nf($v) ?></td>
                             </tr>
                         <?php } ?>
                         <tr>
                             <td>Summe</td>
-                            <td class="border-1 text-right"><?=$this->nf(array_sum($bevoelkerungszahlen))?></td>
+                            <td class="border-1 text-right"><?= $this->nf(array_sum($bevoelkerungszahlen)) ?></td>
                         </tr>
                     </table>
                 </div>

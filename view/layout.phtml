@@ -82,8 +82,9 @@ The above copyright notice and this permission notice shall be included in all c
         strong {
             font-weight: bold;
         }
+
         .card-body a {
-            color:#000;
+            color: #000;
             text-decoration: underline;
         }
 
@@ -108,14 +109,14 @@ The above copyright notice and this permission notice shall be included in all c
             <ul class="nav">
                 <?php foreach ($navigation as $n => $nav) { ?>
                     <?php if (!isset($nav['visible']) || $nav['visible'] == true) { ?>
-                    <li class="nav-item <?= ($n == $page) ? 'active' : '' ?>">
-                        <a class="nav-link"
-                           href="/<?= $n ?>" <?= ($n == $page) ? 'styxle="background-color:#104E8B"' : '' ?>>
-                            <i class="material-icons"><!--show_chart--></i>
-                            <p><?= $nav['title'] ?></p>
-                        </a>
-                    </li>
-                        <?php } ?>
+                        <li class="nav-item <?= ($n == $page) ? 'active' : '' ?>">
+                            <a class="nav-link"
+                               href="/<?= $n ?>" <?= ($n == $page) ? 'styxle="background-color:#104E8B"' : '' ?>>
+                                <i class="material-icons"><!--show_chart--></i>
+                                <p><?= $nav['title'] ?></p>
+                            </a>
+                        </li>
+                    <?php } ?>
                 <?php } ?>
 
 
@@ -125,24 +126,26 @@ The above copyright notice and this permission notice shall be included in all c
     <div class="main-panel">
         <!-- Navbar -->
 
-        <nav   style="height:1px !important;" class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top fixed-right ">
-                <div class="navbar-wrapper">
-                    <a class="navbar-brand" href="javascript:;"></a>
-                </div>
-                <button style="background-color:black;height:30px;" class="navbar-toggler" type="button"
-                        data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="navbar-toggler-icon icon-bar"></span>
-                    <span class="navbar-toggler-icon icon-bar"></span>
-                    <span class="navbar-toggler-icon icon-bar"></span>
-                </button>
+        <nav style="height:1px !important;"
+             class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top fixed-right ">
+            <div class="navbar-wrapper">
+                <a class="navbar-brand" href="javascript:;"></a>
+            </div>
+            <button style="background-color:black;height:30px;" class="navbar-toggler" type="button"
+                    data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+                <span class="navbar-toggler-icon icon-bar"></span>
+            </button>
         </nav>
 
         <!-- End Navbar -->
 
         <div>
             <?php include dirname(__FILE__) . '/' . $page . '.phtml'; ?>
+
         </div>
 
 
@@ -153,17 +156,18 @@ The above copyright notice and this permission notice shall be included in all c
 
                         <li>
 
-                                Alle Angaben ohne Gewähr und Anspruch auf Vollständigkeit. Als
-                                Berechnungsgrundlage wurden die Daten der jeweils angegebenen Quellen nach
-                                bestem Wissen und Gewissen übernommen.
+                            Alle Angaben ohne Gewähr und Anspruch auf Vollständigkeit. Als
+                            Berechnungsgrundlage wurden die Daten der jeweils angegebenen Quellen nach
+                            bestem Wissen und Gewissen übernommen.
 
-                            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="/img/cc_compact.png" /></a>
-
+                            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img
+                                        alt="Creative Commons License" style="border-width:0"
+                                        src="/img/cc_compact.png"/></a>
 
 
                             <a href="/impressum">
-                                    Impressum &amp; Datenschutzerklärung
-                                </a>
+                                Impressum &amp; Datenschutzerklärung
+                            </a>
 
                         </li>
                     </ul>
@@ -178,9 +182,9 @@ The above copyright notice and this permission notice shall be included in all c
     </div>
 </div>
 
-
-<script async defer data-domain="coronahh.de" src="https://plausible.io/js/plausible.js"></script>
-
+<?php if ($settings['plausible']) { ?>
+    <script async defer data-domain="coronahh.de" src="https://plausible.io/js/plausible.js"></script>
+<?php } ?>
 
 </body>
 

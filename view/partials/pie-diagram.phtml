@@ -18,7 +18,7 @@ $total = array_sum($chart['data']);
 
                             <table class="minitable2">
                                 <tr>
-                                    <td style="background-color:<?= $chartColors[4] ?>">
+                                    <td style="background-color:<?= $chartColors[2] ?>">
                                         <div style="width:40px;height:40px"></div>
                                     </td>
                                     <td><?= $chart['labels'][1] ?></td>
@@ -26,7 +26,7 @@ $total = array_sum($chart['data']);
                                     <td class="text-right"><?= round(100 / $total * $chart['data'][1], 1) ?>%</td>
                                 </tr>
                                 <tr>
-                                    <td style="background-color:<?= $chartColors[2] ?>">
+                                    <td style="background-color:<?= $chartColors[4] ?>">
                                         <div style="width:40px;height:40px"></div>
                                     </td>
                                     <td><?= $chart['labels'][2] ?></td>
@@ -63,8 +63,8 @@ $total = array_sum($chart['data']);
                 data: <?=json_encode($chart['data'])?>,
                 backgroundColor: [
                     '#ccc',
-                    '<?=$chartColors[4]?>',
-                    '<?=$chartColors[2]?>'
+                    '<?=$chartColors[2]?>',
+                    '<?=$chartColors[4]?>'
                 ],
                 label: 'Dataset 1'
             }],
