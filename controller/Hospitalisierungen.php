@@ -1,8 +1,8 @@
 <?php
 
-class Test extends AbstractController {
+class Hospitalisierungen extends AbstractController {
 
-    protected $_template = 'test';
+    protected $_template = 'hospitalisierungen';
 
     public function action() {
         $sql = "SELECT * FROM hospitalisierungen ORDER BY date asc";

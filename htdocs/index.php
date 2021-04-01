@@ -7,16 +7,11 @@ function __autoload($class) {
 
 $csv = $_GET['csv'] ?? false;
 $uri = preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']);
+$uri = preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']);
 $tmp = explode('/', $uri);
 
-if (count($tmp) > 2) {
-    $page = '404';
-} else if ($tmp[1] == '') {
-    $page = 'neuinfektionen';
-} else {
-    $page = $tmp[1];
-}
 
+if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'neuinfektionen'; } else { $page = $tmp[1]; }
 
 if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php')) {
 
@@ -34,12 +29,9 @@ if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php'))
     } else {
         ob_start();
         $page = ucfirst($page);
-        $c = new $page();
-        if ($csv==1) {
-            $c->csv();
-        } else {
-            $c->render();
-        }
+
+        $controller = new $page( $tmp );
+        $controller->process();
 
         $content = ob_get_contents();
         ob_end_clean();
@@ -47,7 +39,7 @@ if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php'))
         $memcache->add($key, $content, 60*60);
     }
 } else {
-    $c = new ErrorController();
-    $c->render();
+    $c = new ErrorController($tmp);
+    $c->action();
 }
 

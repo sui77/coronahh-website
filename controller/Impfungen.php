@@ -35,4 +35,9 @@ class Impfungen extends AbstractController {
         $this->assign('tableValues', $tableValues);
     }
 
+    public function csv() {
+        $sql = "SELECT `date`, `vaccination-1st`, `vaccination-2nd` FROM cases WHERE date > '2020-12-26' and `vaccination-1st` IS NOT NULL ORDER BY date";
+        parent::_csv($sql);
+    }
+
 }

@@ -1,6 +1,7 @@
 <?php
 $chartColors = ['rgb(26,19,52)', 'rgb(113,1,98)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(17,1,65)'];
 $chartColors = array_reverse($chartColors);
+$chartColors[] = '#ccc';
 $chartId = uniqid('chart');
 ?>
 <div class="container-fluid">
@@ -36,8 +37,8 @@ $chartId = uniqid('chart');
                     type: 'line',
                     pointHitRadius: 30,
                     label: "<?=addslashes($ds['label'])?>",
-                    backgroundColor: '<?=$chartColors[$color]?>',
-                    borderColor: '<?=$chartColors[$color]?>',
+                    backgroundColor: '<?=($ds['label']=='Ø'?'#aaa':$chartColors[$color])?>',
+                    borderColor: '<?=($ds['label']=='Ø'?'#aaa':$chartColors[$color])?>',
                     data: <?=json_encode($ds['values'])?>,
                     fill: false,
                     borderWidth: <?=$chart['lineWidth'] ?? 1?>

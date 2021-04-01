@@ -23,6 +23,11 @@ include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 
 
 <?php
+$rtable = [
+    'title' => 'Todesfälle Hamburg',
+    'subtitle' => '',
+    'csv' => '/todesfaelle/data.csv'
+    ];
 include dirname(__FILE__) . '/partials/rolling-table.phtml';
 ?>
 

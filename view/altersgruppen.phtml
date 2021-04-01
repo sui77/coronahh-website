@@ -25,7 +25,8 @@ $rtable = [
     'title' => 'Inzidenz nach Altersgruppen',
     'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut)',
     'cols' => $dates,
-    'data' => $values
+    'data' => $values,
+    'csv' => '/altersgruppen/data.csv'
 ];
 
 include dirname(__FILE__) . '/partials/flat-table-color.phtml';

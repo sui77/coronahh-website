@@ -19,7 +19,8 @@ $rtable = [
     'title' => 'Inzidenz nach Bezirken',
     'subtitle' => '(Neuinfektionen absolut)',
     'cols' => $dates,
-    'data' => $values
+    'data' => $values,
+    'csv' => '/bezirke/data.csv',
 ];
 
 include dirname(__FILE__) . '/partials/flat-table-color.phtml';

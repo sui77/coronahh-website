@@ -13,6 +13,23 @@
         </div>
     </div>
 
+    <?php
+$chart = [
+    'title' => 'Hospitalisierung',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => '',
+    'labelX' => 'Tag',
+    'datasets' => $values,
+    'footer' => [
+        'Quellen:',
+        '...',
+    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+
     <div class="card">
         <div class="card-header card-header-blue">
             <a name="impressum"></a><h4 class="card-title ">Kontakt</h4>

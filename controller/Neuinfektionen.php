@@ -44,15 +44,12 @@ class Neuinfektionen extends AbstractController {
         $this->assign('values', $values);
         $this->assign('weekD', $weekD);
         $this->assign('ewz', $ewz);
-        $this->assign('rtable', [
-            'title' => 'Neuinfektionen Hamburg',
-            'subtitle' => '',
-        ]);
     }
 
     public function csv() {
-        header('Content-type: text/plain');
-        $sql = "SELECT * FROM cases ORDER BY date asc";
+        header('Content-type: text/csv');
+        header('Content-Disposition: attachment; filename=coronahh-' . $this->_template . '-' . date('Y-m-d') . '.csv');
+        $sql = "SELECT date, cases as neuinfektionen FROM cases ORDER BY date asc";
         $first = true;
         foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
             if ($first == true) {
@@ -60,9 +57,7 @@ class Neuinfektionen extends AbstractController {
                 $first = false;
             }
             echo implode(';', $row)."\n";
-
         }
-        exit();
     }
 
 }

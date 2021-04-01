@@ -56,14 +56,14 @@ var plugin = {
         ctx.fillStyle = "white";
         ctx.fill();
         ctx.fillStyle = "black";
-        ctx.fillText("www.coronahh.de", width - 10, height - 30);
+       // ctx.fillText("www.coronahh.de", width - 10, height - 30);
         ctx.textAlign = "left";
         for (n in chart.config.footer) {
             let index = (chart.config.footer.length-1 - n) ;
             ctx.fillText(chart.config.footer[n], 10, height-10-index*15);
         }
 
-        ctx.drawImage(this.img, width-80-14, height-22, 80, 15);
+       // ctx.drawImage(this.img, width-80-14, height-22, 80, 15);
 /*
         ctx.beginPath();
         ctx.moveTo(0, height-chart.config.options.layout.padding.bottom);

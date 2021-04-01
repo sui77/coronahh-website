@@ -7,9 +7,11 @@ class Altersgruppen extends AbstractController {
     public function action() {
 
         $b = [];
+        $population = 0;
         $sql = 'SELECT * FROM bevoelkerung_2';
         foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
             $b[$row['alter_id']] = $row['sum'];
+            $population += $row['sum'];
         }
 
         $bg['bis5'] = $b['a0'] + $b['a1'] + $b['a2'] + $b['a3'] + $b['a4'] + $b['a5'];
@@ -28,21 +30,28 @@ class Altersgruppen extends AbstractController {
         $sql = "SELECT kw as week, jahr as year, bis5, `6-14`, `15-19`, `20-29`, `30-39`,`40-49`,`50-59`,`60-69`,`70-79`, `80-89`, `plus90` FROM alter_senat_gruppen_ab_2020_10_13_2 ORDER BY year,week asc";
 
         foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
-           if ($row['week'] == 41 && $row['year']==2020) {
+            if ($row['week'] == 41 && $row['year'] == 2020) {
                 continue;
             }
-                $dates[] = $row['week'] . '/' . $row['year'];
-                $next = 0;
-                foreach (array_keys($row) as $columnName) {
-                    if ($columnName != 'week' && $columnName != 'year') {
-                        $values[$next]['label'] = $columnName;
-                        $values[$next]['values'][] = round(100000/$bg[$columnName] * $row[$columnName],2);
-                        $values[$next]['totalValues'][] = $row[$columnName];
-                        $next++;
-                    }
-                }
+            $dates[] = $row['week'] . '/' . $row['year'];
+            $next = 0;
 
+            $sum = 0;
+            foreach (array_keys($row) as $columnName) {
+
+                if ($columnName != 'week' && $columnName != 'year') {
+                    $values[$next]['label'] = $columnName;
+                    $values[$next]['values'][] = round(100000 / $bg[$columnName] * $row[$columnName], 2);
+                    $values[$next]['totalValues'][] = $row[$columnName];
+                    $sum += $row[$columnName];
+                    $next++;
+                }
+            }
+            $values[$next]['label'] = 'Ø';
+            $values[$next]['values'][] = round(100000 / $population * $sum, 2);
+            $values[$next]['totalValues'][] = $sum;
         }
+
 
         $this->assign('rtable', [
             'title' => 'Infektionen nach Altersgruppen',
@@ -54,4 +63,8 @@ class Altersgruppen extends AbstractController {
         $this->assign('bevoelkerungszahlen', $bg);
     }
 
+    public function csv() {
+        $sql = "SELECT kw as week, jahr as year, bis5, `6-14`, `15-19`, `20-29`, `30-39`,`40-49`,`50-59`,`60-69`,`70-79`, `80-89`, `plus90` FROM alter_senat_gruppen_ab_2020_10_13_2 ORDER BY year,week asc";
+        $this->_csv($sql);
+    }
 }

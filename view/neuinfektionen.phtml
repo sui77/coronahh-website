@@ -15,16 +15,21 @@ $chart = [
         ]
     ],
     'footer' => [
-    'Quellen:',
-    'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
-    'Bevölkerungszahl laut Melderegister: ' . $ewz,
-]
+        'Quellen:',
+        'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
+        'Bevölkerungszahl laut Melderegister: ' . $ewz,
+    ]
 ];
 include dirname(__FILE__) . '/partials/line-diagram.phtml';
 ?>
 
 <?php
-    include dirname(__FILE__) . '/partials/rolling-table.phtml';
+$rtable = [
+    'title' => 'Neuinfektionen Hamburg',
+    'subtitle' => '',
+    'csv' => '/neuinfektionen/data.csv'
+];
+include dirname(__FILE__) . '/partials/rolling-table.phtml';
 ?>
 
 
@@ -37,7 +42,7 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
                 </div>
                 <div class="card-body">
                     Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a><br>
-                    Einwohnerzahl: <?=$this->nf($ewz)?><br>
+                    Einwohnerzahl: <?= $this->nf($ewz) ?><br>
                 </div>
             </div>
         </div>

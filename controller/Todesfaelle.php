@@ -43,10 +43,19 @@ class Todesfaelle extends AbstractController {
         $this->assign('values', $values);
         $this->assign('weekD', $weekD);
         $this->assign('ewz', $ewz);
-        $this->assign('rtable', [
-            'title' => 'Todesfälle Hamburg',
-            'subtitle' => '',
-        ]);
     }
 
+    public function csv() {
+        header('Content-type: text/csv');
+        header('Content-Disposition: attachment; filename=coronahh-' . $this->_template . '-' . date('Y-m-d') . '.csv');
+        $sql = "SELECT date, deaths as todesfaelle FROM cases ORDER BY date asc";
+        $first = true;
+        foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
+            if ($first == true) {
+                echo implode(';', array_keys($row)) . "\n";
+                $first = false;
+            }
+            echo implode(';', $row)."\n";
+        }
+    }
 }

@@ -12,9 +12,17 @@ $rtable['cols'] = array_reverse($rtable['cols']);
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-blue">
-                    <h4 class="card-title "><?=$rtable['title']?></h4>
-                    <p class="card-category"><?=$rtable['subtitle']?></a>
-                    </p>
+                    <div class="row  flex-nowrap">
+                        <div class="col-10">
+                            <h4 class="card-title "><?= $rtable['title'] ?></h4>
+                            <p class="card-category"><?= $rtable['subtitle'] ?></p>
+                        </div>
+                        <div class="col-2" style="text-align:right">
+                            <?php if (isset($rtable['csv'])) { ?>
+                                <a href="<?=$rtable['csv']?>"><img src="/img/csv.png" width="28"></a>
+                            <?php } ?>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
