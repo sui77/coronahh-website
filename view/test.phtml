@@ -1,17 +1,33 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title ">Tools</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post"><input type="submit" name="action" value="screenshot"></form>
 
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php
+    $chart = [
+        'title' => '7 Tage Inzidenz Hamburg',
+        'subtitle' => '',
+        'labels' => $dates,
+        'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
+        'labelX' => 'Tag',
+        'labelCb' => 'inzidenzLabel',
+        'lineWidth' => 1,
+        'circleRadius' => 1,
+        'datasets' => [
+            [
+                'label' => '7 Tage Inzidenz',
+                'values' => $values
+            ],
+            [
+                'label' => '7 Tage Ungeimpft',
+                'values' => $values2
+            ]
+        ],
+        'footer' => [
+            'Quellen:',
+            'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
+            'Bevölkerungszahl laut Melderegister: ' . $ewz,
+        ]
+    ];
+    include dirname(__FILE__) . '/partials/line-diagram.phtml';
+    ?>
 
 
     <script>
