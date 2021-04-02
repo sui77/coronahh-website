@@ -12782,7 +12782,7 @@ body {
     width: 100%;
   }
   .sidebar::before,
-.off-canvas-sidebar nav .navbar-collapse::before {
+.off-canvas-sidebar nav .navbar-collapse::before  {
     top: 0;
     left: 0;
     height: 100%;
