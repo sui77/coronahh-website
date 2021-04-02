@@ -5,6 +5,10 @@ function __autoload($class) {
     require_once(dirname(__FILE__) . '/../controller/' . $class . '.php');
 }
 
+$config = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), 1);
+if ($config['settings']['dev']) {
+    ini_set('display_errors', 1);
+}
 
 $csv = $_GET['csv'] ?? false;
 $uri = preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']);
@@ -22,7 +26,7 @@ if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php'))
     $content = $memcache->get($key);
 
 
-    $cacheEnabled = false;
+    $cacheEnabled = ($config['setings']['caching']) && $page != 'kontakt';
 
     if ($cacheEnabled && $content = $memcache->get($key)) {
         header('X-Cache: ' . $key);
