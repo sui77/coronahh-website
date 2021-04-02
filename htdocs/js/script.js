@@ -120,15 +120,37 @@ console.log(elements, eventPosition);
     };
 };
 
-function saveCanvasAsFile(id, filename) {
+function saveCanvasAsFile(id, title) {
     var c = document.getElementById(id);
     c.toBlob(
-        blob => {
-            const anchor = document.createElement('a');
-            anchor.download = filename;
-            anchor.href = URL.createObjectURL(blob);
-            anchor.click(); // ✨ magic!
-            URL.revokeObjectURL(anchor.href); // remove it from memory and save on memory! 😎
+        async (blob) => {
+
+            const text = title;
+            const url = top.location.href;
+            const files = [
+                new File(
+                    [blob],
+                    'chart.png',
+                    {
+                        type: "image/png",
+                        lastModified: new Date().getTime()
+                    }
+                )
+            ];
+
+            if (files && files.length > 0) {
+                if (!navigator.canShare || !navigator.canShare({files})) {
+                    alert('Error: Unsupported feature: navigator.canShare()');
+                    return;
+                }
+            }
+
+            try {
+                await navigator.share({files, url});
+                console.log('Successfully sent share');
+            } catch (error) {
+                console.log('Error sharing: ' + error);
+            }
         },
         'image/png'
     );

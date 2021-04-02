@@ -8,13 +8,26 @@ $total = array_sum($chart['data']);
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header card-header-blue">
-                    <h4 class="card-title "><?= $chart['title'] ?></h4>
-                    <p class="card-category"><?= $chart['subtitle'] ?></p>
+                    <div class="row  flex-nowrap">
+                        <div class="col-10">
+                            <h4 class="card-title "><?= $chart['title'] ?></h4>
+                            <p class="card-category"><?= $chart['subtitle'] ?></p>
+                        </div>
+                        <div class="col-2" style="text-align:right;height:28px;">
+                            <a style="color:white;font-weight:bold" href="javascript:saveCanvasAsFile('<?=$chartId?>', '<?=$chart['title']?>')">
+                                <svg viewBox="1.569 1.591 58.662 58.662" xmlns="http://www.w3.org/2000/svg" style="width:28px;height:28px;">
+                                    <circle cx="10.9" cy="30.923" r="9.331" style="fill: rgb(230, 230, 230);"/>
+                                    <circle cx="50.9" cy="50.922" r="9.331" style="fill: rgb(230, 230, 230);"/>
+                                    <circle cx="50.9" cy="10.922" r="9.331" style="fill: rgb(230, 230, 230);"/>
+                                    <rect x="74.543" y="82.435" width="47.82" height="1.934" style="fill: rgb(230, 230, 230);" transform="matrix(0.906308, -0.422618, 0.422618, 0.906308, -95.115753, -12.110897)"/>
+                                    <rect x="74.543" y="82.435" width="47.82" height="1.934" style="fill: rgb(230, 230, 230);" transform="matrix(0.906308, 0.422619, -0.422619, 0.906308, -23.390675, -75.900352)"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body" style="overflow:auto">
-
-                            <canvas id="<?= $chartId ?>" style="height:350px;"></canvas>
-
+                    <canvas id="<?= $chartId ?>" style="height:350px;"></canvas>
                 </div>
             </div>
         </div>
@@ -38,6 +51,9 @@ $total = array_sum($chart['data']);
                 labels: <?=json_encode($chart['labels'])?>
             },
             options: {
+                animation: {
+                    duration: 0
+                },
                 legend: {
                     display: false,
                 },
@@ -46,7 +62,7 @@ $total = array_sum($chart['data']);
                 layout: {
                     padding: {
                         left: 280,
-                        right:10,
+                        right:-30,
                     },
                 },
 
@@ -58,10 +74,11 @@ $total = array_sum($chart['data']);
                         height = chart.chart.height,
                         ctx = chart.chart.ctx;
                     ctx.restore();
+
                     var data = "<svg xmlns='http://www.w3.org/2000/svg' width='280' height='350'>" +
                         "<foreignObject width='400px' height='100%'>" +
                         "<div xmlns='http://www.w3.org/1999/xhtml' style='width:400px;color:#333;font-weight:bold;font-family:sans-serif;font-size:12px'>" +
-                        "<table border='0' cellspacing='2' cellpadding='10'>" +
+                        "<h2>Impfungen Hamburg</h2><table border='0' cellspacing='2' cellpadding='10'>" +
                         "<tr><td bgcolor='<?=$chartColors[0]?>'> </td><td><?=$chart['labels'][0]?></td><td align='right'><?= round(100 / $total * $chart['data'][0], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][0]) ?></td></tr>" +
                         "<tr><td bgcolor='<?=$chartColors[1]?>'> </td><td><?=$chart['labels'][1]?></td><td align='right'><?= round(100 / $total * $chart['data'][1], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][1]) ?></td></tr>" +
                         "<tr><td bgcolor='<?=$chartColors[2]?>'> </td><td>Erst- und <br/>Zweitimpfung</td><td align='right'><?= round(100 / $total * $chart['data'][2], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][2]) ?></td></tr>" +
@@ -71,14 +88,19 @@ $total = array_sum($chart['data']);
                         "</svg>";
                     var DOMURL = self.URL || self.webkitURL || self;
                     var img = new Image();
-                    var svg = new Blob([data], {type: "image/svg+xml;charset=utf-8"});
-                    var url = DOMURL.createObjectURL(svg);
-                    img.onload = function() {
-                        ctx.drawImage(img, 10, 50);
-                        DOMURL.revokeObjectURL(url);
-                        ctx.save();
-                    };
-                    img.src = url;
+                    var svgBlob = new Blob([data], { type: "image/svg+xml;charset=utf-8"});
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(svgBlob);
+                    var img2 = new Image();
+                    reader.onload = function(e) {
+                        var svgDataURL = e.target.result;
+                        img2.onload = function(){
+                            console.log('img2blah', svgDataURL);
+                            ctx.drawImage(img2,10,30); // Or at whatever offset you like
+                        };
+                        img2.src = svgDataURL;
+                    }
 
                 }
             }

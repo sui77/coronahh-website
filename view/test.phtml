@@ -13,23 +13,35 @@
         </div>
     </div>
 
-    <?php
-$chart = [
-    'title' => 'Hospitalisierung',
-    'subtitle' => '',
-    'labels' => $dates,
-    'labelY' => '',
-    'labelX' => 'Tag',
-    'datasets' => $values,
-    'footer' => [
-        'Quellen:',
-        '...',
-    ]
-];
-include dirname(__FILE__) . '/partials/line-diagram.phtml';
-?>
+
+    <script>
+        async function testWebShare() {
+
+            const title = 'title';
+            const text = 'text';
+            const url = 'https://example.com';
+            const files = undefined;
+
+            if (files && files.length > 0) {
+                if (!navigator.canShare || !navigator.canShare({files})) {
+                    logError('Error: Unsupported feature: navigator.canShare()');
+                    setShareButtonsEnabled(true);
+                    return;
+                }
+            }
+
+            try {
+                await navigator.share({files, title, text, url});
+                logText('Successfully sent share');
+            } catch (error) {
+                logError('Error sharing: ' + error);
+            }
+            setShareButtonsEnabled(true);
+        }
 
 
+    </script>
+    <a href="javascript:testWebShare()">test</a>
     <div class="card">
         <div class="card-header card-header-blue">
             <a name="impressum"></a><h4 class="card-title ">Kontakt</h4>
