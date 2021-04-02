@@ -45,6 +45,7 @@ abstract class AbstractController {
             ],
             'impfungen' => [
                 'title' => 'Impfungen',
+                'visible' => $this->config['settings']['dev'],
             ],
             'faq' => [
                 'title' => '(FAQ)',

@@ -10,10 +10,11 @@ const db = new MySQL(config.mysql);
 ( async() => {
     const page = await fetch (url);
     let text = await page.text();
+    /*
     text = text.replace(/.*?<\/head>/si, '');
     text = text.replace(/<div class="header__weather.*?\/div>/si, '');
     text = text.replace(/<span class="weather-temp".*?\/span>/si, '');
-
+*/
     const sha1 = crypto.createHash('sha1');
     sha1.update(text);
     const sha1String = sha1.digest('hex')
@@ -27,7 +28,7 @@ const db = new MySQL(config.mysql);
 
     if (results[0].sha1 == sha1String) {
         console.log('No changes');
-        process.exit();
+      //  process.exit();
     }
 
     const today = new Date().toISOString().split('.')[0].replaceAll(':', '-');
@@ -42,7 +43,7 @@ const db = new MySQL(config.mysql);
             sha1: sha1String
         }
     })
-    process.exit();
+
 
     let match = text.match(/myData = (.*?)var canvas/si);
     let inzidenzen = match[1];
