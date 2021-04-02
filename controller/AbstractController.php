@@ -24,7 +24,9 @@ abstract class AbstractController {
 
     public function initNavigation() {
         $this->assign('navigation', [
-
+            'altersgruppen' => [
+                'title' => 'Altersgruppen',
+            ],
             'neuinfektionen' => [
                 'title' => 'Neuinfektionen',
 
@@ -36,9 +38,6 @@ abstract class AbstractController {
             'hospitalisierungen' => [
                 'title' => '=&gt; wip: Hospitalisierungen',
                 'visible' => $this->config['settings']['dev'],
-            ],
-            'altersgruppen' => [
-                'title' => 'Altersgruppen',
             ],
             'bezirke' => [
                 'title' => 'Bezirke',

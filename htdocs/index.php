@@ -1,5 +1,6 @@
 <?php
-ini_set('display_errors', 1);
+//ini_set('display_errors', 1);
+
 function __autoload($class) {
     require_once(dirname(__FILE__) . '/../controller/' . $class . '.php');
 }
@@ -11,13 +12,13 @@ $uri = preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']);
 $tmp = explode('/', $uri);
 
 
-if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'neuinfektionen'; } else { $page = $tmp[1]; }
+if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'altersgruppen'; } else { $page = $tmp[1]; }
 
 if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php')) {
 
     $memcache = new Memcached;
     $memcache->addServer('localhost', 11211);
-    $key = md5(json_encode(['7', $_GET, $_SERVER['REQUEST_URI']]));
+    $key = md5(json_encode(['7' . $_SERVER['SERVER_NAME'], $_GET, $_SERVER['REQUEST_URI']]));
     $content = $memcache->get($key);
 
 
