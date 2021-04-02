@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header card-header-blue">
+            <h4 class="card-title ">Kontakt</h4>
+        </div>
+
+        <?php if ($sent) { ?>
+            <div class="card-body ">
+            Vielen Dank für Ihre Nachricht.
+            </div>
+        <?php } else { ?>
+
+        <div class="card-body ">
+            <form method="post" action="/kontakt" class="form-horizontal">
+
+                <div class="row">
+                    <label class="col-sm-2 col-form-label">Name *</label>
+                    <div class="col-sm-10">
+                        <div class="form-group bmd-form-group">
+                            <input name="name" value="<?=htmlspecialchars($_POST['name']??'')?>" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label">E-Mail *</label>
+                    <div class="col-sm-10">
+                        <div class="form-group bmd-form-group">
+                            <input name="email" value="<?=htmlspecialchars($_POST['email']??'')?>" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label label-checkbox">Betreff</label>
+                    <div class="col-sm-10 checkbox-radios">
+                        <?php foreach ($topics as $n => $topic) { ?>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input name="subject" class="form-check-input" type="radio" value="<?=$n?>"<?=($subject==$n)?'checked':''?>> <?=$topic?>
+                                <span class="form-check-sign">
+                              <span class="check"></span>
+                            </span>
+                            </label>
+                        </div>
+                        <?php } ?>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label">Text</label>
+                    <div class="col-sm-10">
+                        <div class="form-group bmd-form-group">
+                            <textarea name="body" class="form-control" name="body" style="height:200px;"><?=htmlspecialchars($_POST['body']??'')?></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <div class="form-group bmd-form-group">
+                            <input type="submit" value="absenden" class="form-control btn-dark" style="cursor:pointer">
+                        </div>
+                    </div>
+                </div>
+
+                * Freiwillige Angaben.
+            </form>
+        </div>
+    </div>
+    <?php } ?>
+</div>

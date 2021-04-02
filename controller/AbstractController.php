@@ -50,6 +50,9 @@ abstract class AbstractController {
                 'title' => '(FAQ)',
                 'visible' => $this->config['settings']['dev'],
             ],
+            'kontakt' => [
+                'title' => 'Kontakt',
+            ],
             'impressum' => [
                 'title' => 'Impressum',
             ],
