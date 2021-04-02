@@ -26,7 +26,7 @@ if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php'))
     $content = $memcache->get($key);
 
 
-    $cacheEnabled = ($config['setings']['caching']) && $page != 'kontakt';
+    $cacheEnabled = ($config['settings']['caching']) && $page != 'kontakt';
 
     if ($cacheEnabled && $content = $memcache->get($key)) {
         header('X-Cache: ' . $key);
