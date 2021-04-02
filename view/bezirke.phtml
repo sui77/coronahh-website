@@ -1,11 +1,13 @@
 <?php
 $chart = [
-    'title' => 'Inzidenz nach Bezirken',
+    'title' => '7-Tage-Inzidenz nach Bezirken',
     'subtitle' => '',
     'labels' => $dates,
-    'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
-    'labelX' => 'Veröffentlichungstag (?)',
+    'labelY' => '7-Tage-Inzidenz',
+    'labelX' => 'Kalenderwoche',
+    'labelCb' => 'inzidenzLabelW',
     'datasets' => $values,
+    'datasetTooltipPrefix' => 'Bezirk: ',
     'footer' => [
         'Quellen:',
         'Infektionszahlen: Entwicklung der Zahl der positiv auf COVID-19 getesteten Personen nach Bezirken auf www.hamburg.de/corona-zahlen/',
@@ -16,8 +18,8 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
 
 
 $rtable = [
-    'title' => 'Inzidenz nach Bezirken',
-    'subtitle' => '(Neuinfektionen absolut)',
+    'title' => '7-Tage-Inzidenz nach Bezirken',
+    'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut)',
     'cols' => $dates,
     'data' => $values,
     'csv' => '/bezirke/data.csv',

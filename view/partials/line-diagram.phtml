@@ -15,7 +15,7 @@ $chartId = uniqid('chart');
                             <p class="card-category"><?= $chart['subtitle'] ?></p>
                         </div>
                         <div class="col-2" style="text-align:right;height:28px;">
-                            <a style="color:white;font-weight:bold" href="javascript:saveCanvasAsFile('<?=$chartId?>', '<?=$chart['title']?>')">
+                            <a class="webshare" style="color:white;font-weight:bold" href="javascript:saveCanvasAsFile('<?=$chartId?>', '<?=$chart['title']?>')">
                                 <svg viewBox="1.569 1.591 58.662 58.662" xmlns="http://www.w3.org/2000/svg" style="width:27px;height:27px;">
                                     <circle cx="10.9" cy="30.923" r="9.331" style="fill: rgb(230, 230, 230);"/>
                                     <circle cx="50.9" cy="50.922" r="9.331" style="fill: rgb(230, 230, 230);"/>
@@ -49,8 +49,13 @@ $chartId = uniqid('chart');
                     backgroundColor: '<?=($ds['label']=='Ø'?'#aaa':$chartColors[$color])?>',
                     borderColor: '<?=($ds['label']=='Ø'?'#aaa':$chartColors[$color])?>',
                     data: <?=json_encode($ds['values'])?>,
+                    <?php if (isset($ds['totalValues'])) { ?>
+                    absValues: <?=json_encode($ds['totalValues'])?>,
+                    <?php } ?>
                     fill: false,
-                    borderWidth: <?=$chart['lineWidth'] ?? 1?>
+                    borderWidth: <?=$chart['lineWidth'] ?? 1?>,
+
+                    datasetTooltipPrefix: '<?=(!isset($chart['datasetTooltipPrefix']) || $ds['label']=='Ø')?'':($chart['datasetTooltipPrefix']??'')?>',
                 },
                 <?php } ?>
             ]
@@ -98,6 +103,7 @@ $chartId = uniqid('chart');
             }
 
         },
+
         footer: <?=json_encode($chart['footer']??[])?>
     };
 

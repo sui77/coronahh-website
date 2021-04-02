@@ -19,7 +19,7 @@ class Bezirke extends AbstractController {
         $sql = "SELECT date, altona, bergedorf, eimsbuettel, mitte, nord, harburg, wandsbek FROM cases WHERE altona IS NOT NULL AND date > '2020-06-01' ORDER BY date asc";
 
         foreach ($this->_pdo->query($sql) as $row) {
-            $dates[] = $row['date'];
+            $dates[] = date('W/Y', strtotime($row['date'])-60*60*24*7);
             $next = 0;
             $sum = 0;
             foreach ($bezirke as $bezirk => $ewz) {

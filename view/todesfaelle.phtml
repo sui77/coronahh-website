@@ -1,7 +1,7 @@
 
 <?php
 $chart = [
-    'title' => 'Todesfälle',
+    'title' => 'Todesfälle Hamburg täglich',
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => 'Todesfälle',
@@ -24,7 +24,7 @@ include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 
 <?php
 $rtable = [
-    'title' => 'Todesfälle Hamburg',
+    'title' => 'Gemeldete Todesfälle Hamburg Wochenüberblick',
     'subtitle' => '',
     'csv' => '/todesfaelle/data.csv'
     ];
@@ -39,7 +39,8 @@ include dirname(__FILE__) . '/partials/rolling-table.phtml';
                     <h4 class="card-title ">Anmerkungen</h4>
                 </div>
                 <div class="card-body">
-                    Quelle: <a href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html">https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html</a><br>
+                    Quelle:,
+                    Infektionszahlen: <a href="https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html">https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html</a><br>
                     Einwohnerzahl: <?=$this->nf($ewz)?><br>
                 </div>
             </div>

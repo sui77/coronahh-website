@@ -1,9 +1,9 @@
 <?php
 $chart = [
-    'title' => '7 Tage Inzidenz Hamburg',
+    'title' => '7-Tage-Inzidenz Hamburg',
     'subtitle' => '',
     'labels' => $dates,
-    'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
+    'labelY' => '7-Tage-Inzidenz',
     'labelX' => 'Tag',
     'labelCb' => 'inzidenzLabel',
     'lineWidth' => 1,
@@ -17,7 +17,7 @@ $chart = [
     'footer' => [
         'Quellen:',
         'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
-        'Bevölkerungszahl laut Melderegister: ' . $ewz,
+        'Bevölkerungszahl: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewz) . ')',
     ]
 ];
 include dirname(__FILE__) . '/partials/line-diagram.phtml';
@@ -25,7 +25,7 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
 
 <?php
 $rtable = [
-    'title' => 'Neuinfektionen Hamburg',
+    'title' => 'Neuinfektionen Hamburg Wochenüberblick',
     'subtitle' => '',
     'csv' => '/neuinfektionen/data.csv'
 ];
@@ -41,8 +41,10 @@ include dirname(__FILE__) . '/partials/rolling-table.phtml';
                     <h4 class="card-title ">Anmerkungen</h4>
                 </div>
                 <div class="card-body">
-                    Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a><br>
-                    Einwohnerzahl: <?= $this->nf($ewz) ?><br>
+                    Quellen:<br>
+                    Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf <a href="https://www.hamburg.de/corona-zahlen/">www.hamburg.de/corona-zahlen/</a><br>
+                    Bevölkerungszahl: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (<?=$this->nf($ewz)?>)
+
                 </div>
             </div>
         </div>

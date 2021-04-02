@@ -36,7 +36,6 @@ const inzidenzLabel = function (tooltipItem, data) {
         }
     }
     var label = 'Inzidenz:  ' + data.datasets[datasetIndex].data[index] + '  (LW ' + percent + '%)';
-
     return label;
 };
 
@@ -51,8 +50,12 @@ const inzidenzLabelW = function (tooltipItem, data) {
             percent = '+' + percent;
         }
     }
-    var label = '' + data.datasets[datasetIndex].label + '  |  ' + data.datasets[datasetIndex].data[index] + '  (LW ' + percent + '%)';
 
+    var label = [ data.datasets[datasetIndex].datasetTooltipPrefix + data.datasets[datasetIndex].label];
+    label.push('Inzidenz: ' + data.datasets[datasetIndex].data[index] + ' (' + percent + '% z. Vorw.)');
+    if (typeof data.datasets[datasetIndex].absValues != 'undefined') {
+        label.push('Neuinf. abs. ' + data.datasets[datasetIndex].absValues[index]);
+    }
     return label;
 };
 
@@ -65,6 +68,10 @@ $( () => {
 
     if (window.phonePortrait) {
         $('.card-body').animate({scrollLeft: 500}, 2000, 'swing');
+    }
+
+    if (!navigator.canShare || !navigator.canShare({files})) {
+        $('.webshare').hide();
     }
 
 })
@@ -113,7 +120,7 @@ Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
     var tooltip = this;
 
     /* ... */
-console.log(elements, eventPosition);
+
     return {
         x: 0,
         y: 0
