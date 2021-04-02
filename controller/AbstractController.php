@@ -55,6 +55,7 @@ abstract class AbstractController {
             ],
             'test' => [
                 'title' => 'Test',
+                'visible' => $this->config['settings']['dev'],
             ]
         ]);
     }
