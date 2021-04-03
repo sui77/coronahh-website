@@ -28,12 +28,13 @@ const db = new MySQL(config.mysql);
 
     if (results[0].sha1 == sha1String) {
         console.log('No changes');
-      //  process.exit();
+        process.exit();
     }
 
     const today = new Date().toISOString().split('.')[0].replaceAll(':', '-');
     fs.writeFileSync(`/var/coronahh/hamburgde-${today}.html`, text);
     console.log( sha1String + ' ' + today);
+
 
 
     mr = await db.query({

@@ -54,7 +54,7 @@ const inzidenzLabelW = function (tooltipItem, data) {
     var label = [ data.datasets[datasetIndex].datasetTooltipPrefix + data.datasets[datasetIndex].label];
     label.push('Inzidenz: ' + data.datasets[datasetIndex].data[index] + ' (' + percent + '% z. Vorw.)');
     if (typeof data.datasets[datasetIndex].absValues != 'undefined') {
-        label.push('Neuinf. abs. ' + data.datasets[datasetIndex].absValues[index]);
+        label.push('Neuinfektionen absolut: ' + data.datasets[datasetIndex].absValues[index]);
     }
     return label;
 };
