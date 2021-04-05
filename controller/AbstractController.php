@@ -14,6 +14,10 @@ abstract class AbstractController {
         $this->initNavigation();
         $this->assign('ewz', 1899160);
         $this->assign('settings', $config['settings']);
+
+        $inzidenz = $this->_pdo->query('SELECT max(date) as maxdate, 100000/1899160*sum(cases) AS inzidenz FROM cases WHERE date >= DATE(NOW()) - INTERVAL 6 DAY');
+        $r = $inzidenz->fetch();
+        $this->assign('navbartext', 'Aktuelle Inzidenz (' . date('d.m.Y', strtotime($r['maxdate'])) . '): ' . $this->nf($r['inzidenz'],2));
     }
 
     abstract public function action();
@@ -36,7 +40,7 @@ abstract class AbstractController {
             ],
 
             'hospitalisierungen' => [
-                'title' => '=&gt; wip: Hospitalisierungen',
+                'title' => 'Hospitalisierungen',
                 'visible' => $this->config['settings']['dev'],
             ],
             'bezirke' => [

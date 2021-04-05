@@ -1,29 +1,47 @@
-
-
 <?php
+$titles = [
+    'weekday' => '',
+    'stationaer' => 'Stationär gesamt',
+    'normalstation_gesamt' => 'Normalstation (Hamburg && !Hamburg)',
+    'normalstation' => 'Normalstation gesamt',
+    'normalstationhh' => 'Normalstation aus Hamburg',
+    'normalstation_nichthh' => 'Normalstation nicht aus Hamburg',
+    'intensivstation' => 'Intensivstation gesamt',
+    'intensivstationhh' => 'Intensivstation aus Hamburg',
+    'intensivstation_nichthh' => 'Intensivstation nicht aus Hamburg',
+];
 
+$xvalues = $values;
+foreach ($xvalues as $n => $xxvalues) {
+    if (in_array($xxvalues['label'], ['stationaer', 'normalstation', 'intensivstation', 'weekday'])) {
+        unset($xvalues[$n]);
+    }
+}
 $chart = [
     'title' => 'Hospitalisierung',
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => '',
     'labelX' => 'Tag',
-    'datasets' => $values,
+    'datasets' => $xvalues,
+    'titles' => $titles,
     'footer' => [
-        'Quellen:',
-        '...',
+        'Quelle:',
+        'Patienten in klinischer Behandlung auf www.hamburg.de/corona-zahlen/',
     ]
 ];
-include dirname(__FILE__) . '/partials/line-diagram.phtml';
+include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 
 
 $rtable = [
     'title' => 'Hospitalisierung',
     'subtitle' => '',
-    'cols' => $dates,
-    'data' => $values
+    'cols' => $datesTable,
+    'data' => $valuesTable,
+    'titles' => $titles,
+    'csv' => '/hospitalisierungen/data.csv',
+    'footer' => $chart['footer']
 ];
 
 include dirname(__FILE__) . '/partials/flat-table.phtml';
 
-?>

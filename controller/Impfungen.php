@@ -33,6 +33,11 @@ class Impfungen extends AbstractController {
         $this->assign('dates', $dates);
         $this->assign('values', $values);
         $this->assign('tableValues', $tableValues);
+
+
+        $sql = 'SELECT date, personen_erst_kumulativ, personen_voll_kumulativ FROM impfdashboard ORDER BY date DESC';
+        $impfdash = $this->_pdo->query($sql)->fetch();
+        $this->assign('impfdashboard', $impfdash);
     }
 
     public function csv() {

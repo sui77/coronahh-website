@@ -1,4 +1,6 @@
 <?php
+
+
 foreach ($rtable['data'] as $n => $datset) {
     $rtable['data'][$n]['values'] = array_reverse($rtable['data'][$n]['values']);
     if (isset($rtable['data'][$n]['totalValues'])) {
@@ -19,7 +21,7 @@ $rtable['cols'] = array_reverse($rtable['cols']);
                         </div>
                         <div class="col-2" style="text-align:right">
                             <?php if (isset($rtable['csv'])) { ?>
-                                <a href="<?=$rtable['csv']?>"><img src="/img/csv.png" width="28"></a>
+                                <a href="<?= $rtable['csv'] ?>"><img src="/img/csv.png" width="28"></a>
                             <?php } ?>
                         </div>
                     </div>
@@ -34,10 +36,9 @@ $rtable['cols'] = array_reverse($rtable['cols']);
 
                         echo '<tr><td></td>';
                         foreach ($rtable['data'] as $col => $v) {
-                            echo '<td class="text-right small font-weight-bold">' . $v['label'] . '</td>';
+                            echo '<td class="text-right small font-weight-bold">' . (isset($rtable['titles'][$v['label']]) ? $rtable['titles'][$v['label']] : $v['label']) . '</td>';
                         }
                         echo '</tr>';
-
                         echo '</thead>';
 
                         foreach ($rtable['data'][0]['values'] as $index => $v) {
@@ -54,6 +55,8 @@ $rtable['cols'] = array_reverse($rtable['cols']);
 
 
                     </div>
+                    <?php include dirname(__FILE__) . '/tableFooter.phtml'; ?>
+
                 </div>
             </div>
         </div>

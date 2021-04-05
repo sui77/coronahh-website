@@ -78,11 +78,11 @@ $total = array_sum($chart['data']);
                     var data = "<svg xmlns='http://www.w3.org/2000/svg' width='280' height='350'>" +
                         "<foreignObject width='400px' height='100%'>" +
                         "<div xmlns='http://www.w3.org/1999/xhtml' style='width:400px;color:#333;font-weight:bold;font-family:sans-serif;font-size:12px'>" +
-                        "<h2>Impfungen Hamburg</h2><table border='0' cellspacing='2' cellpadding='10'>" +
+                        "<h2><?=$chart['title']?></h2><h3>(Stand: <?=date('d.m.Y', strtotime($chart['date']))?>)</h3><table border='0' cellspacing='2' cellpadding='10'>" +
                         "<tr><td bgcolor='<?=$chartColors[0]?>'> </td><td><?=$chart['labels'][0]?></td><td align='right'><?= round(100 / $total * $chart['data'][0], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][0]) ?></td></tr>" +
                         "<tr><td bgcolor='<?=$chartColors[1]?>'> </td><td><?=$chart['labels'][1]?></td><td align='right'><?= round(100 / $total * $chart['data'][1], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][1]) ?></td></tr>" +
                         "<tr><td bgcolor='<?=$chartColors[2]?>'> </td><td>Erst- und <br/>Zweitimpfung</td><td align='right'><?= round(100 / $total * $chart['data'][2], 1) ?>%</td><td align='right'><?= $this->nf($chart['data'][2]) ?></td></tr>" +
-                        "<tr><td> </td><td>Gesamt</td><td align='right'></td><td align='right'><?= $this->nf($chart['data'][2]+$chart['data'][1]) ?></td></tr>" +
+                        "<tr><td> </td><td>Summe</td><td align='right'></td><td align='right'><?= $this->nf($chart['data'][0]+$chart['data'][2]+$chart['data'][1]) ?></td></tr>" +
                         "</table></div>" +
                         "</foreignObject>" +
                         "</svg>";
@@ -97,7 +97,7 @@ $total = array_sum($chart['data']);
                         var svgDataURL = e.target.result;
                         img2.onload = function(){
                             console.log('img2blah', svgDataURL);
-                            ctx.drawImage(img2,10,30); // Or at whatever offset you like
+                            ctx.drawImage(img2,10,20); // Or at whatever offset you like
                         };
                         img2.src = svgDataURL;
                     }

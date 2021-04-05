@@ -23,6 +23,7 @@ $rtable = [
     'cols' => $dates,
     'data' => $values,
     'csv' => '/bezirke/data.csv',
+    'footer' => $chart['footer']
 ];
 
 include dirname(__FILE__) . '/partials/flat-table-color.phtml';
@@ -36,12 +37,7 @@ include dirname(__FILE__) . '/partials/flat-table-color.phtml';
                     <h4 class="card-title ">Anmerkungen</h4>
                 </div>
                 <div class="card-body">
-                    Quelle für die Infektionszahlen: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a>
-                    <br><br>
-
-                    Quelle für die Bevölkerungszahlen der Bezirke:<br>
-                    Hamburger Melderegister <a
-                            href="https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister">https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister</a>
+                    Einwohnerzahlen laut Hamburger Melderegister <a href="https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister">https://www.statistik-nord.de/zahlen-fakten/hamburger-melderegister</a>
                     <table class="minitable">
                         <tr>
                             <td>Bezirk</td>

@@ -1,3 +1,4 @@
+const child = require('child_process');
 const fetch = require('node-fetch');
 const { MySQL } = require("mysql-promisify");
 const fs = require('fs');
@@ -8,12 +9,15 @@ const url = 'https://www.hamburg.de/corona-zahlen';
 const db = new MySQL(config.mysql);
 
 ( async() => {
+
+
     const page = await fetch (url);
     let text = await page.text();
 
     text = text.replace(/.*?<\/head>/si, '');
     text = text.replace(/<div class="header__weather.*?\/div>/si, '');
     text = text.replace(/<span class="weather-temp".*?\/span>/si, '');
+    text = text.replace(/<div class="container--bo-quicksearch">.*/si, '')
 
     const sha1 = crypto.createHash('sha1');
     sha1.update(text);
@@ -108,6 +112,17 @@ const db = new MySQL(config.mysql);
         })
     }
 
+
+    console.log('extract_data');
+    fs.writeFileSync('./data.json', "{}");
+    r = child.execSync(`python3 /root/hamburg_corona_zahlen/extract_data.py` );
+    console.log(r.toString());
+
+    console.log('data2db');
+    r = child.execSync(`php import-datajson.php`)
+    console.log(r.toString());
+
+    r = child.execSync(`service memcached restart`)
     process.exit();
 })();
 

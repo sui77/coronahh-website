@@ -43,7 +43,7 @@ $chartId = uniqid('chart');
             datasets: [
                 <?php $color = 2; foreach ($chart['datasets'] as $key => $ds) { $color++; ?>
                 {
-                    label: "<?=addslashes($ds['label'])?>",
+                    label: "<?=(isset($chart['titles'][$ds['label']]) ? $chart['titles'][$ds['label']] : $ds['label'])?>",
                     backgroundColor: '<?=$chartColors[$color]?>',
                     borderColor: '<?=$chartColors[$color]?>',
                     data: <?=json_encode($ds['values'])?>,

@@ -27,26 +27,8 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
 $rtable = [
     'title' => 'Neuinfektionen Hamburg Wochenüberblick',
     'subtitle' => '',
-    'csv' => '/neuinfektionen/data.csv'
+    'csv' => '/neuinfektionen/data.csv',
+    'footer' => $chart['footer']
 ];
 include dirname(__FILE__) . '/partials/rolling-table.phtml';
 ?>
-
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title ">Anmerkungen</h4>
-                </div>
-                <div class="card-body">
-                    Quellen:<br>
-                    Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf <a href="https://www.hamburg.de/corona-zahlen/">www.hamburg.de/corona-zahlen/</a><br>
-                    Bevölkerungszahl: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (<?=$this->nf($ewz)?>)
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

@@ -1,71 +1,80 @@
 <?php
+$footer1 = [
+    'Quelle:',
+    'Schutzimpfungen in Hamburg auf www.hamburg.de/corona-zahlen/',
+    'Bevölkerungszahl: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewz) . ')',
+];
+$footer2 = [
+    'Quelle:',
+    'www.impfdashboard.de',
+    'Bevölkerungsstand am 30. September 2020, Statistisches Bundesamt: 83.157.201'
+];
+
 $chart = [
-    'title' => 'Impfungen',
+    'title' => 'Impfungen Hamburg',
     'subtitle' => '',
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
     'data' => [        $ewz - array_sum($values[0]['values']), array_sum($values[0]['values'])-array_sum($values[1]['values']), array_sum($values[1]['values']) ],
     'labels' => ['Ungeimpft', 'Erstimpfung', 'Erst- und Zweitimpfung'],
-    'footer' => [
-        'Quelle:',
-        'Schutzimpfungen in Hamburg auf www.hamburg.de/corona-zahlen/',
-        'Bevölkerungszahl laut Melderegister: ' . $ewz,
-    ]
-
-
+    'date' => $dates[count($dates)-1],
+    'footer' => $footer1
 ];
 include dirname(__FILE__) . '/partials/pie-diagram.phtml';
+
+
+$chart = [
+    'title' => 'Impfungen Deutschland',
+    'subtitle' => '',
+    'labelY' => 'Anzahl',
+    'labelX' => 'Tag',
+    'data' => [  83157201-$impfdashboard['personen_erst_kumulativ'],      $impfdashboard['personen_erst_kumulativ']-$impfdashboard['personen_voll_kumulativ'], $impfdashboard['personen_voll_kumulativ'] ],
+    'labels' => ['Ungeimpft', 'Erstimpfung', 'Erst- und Zweitimpfung'],
+    'date' => $impfdashboard['date'],
+    'footer' => $footer2
+];
+include dirname(__FILE__) . '/partials/pie-diagram.phtml';
+
+
 
 foreach ($tableValues as &$tv) {
     $tv['fill'] = 1;
 }
 $chart = [
-    'title' => 'Impfungen kumuliert',
+    'title' => 'Impfungen kumuliert Hamburg',
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
-    'datasets' => $tableValues
+    'datasets' => $tableValues,
+    'footer' => $footer1
 
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 
 
 $chart = [
-    'title' => 'Tägliche Impfungen',
+    'title' => 'Tägliche Impfungen Hamburg',
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => 'Anzahl',
     'labelX' => 'Tag',
     /*'labelCb' => 'inzidenzLabel',*/
     'datasets' =>$values,
+    'footer' => $footer1
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 
 $rtable = [
-    'title' => 'Impfungen',
+    'title' => 'Tägliche Impfungen Hamburg',
     'subtitle' => '',
     'cols' => $dates,
     'data' => array_merge($values, $tableValues),
-    'csv' => '/impfungen/data.csv'
+    'csv' => '/impfungen/data.csv',
+    'footer' => $footer1
 ];
 
 
 include dirname(__FILE__) . '/partials/flat-table.phtml';
 
 ?>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title ">Anmerkungen</h4>
-                </div>
-                <div class="card-body">
-                    Quelle: <a href="https://www.hamburg.de/corona-zahlen">https://www.hamburg.de/corona-zahlen</a><br>
-                    Einwohnerzahl: <?=$this->nf($ewz)?><br>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

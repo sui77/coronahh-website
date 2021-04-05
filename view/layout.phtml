@@ -76,6 +76,11 @@ The above copyright notice and this permission notice shall be included in all c
             canvas {
                 height: 350px;
             }
+
+            .navbar-toggler .icon-bar {
+                background-color:#fff !important;
+            }
+
         }
 
 
@@ -108,9 +113,10 @@ The above copyright notice and this permission notice shall be included in all c
             text-decoration: underline;
         }
 
-        .navbar-toggler {
-            margin-right:-12px;
+        .tableFooter {
+            font:0.8em sans-serif; line-height:15px; letter-spacing:-0.35px; font-weight:bold;
         }
+
 
     </style>
     <script src="/material-dashboard-master/assets/js/core/jquery.min.js"></script>
@@ -149,24 +155,25 @@ The above copyright notice and this permission notice shall be included in all c
     <div class="main-panel">
         <!-- Navbar -->
 
-        <nav style="height:1px !important;"
-             class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top fixed-right ">
-            <div class="navbar-wrapper">
-                <a class="navbar-brand" href="javascript:;"></a>
+        <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " style="padding-top:0 !important">
+            <div class="container-fluid" style="background-color:#666;height:40px;color:#ddd">
+                <div class="navbar-wrapper">
+<?=$navbartext?>
+                </div>
+
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                    <span class="navbar-toggler-icon icon-bar"></span>
+                </button>
             </div>
-            <button style="background-color:black;height:30px;" class="navbar-toggler" type="button"
-                    data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-                <span class="navbar-toggler-icon icon-bar"></span>
-            </button>
         </nav>
 
         <!-- End Navbar -->
 
-        <div>
+        <div class="content" style="margin-top:20px;">
             <?php include dirname(__FILE__) . '/' . $page . '.phtml'; ?>
 
         </div>
@@ -174,19 +181,16 @@ The above copyright notice and this permission notice shall be included in all c
 
         <footer class="footer">
             <div class="container-fluid">
-                <nav class="float-left">
+                <nav class="">
                     <ul>
 
-                        <li>
+                        <li style="font-size:12px">
 
                             Alle Angaben ohne Gewähr und Anspruch auf Vollständigkeit. Als
                             Berechnungsgrundlage wurden die Daten der jeweils angegebenen Quellen nach
                             bestem Wissen und Gewissen übernommen.
 
-                            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img
-                                        alt="Creative Commons License" style="border-width:0"
-                                        src="/img/cc_compact.png"/></a>
-
+<br>
 
                             <a href="/impressum">
                                 Impressum &amp; Datenschutzerklärung

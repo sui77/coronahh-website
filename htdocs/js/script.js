@@ -70,7 +70,7 @@ $( () => {
         $('.card-body').animate({scrollLeft: 500}, 2000, 'swing');
     }
 
-    if (!navigator.canShare || !navigator.canShare({files})) {
+    if (!navigator.canShare) { //} || !navigator.canShare({files})) {
         $('.webshare').hide();
     }
 
@@ -127,7 +127,30 @@ Chart.Tooltip.positioners.custom = function(elements, eventPosition) {
     };
 };
 
+
+function downloadCanvas(id, filename) {
+    var c = document.getElementById(id);
+    c.toBlob(
+        blob => {
+            const anchor = document.createElement('a');
+            anchor.download = filename;
+            anchor.href = URL.createObjectURL(blob);
+            anchor.click(); // ✨ magic!
+            URL.revokeObjectURL(anchor.href); // remove it from memory and save on memory! 😎
+        },
+        'image/png'
+    );
+}
+
+function downloadCanvas2(id, filename) {
+    var link = document.createElement('a');
+    link.download = filename;
+    link.href = document.getElementById(id).toDataURL()
+    link.click();
+}
+
 function saveCanvasAsFile(id, title) {
+
     var c = document.getElementById(id);
     c.toBlob(
         async (blob) => {
