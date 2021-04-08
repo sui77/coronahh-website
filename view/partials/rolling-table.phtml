@@ -10,7 +10,7 @@
                         </div>
                         <div class="col-2" style="text-align:right">
                             <?php if (isset($rtable['csv'])) { ?>
-                                <a href="<?=$rtable['csv']?>"><img src="/img/csv.png" width="28"></a>
+                                <a href="<?= $rtable['csv'] ?>"><img src="/img/csv.png" width="28"></a>
                             <?php } ?>
                         </div>
                     </div>
@@ -25,18 +25,85 @@
                         echo '<thead class="text font-weight-bold">';
 
                         echo '<tr><td>&nbsp;</td>';
+                        $chartLables = [];
                         for ($i = $showNumWeeks; $i >= 0; $i--) {
                             echo '<td class="text-right small font-weight-bold">' . date('d.m.', strtotime($weekD[$i])) . ' - ' . date('d.m.', strtotime($weekD[$i]) + 60 * 60 * 24 * 6) . '</td>';
                         }
+                        echo '<td></td>';
+
                         echo '</tr>';
                         echo '</thead>';
 
                         for ($wd = 0; $wd < 7; $wd++) {
+
                             echo '<tr>';
                             echo '<td class="text font-weight-bold">' . $wdGerman[1 * date('N', strtotime($weekD[0]) + 60 * 60 * 24 * $wd)] . '</td>';
+                            $chartData = [];
+                            $chartLabels = [];
                             for ($i = $showNumWeeks; $i >= 0; $i--) {
                                 echo '<td class="text-right">' . $data[$i][$wd] . '</td>';
+                                $chartLabels[] =  date('d.m.', strtotime($weekD[$i])+60*60*24*$wd );
+                                $chartData[] = $data[$i][$wd];
                             }
+                            echo '<td>';
+
+                            $chartId = uniqid('chart');
+                            ?>
+                            <canvas style="width:200px;height:100px;" id="<?= $chartId ?>"></canvas>
+                            <script>
+                                charts['<?=$chartId?>'] = {
+
+                                    data: {
+                                        labels: <?=json_encode($chartLabels)?>,
+                                        datasets: [
+
+                                            {
+                                                type: 'line',
+                                                pointHitRadius: 30,
+                                                label: "",
+                                                backgroundColor: 'black',
+                                                borderColor: 'black',
+                                                data: <?=json_encode($chartData)?>,
+                                                fill: false,
+                                                borderWidth: 1,
+                                            },
+
+                                        ]
+                                    },
+                                    options: {
+                                        footer: false,
+                                        legend: {
+                                            display: false,
+                                        },
+                                        elements: {
+                                            point: {
+                                                radius: 2
+                                            },
+                                            line: {
+                                                tension: 0,
+                                            }
+                                        },
+                                        responsive: false,
+                                        maintainAspectRatio: false,
+                                        scales: {
+                                            xAxes: [{
+                                                display: false,
+                                            }],
+                                            yAxes: [{
+                                                display: false,
+                                            }]
+                                        },
+
+                                        layout: {},
+
+
+                                    },
+
+                                    footer: <?=json_encode($chart['footer'] ?? [])?>
+                                };
+                            </script>
+                            <?php
+                            echo '</td>';
                             echo '</tr>';
                         }
 
@@ -45,6 +112,8 @@
                         for ($i = $showNumWeeks; $i >= 0; $i--) {
                             echo '<td class="text-right hr">' . array_sum($data[$i]) . '</td>';
                         }
+                        echo '<td class="font-weight-bold hr"></td>';
+
                         echo '</tr>';
                         if ($page == 'neuinfektionen') {
                             echo '<tr>';
@@ -52,6 +121,8 @@
                             for ($i = $showNumWeeks; $i >= 0; $i--) {
                                 echo '<td class="text-right">' . round((100000 / $ewz * array_sum($data[$i])), 2) . '</td>';
                             }
+                            echo '<td></td>';
+
                             echo '</tr>';
                         }
 

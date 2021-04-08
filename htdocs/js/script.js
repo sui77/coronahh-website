@@ -78,11 +78,13 @@ $( () => {
 
 var plugin = {
      afterInit: function(chart) {
+         if (typeof chart.options.footer != undefined && chart.options.footer == false) { return; }
          this.img = new Image();
          this.img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAAaVBMVEUAAAD///+3vbYWFhZWVlaIiIgvLy/x8fHU1NSYmJgaGhrS1tLEycSjp6JBQkHOz87DxcN4eXhnZ2dTU1PR1NG2tranp6een56Xl5eQkJCNko2Dh4JtcG1dXl1LTUvj4+M2NzYzNDElJSU3B71zAAAArklEQVQ4y82T2Q4CIQxF27KKzu6M4778/0cKpE6MbwM8eAMhgebktqVQXlhUAUhBHWz4SoqKaOsgSQuwEoHHxAfR7pgJvGlcZOFCtL/mAb1Bq0EaCdqirH3OB64vB60EnqBF3aNSzkwjKuFzbuI7L1zr8AzWhK70NSJGYNuwQw5Lcyg7Z9T069DvpBqODjojob7j8F3DePxBlysxL8Dhmf0PY1vmD++VOylFBcX1BrmeBxyRm7wxAAAAAElFTkSuQmCC";
          chart.config.options.layout.padding.bottom += chart.config.footer.length * 18;
     },
     beforeDraw: function (chart) {
+        if (typeof chart.options.footer != undefined && chart.options.footer == false) { return; }
         var width = chart.chart.width,
             height = chart.chart.height,
             ctx = chart.chart.ctx;
