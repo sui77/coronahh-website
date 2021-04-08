@@ -21,6 +21,16 @@
                         <?php
                         $wdGerman = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 
+                        $scaleMin = 99999;
+                        $scaleMax = 0;
+                        for ($i = $showNumWeeks; $i >= 0; $i--) {
+                            $w = $data[$i];
+                            foreach ($w as $d) {
+                                if ($d<$scaleMin) { $scaleMin = $d; }
+                                if ($d>$scaleMax) { $scaleMax = $d; }
+                            }
+                        }
+
                         echo '<table class="table">';
                         echo '<thead class="text font-weight-bold">';
 
@@ -34,6 +44,8 @@
                         echo '</tr>';
                         echo '</thead>';
 
+
+
                         for ($wd = 0; $wd < 7; $wd++) {
 
                             echo '<tr>';
@@ -45,11 +57,11 @@
                                 $chartLabels[] =  date('d.m.', strtotime($weekD[$i])+60*60*24*$wd );
                                 $chartData[] = $data[$i][$wd];
                             }
-                            echo '<td>';
+                            echo '<td style="padding:0px">';
 
                             $chartId = uniqid('chart');
                             ?>
-                            <canvas style="width:120px;height:60px;" id="<?= $chartId ?>"></canvas>
+                            <canvas style="border:solid 0px; width:120px;height:60px;" id="<?= $chartId ?>"></canvas>
                             <script>
                                 charts['<?=$chartId?>'] = {
 
@@ -91,7 +103,14 @@
                                             }],
                                             yAxes: [{
                                                 display: false,
-                                            }]
+                                                ticks: {
+                                                    count: 100,
+                                                    suggestedMin: <?=$scaleMin?>,    // minimum will be 0, unless there is a lower value.
+                                                    suggestedMax: <?=$scaleMax?>,    // minimum will be 0, unless there is a lower value.
+
+                                                }
+                                            }],
+
                                         },
 
                                         layout: {},
