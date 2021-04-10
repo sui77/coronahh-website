@@ -17,7 +17,7 @@ class Todesfaelle extends AbstractController {
         $values = [];
         $sevenDay = [0, 0, 0, 0, 0, 0, 0];
 
-        $sql = "SELECT * FROM cases WHERE date > '2020-05-24' ORDER BY date asc";
+        $sql = "SELECT * FROM cases WHERE deaths IS NOT NULL AND date > '2020-05-24' ORDER BY date asc";
         foreach ($this->_pdo->query($sql) as $row) {
             $dates[] = $row['date'];
             array_shift($sevenDay);
@@ -25,7 +25,7 @@ class Todesfaelle extends AbstractController {
             $values[] = $row['deaths'];
         }
 
-        $sql = "SELECT * FROM cases ORDER BY date desc";
+        $sql = "SELECT * FROM cases WHERE deaths IS NOT NULL ORDER BY date desc";
         foreach ($this->_pdo->query($sql) as $row) {
 
             $data[$week][7 - $day] = $row['deaths'];
