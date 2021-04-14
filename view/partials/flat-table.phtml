@@ -45,7 +45,18 @@ $rtable['cols'] = array_reverse($rtable['cols']);
                             echo '<tr>';
                             echo '<td>' . $rtable['cols'][$index] . '</td>';
                             foreach ($rtable['data'] as $col => $v) {
-                                echo '<td class="text-right">' . $rtable['data'][$col]['values'][$index] . '</td>';
+
+                                echo '<td class="text-right">';
+                                echo $rtable['data'][$col]['values'][$index];
+                                if ($rtable['data'][$col]['label'] == 'erst-hh-balken') {
+                                    $diff = ($rtable['data'][$col]['values'][$index] - $rtable['data'][0]['values'][$index]);
+                                    echo '<br><span style="color:' . ($diff >= 0 ? 'green' : 'red') . '">' . $diff. '</span>';
+                                } else if ($rtable['data'][$col]['label'] == 'zweit-hh-balken') {
+                                    $diff = ($rtable['data'][$col]['values'][$index] - $rtable['data'][1]['values'][$index]);
+                                    echo '<br><span style="color:' . ($diff >= 0 ? 'green' : 'red') . '">' . $diff. '</span>';
+                                }
+
+                                echo '</td>';
                             }
                             echo '</tr>';
                         }

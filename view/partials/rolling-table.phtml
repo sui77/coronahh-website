@@ -141,7 +141,8 @@
                             echo '<tr>';
                             echo '<td class="text font-weight-bold">7 Tage Inz.</td>';
                             for ($i = $showNumWeeks; $i >= 0; $i--) {
-                                echo '<td class="text-right">' . round((100000 / $ewz * array_sum($data[$i])), 2) . '</td>';
+                                $value = round((100000 / $ewz * array_sum($data[$i])), 2);
+                                echo '<td class="text-right" style="background-color:' . $this->colorInzidenz($value) . '">' . $value . '</td>';
                             }
                             echo '<td></td>';
 
