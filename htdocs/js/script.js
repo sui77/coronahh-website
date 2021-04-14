@@ -59,6 +59,23 @@ const inzidenzLabelW = function (tooltipItem, data) {
     return label;
 };
 
+const pcrtestsLabel = function(tooltipItem, data) {
+    let index = tooltipItem.index;
+    let datasetIndex = tooltipItem.datasetIndex;
+    let value = data.datasets[datasetIndex].data[index];
+    var label = data.datasets[datasetIndex].label;
+    if (datasetIndex == 0) {
+        label += ' ' + (value*1).toFixed(1) + '%';
+    } else {
+        let e = (value % 1000)+"";
+
+        for (i=e.length; i<3; i++) {
+            e = '0' + e;
+        }
+        return Math.floor(value/1000) + "." + e;
+    }
+    return label;
+}
 
 $( () => {
     for (n in window.charts) {

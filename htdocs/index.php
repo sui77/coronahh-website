@@ -13,6 +13,7 @@ if ($config['settings']['dev']) {
 $csv = $_GET['csv'] ?? false;
 $uri = preg_replace('/\?.*/', '', $_SERVER['REQUEST_URI']);
 $uri = preg_replace('/\/$/', '', $_SERVER['REQUEST_URI']);
+$uri = explode('?', $uri)[0];
 $tmp = explode('/', $uri);
 
 

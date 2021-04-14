@@ -1,0 +1,31 @@
+<?php
+
+$footer = ['Quelle:', 'Sozialbehörde Hamburg, wöchentliche Corona-Briefings ab KW44 (27.10.2020)'];
+
+$values[1]['type'] = 'line';
+$chart = [
+    'title' => 'Durchgeführte laborausgewertete PCR-Tests in Hamburg und Positivrate',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => 'Durchschnittliche werktaegliche PCR Tests ',
+    'labelY2' => 'Positivenrate',
+    'labelX' => 'Woche',
+    'circleRadius' => 4,
+    'labelCb' => 'pcrtestsLabel',
+    'datasets' => [ $values[1], $values[0]],
+    'footer' => $footer
+];
+include dirname(__FILE__) . '/partials/kombi-diagram.phtml';
+
+
+
+$rtable = [
+    'title' => 'Durchgeführte laborausgewertete PCR-Tests in Hamburg und Positivrate',
+    'subtitle' => '',
+    'csv' => '/pcrtests/data.csv',
+    'footer' => $chart['footer'],
+    'cols' => $dates,
+    'data' => $values
+];
+
+include dirname(__FILE__) . '/partials/flat-table.phtml';

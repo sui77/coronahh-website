@@ -26,6 +26,30 @@ abstract class AbstractController {
         return number_format($n, $prec, ',', '.');
     }
 
+    protected function colorInzidenz($value) {
+        $colors = [
+            "#ffebee",
+            "#ffcdd2",
+            "#ef9a9a",
+            "#e57373",
+            "#ef5350",
+            "#f44336",
+            "#e53935",
+            "#d32f2f",
+            "#c62828",
+            "#b71c1c"
+        ];
+        $colr = '';
+        if ($value > 35) { $colr = $colors[0]; }
+        if ($value > 50) { $colr = $colors[1]; }
+        if ($value > 100) { $colr = $colors[2]; }
+        if ($value > 150) { $colr = $colors[3]; }
+        if ($value > 200) { $colr = $colors[4]; }
+        if ($value > 250) { $colr = $colors[6]; }
+        if ($value > 300) { $colr = $colors[8]; }
+        return $colr;
+    }
+
     public function initNavigation() {
         $this->assign('navigation', [
             'altersgruppen' => [
@@ -43,11 +67,19 @@ abstract class AbstractController {
                 'title' => 'Hospitalisierungen',
                 'visible' => $this->config['settings']['dev'],
             ],
+            'hospitalisierungen2' => [
+                'title' => 'Hospitalisierungen2',
+                'visible' => $this->config['settings']['dev'],
+            ],
             'bezirke' => [
                 'title' => 'Bezirke',
             ],
             'impfungen' => [
                 'title' => 'Impfungen',
+                'visible' => $this->config['settings']['dev'],
+            ],
+            'pcrtests' => [
+                'title' => 'PCR Tests',
                 'visible' => $this->config['settings']['dev'],
             ],
             'faq' => [
