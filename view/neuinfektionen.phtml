@@ -10,9 +10,14 @@ $chart = [
     'circleRadius' => 1,
     'datasets' => [
         [
-            'label' => '7 Tage Inzidenz',
+            'label' => '7 Tage Inzidenz HH',
             'values' => $values
-        ]
+        ],
+        [
+            'label' => '7 Tage Inzidenz DE',
+            'values' => $values2,
+            'grey' => true
+        ],
     ],
     'footer' => [
         'Quellen:',
@@ -25,10 +30,11 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
 
 <?php
 $rtable = [
-    'title' => 'Neuinfektionen Hamburg Wochenüberblick',
+    'title' => '<a name="rtable"></a>Neuinfektionen Hamburg Wochenüberblick',
     'subtitle' => '',
     'csv' => '/neuinfektionen/data.csv',
     'footer' => $chart['footer']
 ];
+
 include dirname(__FILE__) . '/partials/rolling-table.phtml';
 ?>

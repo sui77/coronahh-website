@@ -5,7 +5,7 @@ class Neuinfektionen extends AbstractController {
     protected $_template = 'neuinfektionen';
 
     public function action() {
-        $showNumWeeks = 10;
+        $showNumWeeks = $_GET['showWeeks'] ?? 10;
         $ewz = 1899160;
         $week = 0;
         $weekD = [];
@@ -17,13 +17,14 @@ class Neuinfektionen extends AbstractController {
         $values = [];
         $sevenDay = [0, 0, 0, 0, 0, 0, 0];
 
-        $sql = "SELECT * FROM cases ORDER BY date asc";
+        $sql = "SELECT * FROM cases LEFT JOIN inzidenz_deutschland ON cases.date=inzidenz_deutschland.date ORDER BY cases.date asc";
         foreach ($this->_pdo->query($sql) as $row) {
             $dates[] = $row['date'];
             array_shift($sevenDay);
             array_push($sevenDay, $row['cases']);
 
             $values[] = round(100000 / $ewz * array_sum($sevenDay), 2);
+            $values2[] = $row['value'];
         }
 
         $sql = "SELECT * FROM cases ORDER BY date desc";
@@ -38,10 +39,12 @@ class Neuinfektionen extends AbstractController {
             }
         }
 
-        $this->assign('showNumWeeks', $showNumWeeks);
+        $this->assign('showNumWeeks', min($showNumWeeks, count($data)-1));
         $this->assign('data', $data);
         $this->assign('dates', $dates);
         $this->assign('values', $values);
+        $this->assign('values2', $values2);
+
         $this->assign('weekD', $weekD);
         $this->assign('ewz', $ewz);
     }

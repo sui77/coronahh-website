@@ -35,7 +35,7 @@ const inzidenzLabel = function (tooltipItem, data) {
             percent = '+' + percent;
         }
     }
-    var label = 'Inzidenz:  ' + data.datasets[datasetIndex].data[index] + '  (LW ' + percent + '%)';
+    var label = data.datasets[datasetIndex].label + ':  ' + data.datasets[datasetIndex].data[index] + '  (LW ' + percent + '%)';
     return label;
 };
 
