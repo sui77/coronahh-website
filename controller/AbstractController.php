@@ -80,7 +80,7 @@ abstract class AbstractController {
             ],
             'pcrtests' => [
                 'title' => 'PCR Tests',
-                'visible' => $this->config['settings']['dev'],
+                'visible' => true,
             ],
             'faq' => [
                 'title' => '(FAQ)',
