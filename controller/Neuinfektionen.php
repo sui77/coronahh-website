@@ -17,20 +17,20 @@ class Neuinfektionen extends AbstractController {
         $values = [];
         $sevenDay = [0, 0, 0, 0, 0, 0, 0];
 
-        $sql = "SELECT * FROM cases LEFT JOIN inzidenz_deutschland ON cases.date=inzidenz_deutschland.date ORDER BY cases.date asc";
+        $sql = "SELECT * FROM cases ORDER BY cases.date asc";
         foreach ($this->_pdo->query($sql) as $row) {
             $dates[] = $row['date'];
             array_shift($sevenDay);
-            array_push($sevenDay, $row['cases']);
+            array_push($sevenDay, $row['cases']??0);
 
             $values[] = round(100000 / $ewz * array_sum($sevenDay), 2);
-            $values2[] = $row['value'];
+            $values2[] = $row['value']??0;
         }
 
         $sql = "SELECT * FROM cases ORDER BY date desc";
         foreach ($this->_pdo->query($sql) as $row) {
 
-            $data[$week][7 - $day] = $row['cases'];
+            $data[$week][7 - $day] = $row['cases']??0;
             $day++;
             if ($day > 7) {
                 $weekD[$week] = $row['date'];
