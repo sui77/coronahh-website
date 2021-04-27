@@ -65,12 +65,8 @@ abstract class AbstractController {
 
             'hospitalisierungen' => [
                 'title' => 'Hospitalisierungen',
-                'visible' => $this->config['settings']['dev'],
             ],
-            'hospitalisierungen2' => [
-                'title' => 'Hospitalisierungen2',
-                'visible' => $this->config['settings']['dev'],
-            ],
+
             'bezirke' => [
                 'title' => 'Bezirke',
             ],

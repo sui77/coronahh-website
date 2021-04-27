@@ -1,4 +1,6 @@
 .idea
 config/config.json
+config/config.dev.json
+config/config.prod.json
 node_modules/
 import/

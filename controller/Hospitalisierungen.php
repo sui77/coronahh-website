@@ -4,8 +4,11 @@ class Hospitalisierungen extends AbstractController {
 
     protected $_template = 'hospitalisierungen';
 
+    protected $table = 'hospitalisierungen_2';
+
     public function action() {
-        $sql = "SELECT date, weekday, stationaer,  IF (normalstationhh is null, normalstation,null) as normalstation_gesamt, normalstation, normalstationhh, normalstation_nichthh, intensivstation, intensivstationhh, intensivstation_nichthh FROM hospitalisierungen ORDER BY date asc";
+        $table = $this->table;
+        $sql = "SELECT date, weekday,   intensivstation, intensivstationhh, intensivstation_nichthh, normalstation, normalstationhh, normalstation_nichthh FROM $table ORDER BY date asc";
 
         $valuesTable = [];
         $datesTable = [];
@@ -25,7 +28,7 @@ class Hospitalisierungen extends AbstractController {
                     $values[$next]['values'][] = $row[$columnName];
                     $values[$next]['totalValues'][] = $row[$columnName];
 
-                    if (!empty($row['weekday'])) {
+                    if (!empty($row['weekday']) && $row['weekday'] != '-') {
                         $valuesTable[$nextDt]['label'] = $columnName;
                         $valuesTable[$nextDt]['values'][] = $row[$columnName];
                         $valuesTable[$nextDt]['totalValues'][] = $row[$columnName];
@@ -49,7 +52,7 @@ class Hospitalisierungen extends AbstractController {
     }
 
     public function csv() {
-        $sql = "SELECT date, stationaer,  IF (normalstationhh is null, normalstation,null) as normalstation_gesamt, normalstation, normalstationhh, normalstation_nichthh, intensivstation, intensivstationhh, intensivstation_nichthh, weekday FROM hospitalisierungen ORDER BY date asc";
+        $sql = "SELECT date, stationaer,  normalstation, normalstationhh, normalstation_nichthh, intensivstation, intensivstationhh, intensivstation_nichthh, weekday FROM hospitalisierungen ORDER BY date asc";
         $this->_csv($sql);
     }
 }

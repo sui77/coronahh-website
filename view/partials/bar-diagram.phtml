@@ -1,6 +1,8 @@
 <?php
 $chartColors = ['rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(1,84,90)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', 'rgb(251,191,69)', 'rgb(239,106,50)', 'rgb(237,3,69)', 'rgb(161,42,94)', 'rgb(113,1,98)', 'rgb(17,1,65)'];
-
+if (isset($chartColorsOverride)) {
+    $chartColors = $chartColorsOverride;
+}
 $chartId = uniqid('chart');
 ?>
 <div class="container-fluid">

@@ -11,6 +11,8 @@
   "dependencies": {
     "aws-sdk": "^2.877.0",
     "mysql-promisify": "^1.0.2",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "twitter": "^1.7.1",
+    "twitter-stream-api": "^0.5.2"
   }
 }

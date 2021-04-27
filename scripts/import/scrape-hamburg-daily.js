@@ -4,12 +4,34 @@ const { MySQL } = require("mysql-promisify");
 const fs = require('fs');
 const crypto = require('crypto');
 const config = JSON.parse(fs.readFileSync('../../config/config.json', 'utf8'));
+const Twitter = require('twitter');
+
+let screenshotConfig = {
+    neuinfektionen: {
+        name: 'neuinfektionen',
+        url: '/neuinfektionen',
+        crop: '1185x730+280+770',
+    },
+    todesfaelle: {
+        name: 'todesfaelle',
+        url: '/todesfaelle',
+        crop: '1185x640+280+732',
+    },
+}
 
 const url = 'https://www.hamburg.de/corona-zahlen';
 const db = new MySQL(config.mysql);
 
 ( async() => {
 
+
+    let now = new Date();
+    console.log(now.getMinutes(), now.getHours() );
+    nowTs = now.toISOString().split('T')[0];
+    if (now.getHours() != 11 && now.getHours() != 12) {
+        console.log('Its not time');
+        process.exit();
+    }
 
     const page = await fetch (url);
     let text = await page.text();
@@ -18,6 +40,14 @@ const db = new MySQL(config.mysql);
     text = text.replace(/<div class="header__weather.*?\/div>/si, '');
     text = text.replace(/<span class="weather-temp".*?\/span>/si, '');
     text = text.replace(/<div class="container--bo-quicksearch">.*/si, '')
+
+    let stand = text.match(/>\(Stand: (.*?)\)/);
+    let tmps = stand[1].split('.');
+    let standCurrent = tmps[2]+"-"+tmps[1]+"-"+tmps[0];
+    console.log(standCurrent, nowTs);
+
+    let todesf = text.match(/>Neue Todesfälle: <span class='dashboar_number'>(.*?)</);
+console.log(todesf[1], todesf[1]*1);
 
     const sha1 = crypto.createHash('sha1');
     sha1.update(text);
@@ -30,10 +60,26 @@ const db = new MySQL(config.mysql);
        }
     });
 
+
+
     if (results[0].sha1 == sha1String) {
         console.log('No changes');
         process.exit();
     }
+
+    if (nowTs == standCurrent) {
+        console.log('ndeaths');
+        mr = await db.query({
+            sql: 'INSERT INTO cases (date, deaths) VALUES (:date, :deaths) ON DUPLICATE KEY update deaths=:deaths',
+            params: {
+                date: nowTs,
+                deaths: todesf[1]*1
+            }
+        })
+    } else {
+        console.log('no new deaths');
+    }
+
 
     const today = new Date().toISOString().split('.')[0].replaceAll(':', '-');
     fs.writeFileSync(`/var/coronahh/hamburgde-${today}.html`, text);
@@ -123,11 +169,54 @@ const db = new MySQL(config.mysql);
     console.log(r.toString());
 
     r = child.execSync(`service memcached restart`)
-    process.exit();
+
+
+    for (n in screenshotConfig) {
+        screenshot( screenshotConfig[n]);
+    }
+
+    const client = new Twitter(config.twitter);
+    client.post("media/upload", {media: screenshotConfig.neuinfektionen.imageData}, function(error1, media1, response) {
+        client.post("media/upload", {media: screenshotConfig.todesfaelle.imageData}, function(error2, media2, response) {
+            if (error1 || error2) {
+                console.log(error1, error2)
+                process.exit();
+            } else {
+                console.log( media1.media_id_string +','+media2.media_id_string );
+                const status = {
+                    status: "Neuinfektionen und Todesfälle im Wochenvergleich https://coronahh.de/ @corona_hh #CoronaHH #Hamburg",
+                    media_ids: media1.media_id_string +','+media2.media_id_string
+                }
+
+                client.post("statuses/update", status, function (error, tweet, response) {
+                    if (error) {
+                        console.log(error)
+                        process.exit();
+                    } else {
+                        console.log("Successfully tweeted an image!")
+                        process.exit();
+                    }
+                })
+            }
+        });
+    })
+
+
 })();
 
 
 function mdate(d) {
     let x = d.split('.');
     return x[2] + '-' + x[1] + '-' + x[0];
+}
+
+function screenshot(cfg) {
+    let filename = new Date().toISOString().split('T')[0];
+    let dst = '/var/coronahh/twitterpic/' + filename + '-' + cfg.name + '.png'
+
+    console.log('Screenshot ' + cfg.name + ' to ' + dst);
+
+    r = child.execSync(`chromium-browser --no-sandbox --headless --disable-gpu --screenshot=/tmp/screen.png --window-size=1500,3024 https://coronahh.de${cfg.url}`);
+    r = child.execSync(`convert /tmp/snap.chromium/tmp/screen.png -crop ${cfg.crop} ${dst}`);
+    cfg.imageData = fs.readFileSync(dst);
 }
