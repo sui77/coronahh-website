@@ -36,7 +36,7 @@ class Twitter {
             const status = {
                 status: msg,
             }
-            if (typeof media != 'undefined') {
+            if (typeof media != 'undefined' && media.length > 0) {
                 status.media_ids = media.join(',');
             }
             if (typeof reply != 'undefined') {

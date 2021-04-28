@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const {MySQL} = require("mysql-promisify");
 const fs = require('fs');
 const crypto = require('crypto');
-const config = JSON.parse(fs.readFileSync('../../config/config.dev.json', 'utf8'));
+const config = JSON.parse(fs.readFileSync('../../config/config.prod.json', 'utf8'));
 const TwitterClient = require('./lib/Twitter.js');
 const screenshotConfig = require('./config/screenshots');
 const dataIds = require('./config/dataIds');
@@ -19,8 +19,10 @@ let db = new MySQL(config.mysql);
 let nowDateTime;
 let nowDate;
 
+
 const Twitter = new TwitterClient(config.twitter);
-Twitter.stream('#CoronaHH');
+/*
+Twitter.stream('#CoronaHH,@Corona_HH');
 Twitter.onStreamData( async (obj) => {
     let match = obj.text.match(/^Seit gestern wurden [0-9]* weitere Neuinfektionen gemeldet. /);
     if (match !== null) {
@@ -35,13 +37,26 @@ Twitter.onStreamData( async (obj) => {
             console.log("Error: " + e.message);
         }
     }
+    match = obj.text.match(/!test/);
+    if (match !== null) {
+        try {
+
+            let media = await getLastMedia();
+            let m1 = await Twitter.mediaUpload('/var/coronahh/twitterpic/' + media + '-neuinfektionen.png');
+            let tweet = await Twitter.tweet('@' + obj.user.screen_name + ' ' + new Date().toDateString() + ' Hier sind die Neuinfektionen in Hamburg im Wochenvergleich:', [m1], obj.id_str);
+
+        } catch (e) {
+            console.log("Error: " + e.message);
+        }
+    }
     console.log('data', obj);
 });
+*/
 
 
 
 
-
+check();
 setInterval( check, 60000);
 
 async function check() {
@@ -49,9 +64,11 @@ async function check() {
 
     nowDateTime = new Date().toISOString().split('.')[0].replaceAll(':', '-');
     nowDate = new Date().toISOString().split('T')[0];
-log(nowDateTime);
+
+
     try {
         let page = await getHamburgDe();
+
         //let page = fs.readFileSync('/var/coronahh/hamburgde-2021-04-07T12-21-59.html', 'utf8');
         let updateCount = 0;
         updateCount += await processPage(page);
@@ -180,6 +197,41 @@ async function processHospitalisierungen(page) {
         }
         match = regex.exec(section);
     }
+
+    if (updateCount > 0) {
+        let sql = `REPLACE into hospitalisierungen_2 (
+                
+                select 
+                'x' as csvid,
+                date.date,
+                stationaer.value as stationaer, 
+                null as stationaerhh,
+                
+                normalstation.value as normalstation,
+                normalstationhh.value as normalstationhh,
+                (normalstation.value-normalstationhh.value) as normalstation_nichthh,
+                
+                
+                intensivstation.value as intensivstation,
+                intensivstationhh.value as intensivstationhh,
+                (intensivstation.value-intensivstationhh.value) as intensivstation_nichthh,
+                '-' as weekday
+                
+                 from 
+                 (select distinct date FROM data) as date LEFT JOIN 
+                (select date,value FROM data WHERE id_column = 33) as stationaer on date.date=stationaer.date LEFT JOIN 
+                (select date,value FROM data WHERE id_column = 36) as intensivstation on date.date=intensivstation.date LEFT JOIN 
+                (select date,value FROM data WHERE id_column = 37) as intensivstationhh on date.date=intensivstationhh.date LEFT JOIN 
+                (select date,value FROM data WHERE id_column = 35) as normalstation on date.date=normalstation.date LEFT JOIN 
+                (select date,value FROM data WHERE id_column = 38) as normalstationhh on date.date=normalstationhh.date
+                
+                where date.date > now() - interval 3 day
+                
+                
+                )`;
+        await db.query({sql: sql});
+    }
+
     return updateCount;
 }
 
@@ -282,6 +334,7 @@ async function _insertCases(date, column, value) {
     if (results[0] && results[0]['value'] == value) {
         return 0;
     }
+    console.log(date, column, value);
     mr = await db.query({
         sql: 'INSERT INTO cases (`date`, `' + column + '`) VALUES (:date, :value) ON DUPLICATE KEY update `' + column + '`=:value',
         params: {
@@ -294,6 +347,7 @@ async function _insertCases(date, column, value) {
 
 async function getHamburgDe() {
     let url = 'https://www.hamburg.de/corona-zahlen';
+
     const page = await fetch(url);
     let text = await page.text();
 
@@ -302,7 +356,7 @@ async function getHamburgDe() {
     text = text.replace(/<span class="weather-temp".*?\/span>/si, '');
     text = text.replace(/<div class="container--bo-quicksearch">.*/si, '');
 
-    let sha1 = crypto.createHash('sha1').update("asdf").digest('hex');
+    let sha1 = crypto.createHash('sha1').update(text).digest('hex');
 
     let {results} = await db.query({
         sql: 'SELECT * FROM scraping_updates WHERE url=:url',
@@ -338,6 +392,14 @@ function log(msg) {
 async function getMedia() {
     let { results } = await db.query({sql: 'SELECT *, now() as n  FROM twitterpost WHERE date=date(now())'});
     if (results[0] && results[0]['replied'] == 0) {
+        return results[0]['date'].toISOString().split('T')[0];
+    }
+    throw new Error('Not today again');
+}
+
+async function getLastMedia() {
+    let { results } = await db.query({sql: 'SELECT *  FROM twitterpost ORDER BY date DESC LIMIT 1'});
+    if (results[0]) {
         return results[0]['date'].toISOString().split('T')[0];
     }
     throw new Error('Not today again');

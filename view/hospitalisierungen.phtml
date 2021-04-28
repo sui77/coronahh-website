@@ -11,19 +11,14 @@ $titles = [
     'intensivstation_nichthh' => 'Intensivstation nicht aus Hamburg',
 ];
 
-$xvalues = $values;
-foreach ($xvalues as $n => $xxvalues) {
-    if (in_array($xxvalues['label'], ['stationaer', 'normalstation', 'intensivstation', 'weekday'])) {
-        unset($xvalues[$n]);
-    }
-}
+
 $chart = [
     'title' => 'Hospitalisierung',
     'subtitle' => '',
     'labels' => $dates,
     'labelY' => '',
     'labelX' => 'Tag',
-    'datasets' => $xvalues,
+    'datasets' => $values,
     'titles' => $titles,
     'footer' => [
         'Quelle:',
@@ -38,7 +33,7 @@ include dirname(__FILE__) . '/partials/bar-diagram.phtml';
 $rtable = [
     'title' => 'Hospitalisierung',
     'subtitle' => '',
-    'cols' => $datesTable,
+    'cols' => $dates,
     'data' => $valuesTable,
     'titles' => $titles,
     'csv' => '/hospitalisierungen/data.csv',

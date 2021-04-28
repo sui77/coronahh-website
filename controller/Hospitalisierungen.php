@@ -13,9 +13,7 @@ class Hospitalisierungen extends AbstractController {
         $valuesTable = [];
         $datesTable = [];
         foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
-            if (!empty($row['weekday'])) {
-                $datesTable[] = $row['date'];
-            }
+
             $dates[] = $row['date'];
 
             $next = 0;
@@ -24,16 +22,16 @@ class Hospitalisierungen extends AbstractController {
 
                 if ($columnName != 'date' && $columnName != 'weekday') {
 
-                    $values[$next]['label'] = $columnName;
-                    $values[$next]['values'][] = $row[$columnName];
-                    $values[$next]['totalValues'][] = $row[$columnName];
-
-                    if (!empty($row['weekday']) && $row['weekday'] != '-') {
-                        $valuesTable[$nextDt]['label'] = $columnName;
-                        $valuesTable[$nextDt]['values'][] = $row[$columnName];
-                        $valuesTable[$nextDt]['totalValues'][] = $row[$columnName];
-                        $nextDt++;
+                    if (in_array($columnName, ['intensivstationhh', 'intensivstation_nichthh', 'normalstationhh', 'normalstation_nichthh'])) {
+                        $values[$next]['label'] = $columnName;
+                        $values[$next]['values'][] = $row[$columnName];
                     }
+
+                    //if (!empty($row['weekday']) && $row['weekday'] != '-') {
+                        $valuesTable[$nextDt]['label'] = $columnName;
+                        $valuesTable[$nextDt]['values'][] = $row[$columnName] ?? '-';
+                        $nextDt++;
+                    //}
 
                     $next++;
                 }
@@ -46,7 +44,7 @@ class Hospitalisierungen extends AbstractController {
         $this->assign('dates', $dates);
         $this->assign('values', $values);
         $this->assign('valuesTable', $valuesTable);
-        $this->assign('datesTable', $datesTable);
+
 
 
     }
