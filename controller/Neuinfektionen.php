@@ -17,14 +17,15 @@ class Neuinfektionen extends AbstractController {
         $values = [];
         $sevenDay = [0, 0, 0, 0, 0, 0, 0];
 
+        $vaxxed = 0;
         $sql = "SELECT * FROM cases ORDER BY cases.date asc";
         foreach ($this->_pdo->query($sql) as $row) {
             $dates[] = $row['date'];
             array_shift($sevenDay);
             array_push($sevenDay, $row['cases']??0);
-
+            $vaxxed += $row['vaccination-2nd'];
             $values[] = round(100000 / $ewz * array_sum($sevenDay), 2);
-            $values2[] = $row['value']??0;
+            $values2[] = round(100000 / ($ewz-$vaxxed) * array_sum($sevenDay), 2);
         }
 
         $sql = "SELECT * FROM cases ORDER BY date desc";
