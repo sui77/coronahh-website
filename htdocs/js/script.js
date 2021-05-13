@@ -39,6 +39,19 @@ const inzidenzLabel = function (tooltipItem, data) {
     return label;
 };
 
+const inzidenzBar = function (tooltipItem, data) {
+    let index = tooltipItem.index;
+    let datasetIndex = tooltipItem.datasetIndex;
+
+    var label;
+    if (datasetIndex == 1) {
+        label = data.datasets[datasetIndex].label + ':  ' + (data.datasets[0].data[index]*1+data.datasets[1].data[index]*1).toFixed(2);
+    } else {
+        label = data.datasets[datasetIndex].label + ':  ' + (data.datasets[datasetIndex].data[index]*1).toFixed(2);
+    }
+    return label;
+};
+
 const inzidenzLabelW = function (tooltipItem, data) {
     let index = tooltipItem.index;
     let datasetIndex = tooltipItem.datasetIndex;

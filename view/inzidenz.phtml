@@ -1,0 +1,83 @@
+
+
+<div class="container-fluid">
+
+    <?php
+    $nDays = 45;
+    $chart = [
+        'title' => '7 Tage Inzidenz Hamburg (letzte ' . $nDays . ' Tage)',
+        'subtitle' => '',
+        'labels' => array_slice($dates, count($dates)-$nDays, $nDays),
+        'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
+        'labelX' => 'Tag',
+        'labelCb' => 'inzidenzLabel',
+        'lineWidth' => 1,
+        'circleRadius' => 1,
+        'datasets' => [
+            [
+                'label' => '7 Tage Inzidenz (hamburg.de)',
+                'values' =>  array_slice($values, count($dates)-$nDays, $nDays),
+            ],
+            [
+                'label' => '7 Tage laut RKI (fortlaufend aktualisiert)',
+                'values' =>  array_slice($values3, count($dates)-$nDays, $nDays),
+            ],
+            [
+                'label' => '7 Tage laut RKI (eingefroren)',
+                'values' =>  array_slice($values4, count($dates)-$nDays, $nDays),
+            ],
+
+        ],
+        'footer' => [
+            'Quellen:',
+            'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
+            'Bevölkerungszahl laut Melderegister: ' . $ewz,
+            'RKI fortlaufend: https://opendata.arcgis.com',
+            'RKI eingefroren: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Fallzahlen_Kum_Tab.html'
+        ]
+    ];
+    include dirname(__FILE__) . '/partials/line-diagram.phtml';
+    ?>
+
+</div>
+
+
+<div class="container-fluid">
+
+    <?php
+    $values5 = []; $values6 = [];
+    for ($i = 0; $i<count($dates); $i++) {
+        $values5[$i] = $values3[$i]-$values4[$i];
+        if ($values5[$i] < 0 ) { $values5[$i] = 0; }
+    }
+    $chart = [
+        'title' => '7 Tage Inzidenz Hamburg (letzte ' . $nDays . ' Tage)',
+        'subtitle' => '',
+        'labels' => array_slice($dates, count($dates)-$nDays, $nDays),
+        'labelY' => 'Infektionen / 100.000 Einwohner / 7 Tage',
+        'labelX' => 'Tag',
+        'labelCb' => 'inzidenzBar',
+        'lineWidth' => 1,
+        'circleRadius' => 1,
+        'datasets' => [
+
+
+            [
+                'label' => '7 Tage laut RKI (eingefroren)',
+                'values' =>  array_slice($values4, count($dates)-$nDays, $nDays),
+            ],
+            [
+                'label' => '7 Tage laut RKI (fortlaufend aktualisiert)',
+                'values' =>  array_slice($values5, count($dates)-$nDays, $nDays),
+            ],
+        ],
+        'footer' => [
+            'Quellen:',
+            'RKI fortlaufend: https://opendata.arcgis.com',
+            'RKI eingefroren: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Daten/Fallzahlen_Kum_Tab.html'
+        ]
+    ];
+    include dirname(__FILE__) . '/partials/bar-diagram.phtml';
+    ?>
+
+</div>

@@ -57,7 +57,10 @@ abstract class AbstractController {
             ],
             'neuinfektionen' => [
                 'title' => 'Neuinfektionen',
-
+            ],
+            'inzidenz' => [
+                'title' => 'Inzidenz RKI',
+                'visible' => $this->config['settings']['dev'],
             ],
             'todesfaelle' => [
                 'title' => 'Todesfälle',
