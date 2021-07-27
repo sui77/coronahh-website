@@ -22,9 +22,17 @@ class Hospitalisierungen extends AbstractController {
 
                 if ($columnName != 'date' && $columnName != 'weekday') {
 
-                    if (in_array($columnName, ['intensivstationhh', 'intensivstation_nichthh', 'normalstationhh', 'normalstation_nichthh'])) {
-                        $values[$next]['label'] = $columnName;
-                        $values[$next]['values'][] = $row[$columnName];
+                    if (in_array($columnName, ['intensivstationhh', 'intensivstation_nichthh', 'normalstationhh', 'normalstation_nichthh', 'normalstation', 'intensivstation'])) {
+
+
+
+                        if ($row['date'] < '2021-07-10' && in_array($columnName, ['normalstation', 'intensivstation'])) {
+                            $values[$next]['label'] = null;
+                            $values[$next]['values'][] = null;
+                        } else {
+                            $values[$next]['label'] = $columnName;
+                            $values[$next]['values'][] = $row[$columnName];
+                        }
                     }
 
                     //if (!empty($row['weekday']) && $row['weekday'] != '-') {
