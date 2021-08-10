@@ -102,7 +102,7 @@ async function check() {
                     params: {media: media.join(',')}
                 });
 
-                let tweet = await Twitter.tweet("Neuinfektionen und Todesfälle im Wochenvergleich https://coronahh.de/ @corona_hh #CoronaHH #Hamburg", media);
+                let tweet = await Twitter.tweet("Neuinfektionen und Todesfälle im Wochenvergleich, mehr Zahlen auf https://coronahh.de/ #CoronaHH #Hamburg", media);
                 await db.query({sql: 'UPDATE twitterpost SET tweeted=1 WHERE date=date(now())'});
             } else {
                 console.log('Already tweeted today');
@@ -150,11 +150,13 @@ async function processCharts(page) {
         while (match2 != null) {
             let llabel = match2[1];
             let values = match2[2].split(',');
+            console.log(llabel);
+            console.log(values);
             if (llabel == 'SARS-CoV-2 Infektionen') {
                 updateCount += await updateChartData('cases', labels, values, true);
             } else if (llabel == 'Erstimpfungen insgesamt') {
                 updateCount += await updateChartData('vaccination-1st', labels, values, true);
-            } else if (llabel == 'Zweitimpfungen insgesamt') {
+            } else if (llabel == 'Vollständig geimpfte Personen') {
                 updateCount += await updateChartData('vaccination-2nd', labels, values, true);
             } else if (llabel == 'Tägliche Erstimpfungen') {
                 updateCount += await updateChartData('vaccination-1st-daily', labels, values);
@@ -202,7 +204,7 @@ async function processHospitalisierungen(page) {
         let sql = `REPLACE into hospitalisierungen_2 (
                 
                 select 
-                'x' as csvid,
+                'y' as csvid,
                 date.date,
                 stationaer.value as stationaer, 
                 null as stationaerhh,
@@ -218,14 +220,14 @@ async function processHospitalisierungen(page) {
                 '-' as weekday
                 
                  from 
-                 (select distinct date FROM data) as date LEFT JOIN 
+                 (select distinct date FROM data WHErE date>0) as date  LEFT JOIN 
                 (select date,value FROM data WHERE id_column = 33) as stationaer on date.date=stationaer.date LEFT JOIN 
                 (select date,value FROM data WHERE id_column = 36) as intensivstation on date.date=intensivstation.date LEFT JOIN 
                 (select date,value FROM data WHERE id_column = 37) as intensivstationhh on date.date=intensivstationhh.date LEFT JOIN 
                 (select date,value FROM data WHERE id_column = 35) as normalstation on date.date=normalstation.date LEFT JOIN 
                 (select date,value FROM data WHERE id_column = 38) as normalstationhh on date.date=normalstationhh.date
                 
-                where date.date > now() - interval 3 day
+                where date.date > now() - interval 7 day
                 
                 
                 )`;
@@ -366,7 +368,7 @@ async function getHamburgDe() {
     });
 
     if (results[0] && results[0].sha1 == sha1) {
-        throw new Error(`No Changes at ${url}.`);
+      throw new Error(`No Changes at ${url}.`);
     }
 
     mr = await db.query({
