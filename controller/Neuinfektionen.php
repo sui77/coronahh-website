@@ -15,7 +15,9 @@ class Neuinfektionen extends AbstractController {
 
         $dates = [];
         $values = [];
-        $sevenDay = [0, 0, 0, 0, 0, 0, 0];
+        $values2 = [];
+        $values3 = [];
+        $sevenDay = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         $vaxxed = 0;
         $sql = "SELECT * FROM cases ORDER BY cases.date asc";
@@ -24,8 +26,12 @@ class Neuinfektionen extends AbstractController {
             array_shift($sevenDay);
             array_push($sevenDay, $row['cases']??0);
             $vaxxed += $row['vaccination-2nd'];
-            $values[] = round(100000 / $ewz * array_sum($sevenDay), 2);
-            $values2[] = round(100000 / ($ewz-$vaxxed) * array_sum($sevenDay), 2);
+            $sevenDayCurrent = array_sum( array_slice( $sevenDay, 7, 7));
+            $sevenDayPrevious = array_sum( array_slice( $sevenDay, 0, 7));
+
+            $values[] = round(100000 / $ewz * $sevenDayCurrent, 2);
+            $values2[] = round(100000 / ($ewz-$vaxxed) * $sevenDayCurrent, 2);
+            $values3[] = round(  ($sevenDayPrevious==0) ? 0 : ($sevenDayCurrent / $sevenDayPrevious), 2);
         }
 
         $sql = "SELECT * FROM cases ORDER BY date desc";
@@ -40,11 +46,14 @@ class Neuinfektionen extends AbstractController {
             }
         }
 
+
+
         $this->assign('showNumWeeks', min($showNumWeeks, count($data)-1));
         $this->assign('data', $data);
         $this->assign('dates', $dates);
         $this->assign('values', $values);
         $this->assign('values2', $values2);
+        $this->assign('values3', $values3);
 
         $this->assign('weekD', $weekD);
         $this->assign('ewz', $ewz);
