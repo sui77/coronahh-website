@@ -28,11 +28,11 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
 ?>
 
 <?php
-$showDays = 180;
+
 $chart = [
     'title' => '7 Tage R Wert',
     'subtitle' => '',
-    'labels' => array_splice($dates, count($dates)-$showDays, $showDays),
+    'labels' => $dates,
     'labelY' => 'R',
     'labelX' => 'Tag',
     'labelCb' => 'inzidenzLabel',
@@ -41,14 +41,15 @@ $chart = [
     'datasets' => [
         [
             'label' => '7 Tage R Wert',
-            'values' => array_splice($values3, count($values3)-$showDays, $showDays)
+            'values' => $values3
         ],
         [
             'label' => '',
-            'values' => array_fill(0, $showDays, 1)
+            'values' => array_fill(0,  count($values3), 1)
         ],
 
     ],
+    'yScale' => 2,
     'footer' => [
         'Quellen:',
         'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',

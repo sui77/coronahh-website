@@ -85,7 +85,9 @@ $chartId = uniqid('chart');
                     scaleLabel: {
                         display: true,
                         labelString: '<?=$chart['labelY']?>'
-                    }
+
+                    },
+                    <?php if (isset($chart['yScale'])) { echo 'ticks: { max: ' . $chart['yScale'] . '}'; } ?>
                 }]
             },
 
