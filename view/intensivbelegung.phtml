@@ -1,0 +1,47 @@
+<?php
+
+$chart = [
+    'title' => 'Freie Intensivbetten (prozentual)',
+    'subtitle' => '',
+    'labels' => $dates2,
+    'labelY' => 'Freie Intensivbetten %',
+    'labelX' => 'Tag',
+    'datasets' => [$values2[3]],
+    'labelCb' => 'pcrtestsLabel',
+    'titles' => ['Freie Intensivbetten'],
+    'footer' => [
+        'Quelle: DIVI-Intensivregister', 'Gesamtzahl gemeldeter Intensivbetten (Hamburg) auf https://www.intensivregister.de/#/aktuelle-lage/zeitreihen',
+    ]
+];
+$chartColorsOverride = ['rgb(113,1,98)', 'rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(17,1,65)', 'rgb(239,106,50)', 'rgb(251,191,69)', 'rgb(161,42,94)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', /* new */  'rgb(113,1,98)', 'rgb(17,1,65)'];
+
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+
+$chart = [
+    'title' => 'Gesamtzahl gemeldeter Intensivbetten',
+    'subtitle' => '',
+    'labels' => $dates2,
+    'labelY' => 'Anzahl',
+    'labelX' => 'Tag',
+    'datasets' => [$values2[0], $values2[1], $values2[2]],
+    'titles' => ['Freie Intensivbetten'],
+    'footer' => [
+        'Quelle: DIVI-Intensivregister', 'Gesamtzahl gemeldeter Intensivbetten (Hamburg) auf https://www.intensivregister.de/#/aktuelle-lage/zeitreihen',
+    ]
+];
+$chartColorsOverride = ['rgb(113,1,98)', 'rgb(26,19,52)', 'rgb(38,41,74)', 'rgb(17,1,65)', 'rgb(239,106,50)', 'rgb(251,191,69)', 'rgb(161,42,94)', 'rgb(1,115,81)', 'rgb(3,195,131)', 'rgb(170,217,98)', /* new */  'rgb(113,1,98)', 'rgb(17,1,65)'];
+
+include dirname(__FILE__) . '/partials/bar-diagram.phtml';
+
+
+$rtable = [
+    'title' => 'Gesamtzahl gemeldeter Intensivbetten',
+    'subtitle' => '',
+    'cols' => $dates2,
+    'data' => $valuesTable,
+    //'titles' => $titles,
+    'csv' => '/intensivbelegung/data.csv',
+    'footer' => ['Quelle: DIVI-Intensivregister', 'Gesamtzahl gemeldeter Intensivbetten (Hamburg) auf https://www.intensivregister.de/#/aktuelle-lage/zeitreihen'],
+];
+
+include dirname(__FILE__) . '/partials/flat-table.phtml';

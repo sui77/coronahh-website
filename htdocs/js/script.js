@@ -97,7 +97,7 @@ $( () => {
     }
 
     if (window.phonePortrait) {
-        $('.card-body').animate({scrollLeft: 500}, 2000, 'swing');
+        $('.card-body').animate({scrollLeft: 800}, 2000, 'swing');
     }
 
     if (!navigator.canShare) { //} || !navigator.canShare({files})) {

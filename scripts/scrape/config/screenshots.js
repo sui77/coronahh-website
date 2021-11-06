@@ -1,7 +1,7 @@
 module.exports = {
     neuinfektionen: {
         url: '/neuinfektionen',
-        crop: '1185x790+280+780',
+        crop: '1185x790+280+1515',
         dailyTweet: true,
     },
     todesfaelle: {

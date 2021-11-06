@@ -69,6 +69,9 @@ abstract class AbstractController {
             'hospitalisierungen' => [
                 'title' => 'Hospitalisierungen',
             ],
+            'intensivbelegung' => [
+                'title' => 'Intensivbelegung',
+            ],
 
             'bezirke' => [
                 'title' => 'Bezirke',
