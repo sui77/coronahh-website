@@ -54,7 +54,7 @@ $chartId = uniqid('chart');
                     <?php } ?>
                     fill: false,
                     borderWidth: <?=$chart['lineWidth'] ?? 1?>,
-
+                    hidden: <?=$ds['hidden']??'false'?>,
                     datasetTooltipPrefix: '<?=(!isset($chart['datasetTooltipPrefix']) || $ds['label']=='Ø')?'':($chart['datasetTooltipPrefix']??'')?>',
                 },
                 <?php } ?>
