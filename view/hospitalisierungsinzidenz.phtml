@@ -1,0 +1,31 @@
+<?php
+$chart = [
+    'title' => '7-Tage-Hospitalisierungsinzidenz',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => '7-Tage-Hospitalisierungsinzidenz',
+    'labelX' => 'Tag',
+    //'labelCb' => 'inzidenzLabelW',
+    'datasets' => $values,
+    //'datasetTooltipPrefix' => 'Bezirk: ',
+    'footer' => [
+        'Quelle: https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland',
+    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+
+
+$rtable = [
+    'title' => '7-Tage-Hospitalisierungsinzidenz',
+    'subtitle' => '',
+    'cols' => $dates,
+    'data' => $values,
+    'csv' => '/hospitalisierungsinzidenz/data.csv',
+    'footer' => $chart['footer']
+];
+
+include dirname(__FILE__) . '/partials/flat-table.phtml';
+
+?>
+
+
