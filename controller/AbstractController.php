@@ -37,7 +37,10 @@ abstract class AbstractController {
             "#e53935",
             "#d32f2f",
             "#c62828",
-            "#b71c1c"
+            "#b71c1c",
+            "#6b0a0a",
+            "#911616",
+            "#610d0d",
         ];
         $colr = '';
         if ($value > 35) { $colr = $colors[0]; }
@@ -47,6 +50,8 @@ abstract class AbstractController {
         if ($value > 200) { $colr = $colors[4]; }
         if ($value > 250) { $colr = $colors[6]; }
         if ($value > 300) { $colr = $colors[8]; }
+        if ($value > 400) { $colr = $colors[9]; }
+        if ($value > 500) { $colr = $colors[10]; }
         return $colr;
     }
 
