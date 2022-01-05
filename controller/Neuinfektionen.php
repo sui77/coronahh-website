@@ -7,6 +7,11 @@ class Neuinfektionen extends AbstractController {
     public function action() {
         $showNumWeeks = $_GET['showWeeks'] ?? 10;
         $ewz = 1899160;
+        $ewza = [
+            '2020-02-29' => 1899160,
+            '2021-05-24' => 1904444,
+        ];
+
         $week = 0;
         $weekD = [];
         $day = 1;
@@ -28,6 +33,10 @@ class Neuinfektionen extends AbstractController {
             $vaxxed += $row['vaccination-2nd'];
             $sevenDayCurrent = array_sum( array_slice( $sevenDay, 7, 7));
             $sevenDayPrevious = array_sum( array_slice( $sevenDay, 0, 7));
+
+            if (isset($ewza[$row['date']])) {
+                $ewz = $ewza[$row['date']];
+            }
 
             $values[] = round(100000 / $ewz * $sevenDayCurrent, 2);
             $values2[] = round(100000 / ($ewz-$vaxxed) * $sevenDayCurrent, 2);
@@ -57,6 +66,7 @@ class Neuinfektionen extends AbstractController {
 
         $this->assign('weekD', $weekD);
         $this->assign('ewz', $ewz);
+        $this->assign('ewza', $ewza);
     }
 
     public function csv() {
