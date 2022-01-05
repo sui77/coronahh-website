@@ -22,9 +22,8 @@ $chart = [
     'footer' => [
         'Quellen:',
         'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
-        'Bevölkerungszahl bis 24.05.2020: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
-        'Bevölkerungszahl seit 24.05.2020: Bevölkerung lt. hamburg.de (' . $this->nf($ewza['2021-05-24']) . ')',
-    ]
+        'Bevölkerungszahl bis 24.05.2021: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
+        'Bevölkerungszahl seit 24.05.2021: Bevölkerung am 31.12.2020 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2021-05-24']) . ')',    ]
 ];
 include dirname(__FILE__) . '/partials/line-diagram.phtml';
 ?>
@@ -55,8 +54,8 @@ $chart = [
     'footer' => [
         'Quellen:',
         'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
-        'Bevölkerungszahl bis 24.05.2020: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
-        'Bevölkerungszahl seit 24.05.2020: Bevölkerung lt. hamburg.de (' . $this->nf($ewza['2021-05-24']) . ')',
+        'Bevölkerungszahl bis 24.05.2021: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
+        'Bevölkerungszahl seit 24.05.2021: Bevölkerung am 31.12.2020 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2021-05-24']) . ')',
         'Berechnung: Quotient aus Anzahl Neuinfektionen in zwei aufeinanderfolgenden Zeitabschnitten von jeweils 7 Tagen.'
     ]
 ];
