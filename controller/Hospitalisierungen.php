@@ -58,7 +58,8 @@ class Hospitalisierungen extends AbstractController {
     }
 
     public function csv() {
-        $sql = "SELECT date, stationaer,  normalstation, normalstationhh, normalstation_nichthh, intensivstation, intensivstationhh, intensivstation_nichthh, weekday FROM hospitalisierungen ORDER BY date asc";
+        $sql = "SELECT date, stationaer,  normalstation, normalstationhh, normalstation_nichthh, intensivstation, intensivstationhh, intensivstation_nichthh FROM $this->table ORDER BY date asc";
+
         $this->_csv($sql);
     }
 }
