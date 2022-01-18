@@ -156,11 +156,14 @@ abstract class AbstractController {
         include dirname(__FILE__) . '/../view/layout.phtml';
     }
 
-    protected function _csv($sql) {
+    protected function _csv($sql, $copyright='') {
             header('Content-type: text/csv');
             header('Access-Control-Allow-Origin: *');
             header('Content-Disposition: attachment; filename=coronahh-' . $this->_template . '-' . date('Y-m-d') . '.csv');
             $first = true;
+            if ($copyright != '') {
+                echo 'Quelle: ' . $copyright . "\n";
+            }
             foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
                 if ($first == true) {
                     echo implode(';', array_keys($row)) . "\n";

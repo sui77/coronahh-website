@@ -10,7 +10,7 @@ $chart = [
     'datasetTooltipPrefix' => 'Altersgruppe: ',
     'footer' => [
         'Quellen:',
-        'Infektionszahlen: Robert Koch-Institut: SurvStat@RKI 2.0, https://survstat.rki.de, Abfragedatum: 18.01.2022',
+        'Infektionszahlen: Robert Koch-Institut: SurvStat@RKI 2.0, https://survstat.rki.de, Abfragedatum: ' . $udt,
         'Bevölkerungszahlen: Bevölkerung nach Einzelalter und Geschlecht am 31.12.2019 lt. Melderegister, Statistikamt Nord',
     ]
 
@@ -27,7 +27,7 @@ $rtable = [
     'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut, survstat.rki.de)',
     'cols' => $dates,
     'data' => $values,
-    'csv' => '/altersgruppen/data.csv',
+    'csv' => '/altersgruppenrki/data.csv',
     'footer' => $chart['footer']
 ];
 

@@ -42,6 +42,11 @@ echo "ok";
         $bg['plus80'] = $b['a80'] + $b['a81'] + $b['a82'] + $b['a83'] + $b['a84'] + $b['a85'] + $b['a86'] + $b['a87'] + $b['a88'] + $b['a89'] + $b['a90'];
 
 
+        $updatetime = 'SELECT date FROM scraping_updates WHERE url="survstat"';
+        $udt = $this->_pdo->query($updatetime, PDO::FETCH_ASSOC)->fetch();
+        $udt = date( 'd.m.Y H:i', strtotime($udt['date']));
+
+
         $sql = "SELECT week, year, 
                                                 a0+a1+a2+a3+a4+a5 as bis5, 
                                                 a6+a7+a8+a9+a10+a11+a12+a13+a14 as `6-14`, 
@@ -56,9 +61,11 @@ echo "ok";
                                                 FROM alter_rki 
                                                 ORDER BY year,week asc ";
 
+
+
         foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
 
-            if ($row['week'] == 3 && $row['year'] == 2022) {
+            if ($row['week'] == date('W') && $row['year'] == date('Y')) {
                 continue;
             }
             $dates[] = $row['week'] . '/' . $row['year'];
@@ -88,11 +95,16 @@ echo "ok";
 
         $this->assign('dates', $dates);
         $this->assign('values', $values);
+        $this->assign('udt', $udt);
         $this->assign('bevoelkerungszahlen', $bg);
     }
 
     public function csv() {
+        $updatetime = 'SELECT date FROM scraping_updates WHERE url="survstat"';
+        $udt = $this->_pdo->query($updatetime, PDO::FETCH_ASSOC)->fetch();
+        $udt = date( 'd.m.Y H:i', strtotime($udt['date']));
+
         $sql = "SELECT * FROM alter_rki ORDER BY year,week asc";
-        $this->_csv($sql);
+        $this->_csv($sql, 'Robert Koch-Institut: SurvStat@RKI 2.0, https://survstat.rki.de, Abfragedatum: ' . $udt);
     }
 }
