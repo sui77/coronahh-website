@@ -1,7 +1,7 @@
 <?php
 $chart = [
-    'title' => '7-Tage-Inzidenz nach Altersgruppen (survstat.rki.de)',
-    'subtitle' => '',
+    'title' => '7-Tage-Inzidenz nach Altersgruppen',
+    'subtitle' => 'Quelle: survstat.rki.de',
     'labels' => $dates,
     'labelY' => '7 Tage Inzidenz',
     'labelX' => 'Kalenderwoche',
@@ -23,8 +23,8 @@ include dirname(__FILE__) . '/partials/line-diagram.phtml';
 <?php
 
 $rtable = [
-    'title' => 'Inzidenz nach Altersgruppen (survstat.rki.de)',
-    'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut)',
+    'title' => 'Inzidenz nach Altersgruppen',
+    'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut, survstat.rki.de)',
     'cols' => $dates,
     'data' => $values,
     'csv' => '/altersgruppen/data.csv',
