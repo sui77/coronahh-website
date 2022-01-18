@@ -42,6 +42,13 @@ abstract class AbstractController {
             "#7d0c0c",
             "#610d0d",
             "#3D0707",
+            "#3D002D",
+            "#2D002D",
+            "#1D002D",
+            "#0D002D",
+            "#0D001D",
+            "#0D000D",
+
         ];
         $colr = '';
         if ($value > 35) { $colr = $colors[0]; }
@@ -55,6 +62,13 @@ abstract class AbstractController {
         if ($value > 500) { $colr = $colors[11] . ';color:#aaa'; }
         if ($value > 600) { $colr = $colors[12] . ';color:#aaa'; }
         if ($value > 700) { $colr = $colors[13] . ';color:#aaa'; }
+        if ($value > 1000) { $colr = $colors[14] . ';color:#aaa'; }
+        if ($value > 1250) { $colr = $colors[15] . ';color:#aaa'; }
+        if ($value > 1500) { $colr = $colors[16] . ';color:#aaa'; }
+        if ($value > 1750) { $colr = $colors[17] . ';color:#aaa'; }
+        if ($value > 2000) { $colr = $colors[18] . ';color:#aaa'; }
+        if ($value > 2250) { $colr = $colors[19] . ';color:#aaa'; }
+
         return $colr;
     }
 
