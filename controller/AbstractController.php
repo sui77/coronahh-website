@@ -74,11 +74,11 @@ abstract class AbstractController {
 
     public function initNavigation() {
         $this->assign('navigation', [
-            'altersgruppen' => [
-                'title' => 'Altersgruppen (Senat)',
-            ],
             'altersgruppenrki' => [
                 'title' => 'Altersgruppen (RKI)',
+            ],
+            'altersgruppen' => [
+                'title' => 'Altersgruppen (Senat)',
             ],
             'neuinfektionen' => [
                 'title' => 'Neuinfektionen',

@@ -1,9 +1,11 @@
 <?php
 //ini_set('display_errors', 1);
 
-function __autoload($class) {
+function autoload($class) {
     require_once(dirname(__FILE__) . '/../controller/' . $class . '.php');
 }
+
+spl_autoload_register('autoload');
 
 $config = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), 1);
 if ($config['settings']['dev']) {
@@ -17,7 +19,7 @@ $uri = explode('?', $uri)[0];
 $tmp = explode('/', $uri);
 
 
-if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'altersgruppen'; } else { $page = $tmp[1]; }
+if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'altersgruppenrki'; } else { $page = $tmp[1]; }
 
 if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php')) {
 
