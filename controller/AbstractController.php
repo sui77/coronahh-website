@@ -75,15 +75,15 @@ abstract class AbstractController {
     public function initNavigation() {
         $this->assign('navigation', [
             'altersgruppen' => [
-                'title' => 'Altersgruppen',
+                'title' => 'Altersgruppen (Senat)',
+            ],
+            'altersgruppenrki' => [
+                'title' => 'Altersgruppen (RKI)',
             ],
             'neuinfektionen' => [
                 'title' => 'Neuinfektionen',
             ],
-            'inzidenz' => [
-                'title' => 'Inzidenz RKI',
-                'visible' => $this->config['settings']['dev'],
-            ],
+
             'todesfaelle' => [
                 'title' => 'Todesfälle',
             ],
@@ -104,7 +104,7 @@ abstract class AbstractController {
             ],
             'impfungen' => [
                 'title' => 'Impfungen',
-                'visible' => $this->config['settings']['dev'],
+                'visible' => false, //$this->config['settings']['dev'],
             ],
             'pcrtests' => [
                 'title' => 'PCR Tests',
@@ -112,7 +112,7 @@ abstract class AbstractController {
             ],
             'faq' => [
                 'title' => '(FAQ)',
-                'visible' => $this->config['settings']['dev'],
+                'visible' => false, // $this->config['settings']['dev'],
             ],
             'kontakt' => [
                 'title' => 'Kontakt',
@@ -122,7 +122,7 @@ abstract class AbstractController {
             ],
             'test' => [
                 'title' => 'Test',
-                'visible' => $this->config['settings']['dev'],
+                'visible' => false, //$this->config['settings']['dev'],
             ]
         ]);
     }
