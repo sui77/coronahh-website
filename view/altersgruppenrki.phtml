@@ -1,12 +1,18 @@
 <?php
+$dates2 = $dates;
+$values2 = $values;
+array_pop($dates2);
+foreach ($values2 as &$v) {
+    array_pop($v['values']);
+}
 $chart = [
     'title' => '7-Tage-Inzidenz nach Altersgruppen',
     'subtitle' => 'Quelle: survstat.rki.de',
-    'labels' => $dates,
+    'labels' => $dates2,
     'labelY' => '7 Tage Inzidenz',
     'labelX' => 'Kalenderwoche',
     'labelCb' => 'inzidenzLabelW',
-    'datasets' => $values,
+    'datasets' => $values2,
     'datasetTooltipPrefix' => 'Altersgruppe: ',
     'footer' => [
         'Quellen:',
@@ -27,6 +33,7 @@ $rtable = [
     'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut, survstat.rki.de)',
     'cols' => $dates,
     'data' => $values,
+    'lw' => true,
     'csv' => '/altersgruppenrki/data.csv',
     'footer' => $chart['footer']
 ];

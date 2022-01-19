@@ -66,7 +66,7 @@ echo "ok";
         foreach ($this->_pdo->query($sql, PDO::FETCH_ASSOC) as $row) {
 
             if (!isset($_GET['all']) && $row['week'] == date('W') && $row['year'] == date('Y')) {
-                continue;
+               // continue;
             }
             $dates[] = $row['week'] . '/' . $row['year'];
             $next = 0;

@@ -42,9 +42,12 @@ $rtable['cols'] = array_reverse($rtable['cols']);
 
                         echo '</thead>';
 
+                        $first = true;
                         foreach ($rtable['data'][0]['values'] as $index => $v) {
+
                             echo '<tr>';
-                            echo '<td>' . $rtable['cols'][$index] . '</td>';
+                            echo '<td>' . ((isset($rtable['lw']) && $first) ? 'Aktuelle Woche<br> bisher' : $rtable['cols'][$index]) . '</td>';
+
                             foreach ($rtable['data'] as $col => $v) {
                                 $value =  $rtable['data'][$col]['values'][$index];
 
@@ -56,6 +59,10 @@ $rtable['cols'] = array_reverse($rtable['cols']);
                                 echo '</td>';
                             }
                             echo '</tr>';
+                            if ((isset($rtable['lw']) && $first)) {
+                                echo '<tr><td colspan="' . (count($rtable['data'])+1) . '"></td></tr>';
+                            }
+                            $first = false;
                         }
 
                         echo '</table>';
