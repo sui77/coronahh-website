@@ -27,6 +27,7 @@ $rtable = [
     'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut)',
     'cols' => $dates,
     'data' => $values,
+    'altersgruppen' => true,
     'csv' => '/altersgruppen/data.csv',
     'footer' => $chart['footer']
 ];
@@ -59,6 +60,9 @@ include dirname(__FILE__) . '/partials/flat-table-color.phtml';
                             <td class="border-1 text-right"><?=$this->nf(array_sum($bevoelkerungszahlen))?></td>
                         </tr>
                     </table>
+                    <hr>
+                    * In KW2 2022 wurde der Stichtag für die Veröffentlichungen der Zahlen auf hamburg.de/corona-zahlen von Dienstags auf Freitags verschoben. Der absolute Wert bezieht sich somit auf einen Zeitraum von 10 statt sonst 7 Tagen.
+
                 </div>
             </div>
         </div>

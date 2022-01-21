@@ -52,6 +52,12 @@ class Altersgruppen extends AbstractController {
             $values[$next]['totalValues'][] = $sum;
         }
 
+        $januar2022 = array_search('2/2022', $dates);
+        $dates[$januar2022] = '2/2022 *';
+        for ($i=0; $i<$next; $i++) {
+            $values[$i]['values'][$januar2022] = $values[$i]['values'][$januar2022] *7/10;
+        }
+
 
         $this->assign('rtable', [
             'title' => 'Infektionen nach Altersgruppen',
