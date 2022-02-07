@@ -33,7 +33,15 @@ class Altersgruppen extends AbstractController {
             if ($row['week'] == 41 && $row['year'] == 2020) {
                 continue;
             }
-            $dates[] = $row['week'] . '/' . $row['year'];
+            if ($row['year'] >= 2022 && $row['week'] >2 || $row['year'] > 2022) {
+                $week = $row['week']<10?'0'.$row['week']:$row['week'];
+                $t = strtotime($row['year']."W".$week."4");
+                $date1 = date( "d.m.y", $t );
+                $date2 = date( "d.m.y", $t + 60*60*27*7 );
+                $dates[] = $date1 . ' - ' . $date2; // "yup"; //$row['week'] . '/' . $row['year'];
+            } else {
+                $dates[] = $row['week'] . '/' . $row['year'];
+            }
             $next = 0;
 
             $sum = 0;
