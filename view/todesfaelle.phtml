@@ -15,7 +15,7 @@ $chart = [
     ],
     'footer' => [
         'Quelle:',
-        'Infektionszahlen: https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/Fallzahlen.html',
+        'Todesfälle in Hamburg auf www.hamburg.de/corona-zahlen/',
     ]
 ];
 include dirname(__FILE__) . '/partials/bar-diagram.phtml';
@@ -31,3 +31,17 @@ $rtable = [
     ];
 include dirname(__FILE__) . '/partials/rolling-table.phtml';
 ?>
+
+<?php
+
+$rtable = [
+    'title' => 'Gemeldete Todesfälle Hamburg Monatsübersicht',
+    'subtitle' => '',
+    'cols' =>$byMonthCols,
+    'data' => $byMonthValues,
+    'footer' => $chart['footer']
+];
+
+//echo '<pre>'; print_r($rtable); exit();
+
+include dirname(__FILE__) . '/partials/flat-table.phtml';

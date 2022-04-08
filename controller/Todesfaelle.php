@@ -37,7 +37,22 @@ class Todesfaelle extends AbstractController {
             }
         }
 
-        $this->assign('showNumWeeks', $showNumWeeks);
+        $sql = "SELECT concat(month(date), '/', year(date)) as monat,  sum(deaths) as val FROM cases group by monat ";
+        //$byMonthValues[0]['label'] = 'monat';
+        $byMonthValues[0]['label'] = 'anzahl';
+        $byMonthCols = [];
+        foreach ($this->_pdo->query($sql) as $row) {
+            //$byMonthValues[0]['values'] [] = $row['monat'];
+            $byMonthValues[0]['values'] [] = $row['val'];
+            $byMonthCols[] = $row['monat'];
+        }
+
+        $this->assign('byMonthValues', $byMonthValues);
+        $this->assign('byMonthCols', $byMonthCols);
+
+
+
+            $this->assign('showNumWeeks', $showNumWeeks);
         $this->assign('data', $data);
         $this->assign('dates', $dates);
         $this->assign('values', $values);
