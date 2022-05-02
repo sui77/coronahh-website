@@ -17,7 +17,7 @@ abstract class AbstractController {
 
         $inzidenz = $this->_pdo->query('SELECT max(date) as maxdate, 100000/1904444*sum(cases) AS inzidenz FROM cases WHERE date >= (SELECT max(date) FROM cases WHERE cases is not null) - INTERVAL 6 DAY');
         $r = $inzidenz->fetch();
-        $this->assign('navbartext', 'Aktuelle Inzidenz (' . date('d.m.Y', strtotime($r['maxdate'])) . '): ' . $this->nf($r['inzidenz'],2));
+        $this->assign('navbartext', 'Inzidenz (Stand ' . date('d.m.Y', strtotime($r['maxdate'])) . '): ' . $this->nf($r['inzidenz'],2));
     }
 
     abstract public function action();
