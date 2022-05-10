@@ -12,12 +12,13 @@ abstract class AbstractController {
         $this->config = $config;
         $this->_pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
         $this->initNavigation();
-        $this->assign('ewz', 1899160);
+        //$this->assign('ewz', 1899160);
         $this->assign('settings', $config['settings']);
 
-        $inzidenz = $this->_pdo->query('SELECT max(date) as maxdate, 100000/1904444*sum(cases) AS inzidenz FROM cases WHERE date >= (SELECT max(date) FROM cases WHERE cases is not null) - INTERVAL 6 DAY');
+        $inzidenz = $this->_pdo->query('SELECT date, cases FROM cases_weekly ORDER BY date desc LIMIT 1');
         $r = $inzidenz->fetch();
-        $this->assign('navbartext', 'Inzidenz (Stand ' . date('d.m.Y', strtotime($r['maxdate'])) . '): ' . $this->nf($r['inzidenz'],2));
+        $inzidenz = $r['cases'] / (1904444 / 100000);
+        $this->assign('navbartext', 'Inzidenz (Stand ' . date('d.m.Y', strtotime($r['date'])) . '): ' . $this->nf($inzidenz,2));
     }
 
     abstract public function action();
@@ -74,20 +75,13 @@ abstract class AbstractController {
 
     public function initNavigation() {
         $this->assign('navigation', [
-            'neuinfektionen' => [
+            'neuinfektionen2022' => [
+                'section' => 'Aktuell',
                 'title' => 'Neuinfektionen',
-            ],
-
-            'altersgruppen' => [
-                'title' => 'Altersgruppen (Senat)',
             ],
 
             'altersgruppenrki' => [
                 'title' => 'Altersgruppen (RKI)',
-            ],
-
-            'todesfaelle' => [
-                'title' => 'Todesfälle',
             ],
 
             'hospitalisierungen' => [
@@ -99,8 +93,21 @@ abstract class AbstractController {
             'hospitalisierungsinzidenz' => [
                 'title' => 'Hospitalisierungsinzidenz',
             ],
+            'pcrtests' => [
+                'title' => 'PCR Tests',
+                'visible' => true,
+            ],
 
-
+            'altersgruppen' => [
+                'title' => 'Altersgruppen (Senat)',
+                'section' => 'Archiv',
+            ],
+            'neuinfektionen' => [
+                'title' => 'Neuinfektionen (täglich)',
+            ],
+            'todesfaelle' => [
+                'title' => 'Todesfälle',
+            ],
             'bezirke' => [
                 'title' => 'Bezirke',
             ],
@@ -108,18 +115,16 @@ abstract class AbstractController {
                 'title' => 'Impfungen',
                 'visible' => false, //$this->config['settings']['dev'],
             ],
-            'pcrtests' => [
-                'title' => 'PCR Tests',
-                'visible' => true,
-            ],
             'faq' => [
                 'title' => '(FAQ)',
                 'visible' => false, // $this->config['settings']['dev'],
             ],
             'kontakt' => [
                 'title' => 'Kontakt',
+                'visible' => false,
             ],
             'impressum' => [
+                'section' => 'Info',
                 'title' => 'Impressum',
             ],
             'test' => [

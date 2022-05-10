@@ -1,0 +1,38 @@
+
+<?php
+$chart = [
+    'title' => '7-Tage-Inzidenz Hamburg',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => '7-Tage-Inzidenz',
+    'labelX' => 'Tag',
+    'labelCb' => 'inzidenzLabel',
+    'lineWidth' => 1,
+    'circleRadius' => 1,
+    'datasets' => [
+        [
+            'label' => '7 Tage Inzidenz HH',
+            'values' => $data
+        ]
+    ],
+    'footer' => [
+        'Quellen:',
+        'Infektionszahlen: SARS-CoV-2 Infektionen in Hamburg auf www.hamburg.de/corona-zahlen/',
+        'Bevölkerungszahl bis 24.05.2021: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
+        'Bevölkerungszahl seit 24.05.2021: Bevölkerung am 31.12.2020 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2021-05-24']) . ')',    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+<?php
+
+
+$rtable = [
+'title' => '7-Tage-Inzidenz Hamburg',
+'subtitle' => '',
+'cols' =>$dates,
+'data' => $dataTable,
+'footer' => $chart['footer']
+];
+include dirname(__FILE__) . '/partials/flat-table.phtml';
+?>

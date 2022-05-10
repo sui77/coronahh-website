@@ -19,7 +19,7 @@ $uri = explode('?', $uri)[0];
 $tmp = explode('/', $uri);
 
 
-if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'neuinfektionen'; } else { $page = $tmp[1]; }
+if (!isset($tmp[1]) || $tmp[1] == '') { $page = 'neuinfektionen2022'; } else { $page = $tmp[1]; }
 
 if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php')) {
 

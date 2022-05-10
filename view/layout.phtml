@@ -137,6 +137,13 @@ The above copyright notice and this permission notice shall be included in all c
         <div class="sidebar-wrapper">
             <ul class="nav">
                 <?php foreach ($navigation as $n => $nav) { ?>
+
+                    <?php if (isset($nav['section'])) {
+                        echo '<li class="nav-item mt-3">';
+                        echo '<h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-8 text-dark" style="font-weight:1000 !important;padding-left:20px;">' . $nav['section'] . '</h6></li>';
+                    }
+                    ?>
+
                     <?php if (!isset($nav['visible']) || $nav['visible'] == true) { ?>
                         <li class="nav-item <?= ($n == $page) ? 'active' : '' ?>">
                             <a class="nav-link"
