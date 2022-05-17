@@ -25,7 +25,7 @@ class Neuinfektionen extends AbstractController {
         $sevenDay = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         $vaxxed = 0;
-        $sql = "SELECT * FROM cases_rki_marlon AS cases ORDER BY cases.date asc";
+        $sql = "SELECT * FROM cases AS cases ORDER BY cases.date asc";
         foreach ($this->_pdo->query($sql) as $row) {
             $dates[] = $row['date'];
             array_shift($sevenDay);
@@ -43,7 +43,7 @@ class Neuinfektionen extends AbstractController {
             $values3[] = round(  ($sevenDayPrevious==0) ? 0 : ($sevenDayCurrent / $sevenDayPrevious), 2);
         }
 
-        $sql = "SELECT * FROM cases_rki_marlon ORDER BY date desc";
+        $sql = "SELECT * FROM cases ORDER BY date desc";
         foreach ($this->_pdo->query($sql) as $row) {
 
             $data[$week][7 - $day] = $row['cases']??0;
