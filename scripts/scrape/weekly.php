@@ -27,7 +27,7 @@ class Importer {
             if ($v == '7-Tage-Inzidenz') {
                 $inzidenz = [ 'value' => $m[2][$n], 'date' => $m[3][$n] ];
             } else if ($v == 'Neuinfektionen vergangene 7 Tage') {
-                $neuinfektionen = [ 'value' => $m[2][$n], 'date' => $m[3][$n] ];
+                $neuinfektionen = [ 'value' => str_replace('.', '', $m[2][$n]), 'date' => $m[3][$n] ];
             } else if ($v == 'Patienten Krankenhaus (gesamt)') {
                 $patientenGesamt = [ 'value' => $m[2][$n], 'date' => $m[3][$n] ];
             } else if ($v == 'Patienten auf Intensivstationen') {

@@ -1,8 +1,8 @@
 <?php
 
-class Neuinfektionen extends AbstractController {
+class Neuinfektionen2022daily extends AbstractController {
 
-    protected $_template = 'neuinfektionen';
+    protected $_template = 'neuinfektionen2022daily';
 
     public function action() {
         $showNumWeeks = $_GET['showWeeks'] ?? 10;

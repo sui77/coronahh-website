@@ -1,0 +1,69 @@
+<?php
+$chart = [
+    'title' => '7-Tage-Inzidenz Hamburg (RKI)',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => '7-Tage-Inzidenz',
+    'labelX' => 'Tag',
+    'labelCb' => 'inzidenzLabel',
+    'lineWidth' => 1,
+    'circleRadius' => 1,
+    'datasets' => [
+        [
+            'label' => '7 Tage Inzidenz HH',
+            'values' => $values
+        ]
+    ],
+    'footer' => [
+        'Quellen:',
+        'Infektionszahlen: RKI via corona-zahlen.org',
+        'Bevölkerungszahl bis 24.05.2021: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
+        'Bevölkerungszahl seit 24.05.2021: Bevölkerung am 31.12.2020 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2021-05-24']) . ')',    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+<?php
+
+$chart = [
+    'title' => '7 Tage R Wert',
+    'subtitle' => '',
+    'labels' => $dates,
+    'labelY' => 'R',
+    'labelX' => 'Tag',
+    'labelCb' => 'inzidenzLabel',
+    'lineWidth' => 1,
+    'circleRadius' => 1,
+    'datasets' => [
+        [
+            'label' => '7 Tage R Wert',
+            'values' => $values3
+        ],
+        [
+            'label' => '',
+            'values' => array_fill(0,  count($values3), 1)
+        ],
+
+    ],
+    'yScale' => 2,
+    'footer' => [
+        'Quellen:',
+        'Infektionszahlen: RKI via corona-zahlen.org',
+        'Bevölkerungszahl bis 24.05.2021: Bevölkerung am 31.12.2019 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2020-02-29']) . ')',
+        'Bevölkerungszahl seit 24.05.2021: Bevölkerung am 31.12.2020 lt. Melderegister, Statistikamt Nord (' . $this->nf($ewza['2021-05-24']) . ')',
+        'Berechnung: Quotient aus Anzahl Neuinfektionen in zwei aufeinanderfolgenden Zeitabschnitten von jeweils 7 Tagen.'
+    ]
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+<?php
+$rtable = [
+    'title' => '<a name="rtable"></a>Neuinfektionen Hamburg Wochenüberblick',
+    'subtitle' => '',
+    'csv' => '/neuinfektionen/data.csv',
+    'footer' => $chart['footer']
+];
+
+include dirname(__FILE__) . '/partials/rolling-table.phtml';
+?>

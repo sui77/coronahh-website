@@ -75,9 +75,14 @@ abstract class AbstractController {
 
     public function initNavigation() {
         $this->assign('navigation', [
-            'neuinfektionen2022' => [
+
+            'neuinfektionen2022daily' => [
                 'section' => 'Aktuell',
-                'title' => 'Neuinfektionen',
+                'title' => 'Neuinfektionen (RKI)',
+            ],
+
+            'neuinfektionen2022' => [
+                'title' => 'Neuinfektionen (Senat)',
             ],
 
             'altersgruppenrki' => [
