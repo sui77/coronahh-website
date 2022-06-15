@@ -25,7 +25,18 @@ class Neuinfektionen2022daily extends AbstractController {
         $sevenDay = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         $vaxxed = 0;
-        $sql = "SELECT * FROM cases_rki_marlon AS cases ORDER BY cases.date asc";
+
+        $qp = '';
+
+        if (isset($_GET['from']) && isset($_GET['to']) && preg_match('/^202[0-9]{3}$/', $_GET['from']) && preg_match('/^202[0-9]{3}$/', $_GET['to'])) {
+            $from = substr($_GET['from'], 0, 4) . '-' . substr($_GET['from'], 4, 2) . '-01';
+            $to = strtotime(substr($_GET['to'], 0, 4) . '-' . substr($_GET['to'], 4, 2) . '-01');
+            $to = date("Y-m-d", strtotime("+1 month", $to));
+            $qp = ' WHERE date >= "' . $from . '" AND date < "' . $to . '"';
+        }
+//echo $qp; exit();
+        $sql = "SELECT * FROM cases_rki_marlon AS cases $qp ORDER BY cases.date asc";
+
         foreach ($this->_pdo->query($sql) as $row) {
             $dates[] = $row['date'];
             array_shift($sevenDay);

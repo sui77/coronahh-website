@@ -25,7 +25,7 @@ if (file_exists(dirname(__FILE__). '/../controller/' . ucfirst($page) . '.php'))
 
     $memcache = new Memcached;
     $memcache->addServer('localhost', 11211);
-    $key = md5(json_encode(['7' . $_SERVER['SERVER_NAME'], $_GET, $_SERVER['REQUEST_URI']]));
+    $key = md5(json_encode(['7' . $_SERVER['SERVER_NAME'], $_GET, $_SERVER['REQUEST_URI'], json_encode($_GET)]));
     $content = $memcache->get($key);
 
 

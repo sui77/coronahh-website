@@ -137,6 +137,26 @@ abstract class AbstractController {
                 'visible' => false, //$this->config['settings']['dev'],
             ]
         ]);
+
+
+        if (!isset($_GET['from'])) {
+            $_GET['from'] = '202001';
+        }
+        if (!isset($_GET['to'])) {
+            $_GET['to'] = date('Ym');
+        }
+        $dateselect = [];
+        for ($y=2020; $y<=date('Y'); $y++) {
+            for ($m = 1; $m<=12; $m++) {
+                if ($y != date('Y') || $m <= date('m')) {
+                    $mm = str_pad($m, 2, '0', STR_PAD_LEFT);
+                    $dateselect[] = ['value' => $y . $mm, 'text' => $mm . '/' . $y, 'selected_from' => ($y . $mm == $_GET['from']), 'selected_to' => ($y . $mm == $_GET['to'])];
+                }
+            }
+        }
+
+        $this->assign('dateselect', array_reverse($dateselect));
+
     }
 
     public function process() {
