@@ -29,12 +29,14 @@ class Neuinfektionen2022daily extends AbstractController {
         $qp = '';
 
         if (isset($_GET['from']) && isset($_GET['to']) && preg_match('/^202[0-9]{3}$/', $_GET['from']) && preg_match('/^202[0-9]{3}$/', $_GET['to'])) {
+
             $from = substr($_GET['from'], 0, 4) . '-' . substr($_GET['from'], 4, 2) . '-01';
+
             $to = strtotime(substr($_GET['to'], 0, 4) . '-' . substr($_GET['to'], 4, 2) . '-01');
             $to = date("Y-m-d", strtotime("+1 month", $to));
-            $qp = ' WHERE date >= "' . $from . '" AND date < "' . $to . '"';
+            $qp = ' WHERE date >= "' . $from . '" - INTERVAL 14 DAY AND date < "' . $to . '"';
         }
-//echo $qp; exit();
+
         $sql = "SELECT * FROM cases_rki_marlon AS cases $qp ORDER BY cases.date asc";
 
         foreach ($this->_pdo->query($sql) as $row) {
@@ -52,6 +54,13 @@ class Neuinfektionen2022daily extends AbstractController {
             $values[] = round(100000 / $ewz * $sevenDayCurrent, 2);
             $values2[] = round(100000 / ($ewz-$vaxxed) * $sevenDayCurrent, 2);
             $values3[] = round(  ($sevenDayPrevious==0) ? 0 : ($sevenDayCurrent / $sevenDayPrevious), 2);
+        }
+
+        for ($i=0; $i<14; $i++) {
+            array_shift($dates);
+            array_shift($values);
+            array_shift($values2);
+            array_shift($values3);
         }
 
         $sql = "SELECT * FROM cases_rki_marlon ORDER BY date desc";
