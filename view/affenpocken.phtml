@@ -1,0 +1,93 @@
+<?php
+$dates2 = $dates;
+$values2 = $values;
+array_pop($dates2);
+foreach ($values2 as &$v) {
+    array_pop($v['values']);
+}
+$chart = [
+    'title' => 'Affenpocken 7-Tage-Inzidenz',
+    'subtitle' => 'Quelle: survstat.rki.de',
+    'labels' => $dates2,
+    'dateselect' => false,
+    'labelY' => '7 Tage Inzidenz',
+    'labelX' => 'Kalenderwoche',
+    'labelCb' => 'inzidenzLabelW',
+    'datasets' => $values2,
+    'datasetTooltipPrefix' => 'Altersgruppe: ',
+    'footer' => [
+        'Quellen:',
+        'Infektionszahlen: Robert Koch-Institut: SurvStat@RKI 2.0, https://survstat.rki.de, Abfragedatum: ' . $udt,
+        'Bevölkerungszahlen: Bevölkerung nach Einzelalter und Geschlecht am 31.12.2019 lt. Melderegister, Statistikamt Nord',
+    ]
+
+];
+include dirname(__FILE__) . '/partials/line-diagram.phtml';
+?>
+
+
+
+<?php
+
+$rtable = [
+    'title' => 'Affenpocken Inzidenz nach Altersgruppen',
+    'subtitle' => '(Neuinfektionen innerhalb Kalenderwoche absolut, survstat.rki.de)',
+    'cols' => $dates,
+    'data' => $values,
+    'lw' => true,
+    'csv' => '/altersgruppenrki/data.csv',
+    'footer' => $chart['footer']
+];
+
+include dirname(__FILE__) . '/partials/flat-table-color.phtml';
+
+?>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title ">Anmerkungen</h4>
+                </div>
+                <div class="card-body">
+
+                    Wir nutzen die hier angegebenen Bevölkerungszahlen. Ras RKI nutzt für die Berechnung der Inzidenzen die Bevölkerungszahl Fortschreibung auf Basis des Zensus. Daher können die Inzidenzen hier abweichen von Inzidenzen des RKI.
+                    <br><br>
+
+                    <table class="minitable">
+                        <tr>
+                            <td>Altersgruppe</td>
+                            <td class="border-1 text-right">Einwohner</td>
+                        </tr>
+                    <?php foreach ($bevoelkerungszahlen as $k => $v) { ?>
+                        <tr>
+                            <td><?=$k?></td>
+                            <td style="text-align:right"><?=$this->nf($v)?></td>
+                        </tr>
+                    <?php } ?>
+                        <tr>
+                            <td>Summe</td>
+                            <td class="border-1 text-right"><?=$this->nf(array_sum($bevoelkerungszahlen))?></td>
+                        </tr>
+                    </table>
+
+                    <hr>
+                    <strong>RKI Abfrageparameter</strong><br>
+                    Referenzdefinition: Ja<br>
+                    Bundesland / Gebietseinheit / Kreis » Bundesland: Hamburg<br>
+                    Krankheit / Erreger » Krankheit: Affenpocken<br>
+                    Meldejahr: 2022<br>
+                    Zeilenmerkmal: Meldewoche<br>
+                    Spaltenmerkmal: Altersgruppierung: 1-Jahresintervalle<br>
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
