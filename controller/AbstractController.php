@@ -98,14 +98,20 @@ abstract class AbstractController {
             'hospitalisierungsinzidenz' => [
                 'title' => 'Hospitalisierungsinzidenz',
             ],
-            'pcrtests' => [
-                'title' => 'PCR Tests',
-                'visible' => true,
+
+            'affenpocken' => [
+                'title' => 'Neuinfektionen (RKI)',
+                'section' => 'Affenpocken',
             ],
+
 
             'altersgruppen' => [
                 'title' => 'Altersgruppen (Senat)',
                 'section' => 'Archiv',
+            ],
+            'pcrtests' => [
+                'title' => 'PCR Tests',
+                'visible' => true,
             ],
             'neuinfektionen' => [
                 'title' => 'Neuinfektionen (täglich)',
