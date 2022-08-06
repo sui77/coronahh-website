@@ -101,6 +101,7 @@ abstract class AbstractController {
 
             'affenpocken' => [
                 'title' => 'Neuinfektionen (RKI)',
+                'pageTitle' => 'Affenpocken',
                 'section' => 'Affenpocken',
             ],
 
