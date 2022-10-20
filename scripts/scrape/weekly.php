@@ -56,11 +56,16 @@ class Importer {
                 'intensivstation' => $patientenIntensiv['value'],
                 'normalstation' => $patientenGesamt['value'] - $patientenIntensiv['value'],
             ];
-            $this->pdo->prepare('INSERT IGNORE INTO hospitalisierungen_2 (date, normalstation, intensivstation) VALUES (:date, :normalstation, :intensivstation)')
+            $this->pdo->prepare('INSERT IGNORE INTO hospitalisierungen_2 (date, normalstation, intensivstation) VALUES (:date, :normalstation, :intensivstation) ON DUPLICATE KEY UPDATE normalstation=:normalstation, intensivstation=:intensivstation')
                 ->execute($data);
             exec('service memcached restart');
         }
 
-    }
+        for ($i = time()-60*60*24*14; $i< time()-60*60*24; $i=$i+60*60*24) {
+            $this->pdo->prepare('INSERT IGNORE INTO hospitalisierungen_2 (date) VALUES (:date)')
+                ->execute(['date' => date('Y-m-d', $i)]);
+        }
 
+
+    }
 }

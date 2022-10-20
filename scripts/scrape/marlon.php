@@ -22,7 +22,7 @@ class Importer {
             $date = substr($data['date'], 0, 10);
             print_r($data);
             echo $date . "\n";
-            $this->pdo->prepare('INSERT IGNORE INTO cases_rki_marlon (date, cases) VALUES (:date, :cases)')
+            $this->pdo->prepare('REPLACE INTO cases_rki_marlon (date, cases) VALUES (:date, :cases)')
                 ->execute(['date' => $date, 'cases' => $data['cases']]);
 
         }

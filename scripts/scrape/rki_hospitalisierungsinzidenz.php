@@ -2,12 +2,9 @@
 
 $config = json_decode( file_get_contents( dirname(__FILE__) . '/../../config/config.json'), 1);
 $pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
-/*
-$start = strtotime('2021-09-21');
-for ($i=$start; $i<time(); $i += 60*60*24) {
-    exec('cd ./COVID-19-Hospitalisierungen_in_Deutschland; git checkout ' . date('Y-m-d', $i));
-}
-*/
+
+exec('cd ./COVID-19-Hospitalisierungen_in_Deutschland; git pull'); // . date('Y-m-d', $i));
+
 todb();
 
 

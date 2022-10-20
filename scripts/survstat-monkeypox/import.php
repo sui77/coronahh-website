@@ -52,7 +52,7 @@ class Importer {
             'p3' => [
                 'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$DropDownListFilterHierarchy' => '[PathogenOut].[KategorieNz]',
                 'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$RepeaterFilterLevel$ctl01$HiddenFieldFilterLevelId' => '[PathogenOut].[KategorieNz].[Krankheit DE]',
-                'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$RepeaterFilterLevel$ctl01$ListBoxFilterLevelMembers' => '[PathogenOut].[KategorieNz].[Krankheit DE].&[COVID-19]',
+                'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$RepeaterFilterLevel$ctl01$ListBoxFilterLevelMembers' => '[PathogenOut].[KategorieNz].[Krankheit DE].&[Affenpocken]',
                 'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$RepeaterFilterLevel$ctl02$HiddenFieldFilterLevelId' => '[PathogenOut].[KategorieNz].[Pathogen1 Nz]',
                 'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$RepeaterFilterLevel$ctl03$HiddenFieldFilterLevelId' => '[PathogenOut].[KategorieNz].[Pathogen2 Nz]',
                 'ctl00$ctl00$ContentPlaceHolderMain$ContentPlaceHolderAltGridFull$RepeaterFilter$ctl03$RepeaterFilterLevel$ctl04$HiddenFieldFilterLevelId' => '[PathogenOut].[KategorieNz].[Pathogen3 Nz]',
@@ -88,7 +88,9 @@ class Importer {
     }
 
     public function cleanup() {
+
         unlink('/tmp/cookie.txt');
+
         unlink('Data.zip');
         unlink('Data.csv');
         unlink('Datautf.csv');
@@ -98,25 +100,58 @@ class Importer {
     public function import() {
 
 
-        $this->pdo->prepare('INSERT IGNORE INTO alter_rki (`year`, `week`) VALUES (?, ?)')->execute([date('Y'), date('W')]);
+        $this->pdo->prepare('INSERT IGNORE INTO alter_rki_ap (`year`, `week`) VALUES (?, ?)')->execute([date('Y'), date('W')]);
         echo "\n";
 
 
         $fp = fopen('Datautf.csv', 'r');
-        while (!feof($fp)) {
-            $l = fgetcsv($fp, 20000, "\t", '"');
-            if (is_array($l) && count($l) == 83 && $l[0] != '') {
-                foreach ($l as &$v) {
-                    $v = (trim($v) == '') ? 0 : $v;
-                    $v = 1 * (str_replace('"', '', $v));
-                }
-                $data = array_merge([2022], $l);
-                $this->pdo->prepare("REPLACE INTO `alter_rki` (`year`, `week`, `a0`, `a1`, `a2`, `a3`, `a4`, `a5`, `a6`, `a7`, `a8`, `a9`, `a10`, `a11`, `a12`, `a13`, `a14`, `a15`, `a16`, `a17`, `a18`, `a19`, `a20`, `a21`, `a22`, `a23`, `a24`, `a25`, `a26`, `a27`, `a28`, `a29`, `a30`, `a31`, `a32`, `a33`, `a34`, `a35`, `a36`, `a37`, `a38`, `a39`, `a40`, `a41`, `a42`, `a43`, `a44`, `a45`, `a46`, `a47`, `a48`, `a49`, `a50`, `a51`, `a52`, `a53`, `a54`, `a55`, `a56`, `a57`, `a58`, `a59`, `a60`, `a61`, `a62`, `a63`, `a64`, `a65`, `a66`, `a67`, `a68`, `a69`, `a70`, `a71`, `a72`, `a73`, `a74`, `a75`, `a76`, `a77`, `a78`, `a79`, `a80`, `unknown`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-                    ->execute($data);
+        $cols = fgetcsv($fp, 20000, "\t", '"');
+        $cols = fgetcsv($fp, 20000, "\t", '"');
+
+        $xcols = [];
+        for ($i=0; $i<=80; $i++) {
+            $xcols[$i] = false;
+        }
+        foreach ($cols as $n => $v) {
+            $v = explode('..', $v)[1];
+            if (isset($xcols[$v])) {
+                $xcols[$v] = $n;
             }
         }
 
-        $this->pdo->prepare('INSERT INTO scraping_updates (url, date) VALUES ("survstat", now()) ON DUPLICATE KEY update date=now()')->execute([]);
+
+        while (!feof($fp)) {
+            $lraw = fgetcsv($fp, 20000, "\t", '"');
+
+            foreach ($lraw as &$v) {
+                $v = (trim($v) == '') ? 0 : $v;
+                $v = 1 * (str_replace('"', '', $v));
+            }
+
+//print_r($lraw); exit();
+            if ($lraw[0] == '') {
+                continue;
+            }
+            $data = [2022, $lraw[0]];
+            foreach($xcols as $xcolN => $xcol) {
+                //echo $xcolN . ' ' . $xcol . "\n";
+                if ($xcol === false) {
+                    $data[] = '0';
+                } else {
+                    echo $xcolN; var_dump($xcol);
+                    $data[] = $lraw[$xcol];
+                }
+            }
+            $data[]= 0;
+
+
+
+            $this->pdo->prepare("REPLACE INTO `alter_rki_ap` (`year`, `week`, `a0`, `a1`, `a2`, `a3`, `a4`, `a5`, `a6`, `a7`, `a8`, `a9`, `a10`, `a11`, `a12`, `a13`, `a14`, `a15`, `a16`, `a17`, `a18`, `a19`, `a20`, `a21`, `a22`, `a23`, `a24`, `a25`, `a26`, `a27`, `a28`, `a29`, `a30`, `a31`, `a32`, `a33`, `a34`, `a35`, `a36`, `a37`, `a38`, `a39`, `a40`, `a41`, `a42`, `a43`, `a44`, `a45`, `a46`, `a47`, `a48`, `a49`, `a50`, `a51`, `a52`, `a53`, `a54`, `a55`, `a56`, `a57`, `a58`, `a59`, `a60`, `a61`, `a62`, `a63`, `a64`, `a65`, `a66`, `a67`, `a68`, `a69`, `a70`, `a71`, `a72`, `a73`, `a74`, `a75`, `a76`, `a77`, `a78`, `a79`, `a80`, `unknown`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                ->execute($data);
+
+        }
+
+        $this->pdo->prepare('INSERT INTO scraping_updates (url, date) VALUES ("survstat_ap", now()) ON DUPLICATE KEY update date=now()')->execute([]);
     }
 
     private function parseParams($r) {
