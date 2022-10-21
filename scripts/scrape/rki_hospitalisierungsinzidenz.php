@@ -3,7 +3,7 @@
 $config = json_decode( file_get_contents( dirname(__FILE__) . '/../../config/config.json'), 1);
 $pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
 
-exec('cd ./COVID-19-Hospitalisierungen_in_Deutschland; git pull'); // . date('Y-m-d', $i));
+//exec('cd ./COVID-19-Hospitalisierungen_in_Deutschland; git pull'); // . date('Y-m-d', $i));
 
 todb();
 
@@ -21,7 +21,9 @@ function todb() {
         '00+' => 'n',
     ];
 
-    $fp = fopen('./COVID-19-Hospitalisierungen_in_Deutschland/Aktuell_Deutschland_COVID-19-Hospitalisierungen.csv', 'r');
+
+    copy('https://github.com/robert-koch-institut/COVID-19-Hospitalisierungen_in_Deutschland/raw/master/Aktuell_Deutschland_COVID-19-Hospitalisierungen.csv', '/tmp/data.csv');
+    $fp = fopen('/tmp/data.csv', 'r');
     while (!feof($fp)) {
         $l = fgetcsv($fp, 255, ',', '"');
 

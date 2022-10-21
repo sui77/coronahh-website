@@ -15,8 +15,9 @@ class Importer {
 
     public function import() {
 
+        $data = $this->pdo->query('SELECT sha1 AS last FROM scraping_updates WHERE url="divi"')->fetch();
+        $last = $data['last']*1;
 
-        $last = trim(file_get_contents(dirname(__FILE__) . '/lastdivi.txt'));
         $current = $last+1;
         do {
             echo "Trying $current...\n";
@@ -29,9 +30,10 @@ class Importer {
         } while ($data);
 
         if ($last == $current) {
+            echo "No updates\n";
             exit();
         }
-        file_put_contents(dirname(__FILE__) . '/lastdivi.txt', $current);
+        $data = $this->pdo->query('UPDATE scraping_updates SET sha1=" + ($current*1) + "WHERE url="divi"');
 
 
         $data = fopen('https://datawrapper.dwcdn.net/dRfTF/' . $current . '/dataset.csv', 'r');

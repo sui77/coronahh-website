@@ -5,7 +5,9 @@ RUN apk add --no-cache \
     php81-pecl-memcache \
     php81-pdo \
     php81-pdo_mysql \
-    memcached
+    memcached \
+    curl \
+    nano
 
 
 
@@ -15,16 +17,17 @@ COPY ./config/nginx.conf /etc/nginx/conf.d/nginx.conf
 WORKDIR /var/www
 COPY . ./
 
+ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.2.1/supercronic-linux-amd64 \
+    SUPERCRONIC=supercronic-linux-amd64 \
+    SUPERCRONIC_SHA1SUM=d7f4c0886eb85249ad05ed592902fa6865bb9d70
 
-RUN echo "[program:memcached]" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "command=memcached -u memcached" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "stdout_logfile=/dev/stdout" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "stdout_logfile_maxbytes=0" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "stderr_logfile=/dev/stderr" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "stderr_logfile_maxbytes=0" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "autorestart=false" >> /etc/supervisor/conf.d/supervisord.conf
-RUN echo "startretries=0" >> /etc/supervisor/conf.d/supervisord.conf
+RUN curl -fsSLO "$SUPERCRONIC_URL" \
+ && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
+ && chmod +x "$SUPERCRONIC" \
+ && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
+ && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic
 
-#COPY ./config/nginx.conf /etc/nginx/conf.d/default.conf
+RUN cat config/supervisord.conf >> /etc/supervisor/conf.d/supervisord.conf
+
 
 USER nobody

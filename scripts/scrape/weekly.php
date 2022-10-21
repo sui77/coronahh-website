@@ -12,6 +12,12 @@ class Importer {
         $this->pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
     }
 
+    protected function _flushCache() {
+        echo "Flushing Memcache\n";
+        $memcache = new Memcache;
+        $memcache->addServer('127.0.0.1', 11211);
+        $memcache->flush();
+    }
 
     public function import() {
 
@@ -38,7 +44,7 @@ class Importer {
 
         $data = $this->pdo->query('SELECT max(date) as mdate FROM cases_weekly')->fetch();
         $lastdateInz = $data['mdate'];
-        $data = $this->pdo->query('SELECT max(date) as mdate FROM hospitalisierungen_2')->fetch();
+        $data = $this->pdo->query('SELECT max(date) as mdate FROM hospitalisierungen_2  WHERE normalstation IS NOT NULL')->fetch();
         $lastdateHosp = $data['mdate'];
 
 
@@ -46,11 +52,12 @@ class Importer {
             echo "=== Inzidenz neu === \n";
             $this->pdo->prepare('INSERT IGNORE INTO cases_weekly (date, cases) VALUES (:date, :value)')
                 ->execute($neuinfektionen);
-            exec('service memcached restart');
+            $this->_flushCache();
         }
 
         if (isset($patientenGesamt) && $patientenGesamt['date'] != $lastdateHosp) {
-            echo "=== Hospitalisierungen neu === \n";
+            print_r($patientenGesamt['date']);
+            echo "=== Hospitalisierungen neu  $lastdateHosp === \n";
             $data = [
                 'date' => $patientenGesamt['date'],
                 'intensivstation' => $patientenIntensiv['value'],
@@ -58,7 +65,9 @@ class Importer {
             ];
             $this->pdo->prepare('INSERT IGNORE INTO hospitalisierungen_2 (date, normalstation, intensivstation) VALUES (:date, :normalstation, :intensivstation) ON DUPLICATE KEY UPDATE normalstation=:normalstation, intensivstation=:intensivstation')
                 ->execute($data);
-            exec('service memcached restart');
+
+            $this->_flushCache();
+
         }
 
         for ($i = time()-60*60*24*14; $i< time()-60*60*24; $i=$i+60*60*24) {

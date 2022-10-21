@@ -81,20 +81,18 @@ class Importer {
         $r = $this->curlPage('https://survstat.rki.de/Content/Query/Create.aspx', array_merge($r['params'], $drop1['other'], $drop1['rowcol'], $drop1['p1'], $drop1['p2'], $drop1['p3'], $drop1['p4']));
         $r = $this->curlPage('https://survstat.rki.de/Content/Query/Create.aspx', array_merge($r['params'], $drop1['other'], $drop1['rowcol'], $drop1['p1'], $drop1['p2'], $drop1['p3'], $drop1['p4'], $drop1['zip']));
 
-        $fp = fopen('Data.zip', 'w');
+        exec('rm -rf /tmp/survstat2');
+        mkdir('/tmp/survstat2');
+        $fp = fopen('/tmp/survstat2/Data.zip', 'w');
         fputs($fp, $r['page']);
-        exec('unzip Data.zip');
-        exec('iconv -f UCS-2 -t UTF-8 -c Data.csv > Datautf.csv');
+        echo "Unzippping\n";
+        exec(' cd /tmp/survstat2; unzip Data.zip');
+        echo "Unzipped\n";
+        exec('iconv -f UCS-2 -t UTF-8 -c /tmp/survstat2/Data.csv > /tmp/survstat2/Datautf.csv');
     }
 
     public function cleanup() {
-
-        unlink('/tmp/cookie.txt');
-
-        unlink('Data.zip');
-        unlink('Data.csv');
-        unlink('Datautf.csv');
-        unlink('Info.pdf');
+        //exec('rm -rf /tmp/survstat');
     }
 
     public function import() {
@@ -104,7 +102,7 @@ class Importer {
         echo "\n";
 
 
-        $fp = fopen('Datautf.csv', 'r');
+        $fp = fopen('/tmp/survstat2/Datautf.csv', 'r');
         $cols = fgetcsv($fp, 20000, "\t", '"');
         $cols = fgetcsv($fp, 20000, "\t", '"');
 
