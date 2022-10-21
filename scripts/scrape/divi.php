@@ -16,7 +16,7 @@ class Importer {
     public function import() {
 
         $data = $this->pdo->query('SELECT sha1 AS last FROM scraping_updates WHERE url="divi"')->fetch();
-        $last = $data['last']*1;
+        $last = (int)$data['last'];
 
         $current = $last+1;
         do {
