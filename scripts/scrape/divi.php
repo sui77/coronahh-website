@@ -33,7 +33,7 @@ class Importer {
             echo "No updates\n";
             exit();
         }
-        $data = $this->pdo->query('UPDATE scraping_updates SET sha1="' + (string)$current + '"WHERE url="divi"');
+        $data = $this->pdo->query('UPDATE scraping_updates SET sha1="' . (string)$current . '"WHERE url="divi"');
 
 
         $data = fopen('https://datawrapper.dwcdn.net/dRfTF/' . $current . '/dataset.csv', 'r');
