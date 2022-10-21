@@ -7,7 +7,7 @@ function autoload($class) {
 
 spl_autoload_register('autoload');
 
-$config = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), 1);
+$config =include(dirname(__FILE__) . '/../config/config.php');
 if ($config['settings']['dev']) {
     ini_set('display_errors', 1);
 }

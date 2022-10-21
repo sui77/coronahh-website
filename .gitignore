@@ -1,4 +1,5 @@
 .idea
+config/config.php
 config/config.json
 config/config.dev.json
 config/config.prod.json

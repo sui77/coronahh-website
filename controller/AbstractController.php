@@ -8,7 +8,8 @@ abstract class AbstractController {
 
     public function __construct($params) {
         $this->params = $params;
-        $config = json_decode(file_get_contents(dirname(__FILE__) . '/../config/config.json'), 1);
+        $config = include(dirname(__FILE__) . '/../config/config.php');
+
         $this->config = $config;
         $this->_pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
         $this->initNavigation();

@@ -1,6 +1,6 @@
 <?php
 
-$config = json_decode( file_get_contents( dirname(__FILE__) . '/../../config/config.json'), 1);
+$config = include( dirname(__FILE__) . '/../../config/config.php');
 $pdo = new PDO('mysql:host=' . $config['mysql']['host'] . ';dbname=' . $config['mysql']['database'], $config['mysql']['user'], $config['mysql']['password']);
 
 //exec('cd ./COVID-19-Hospitalisierungen_in_Deutschland; git pull'); // . date('Y-m-d', $i));
