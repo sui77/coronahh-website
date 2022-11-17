@@ -82,10 +82,6 @@ abstract class AbstractController {
                 'title' => 'Neuinfektionen (RKI)',
             ],
 
-            'neuinfektionen2022' => [
-                'title' => 'Neuinfektionen (Senat)',
-            ],
-
             'altersgruppenrki' => [
                 'title' => 'Altersgruppen (RKI)',
             ],
@@ -100,11 +96,11 @@ abstract class AbstractController {
                 'title' => 'Hospitalisierungsinzidenz',
             ],
 
-            'affenpocken' => [
+            /*'affenpocken' => [
                 'title' => 'Neuinfektionen (RKI)',
                 'pageTitle' => 'Affenpocken',
                 'section' => 'Affenpocken',
-            ],
+            ],*/
 
 
             'altersgruppen' => [
@@ -118,6 +114,10 @@ abstract class AbstractController {
             'neuinfektionen' => [
                 'title' => 'Neuinfektionen (täglich)',
             ],
+            'neuinfektionen2022' => [
+                'title' => 'Neuinfektionen (wöchentlich)',
+            ],
+
             'todesfaelle' => [
                 'title' => 'Todesfälle',
             ],
