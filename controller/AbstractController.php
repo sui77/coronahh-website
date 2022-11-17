@@ -86,9 +86,6 @@ abstract class AbstractController {
                 'title' => 'Altersgruppen (RKI)',
             ],
 
-            'hospitalisierungen' => [
-                'title' => 'Hospitalisierungen',
-            ],
             'intensivbelegung' => [
                 'title' => 'Intensivbelegung',
             ],
@@ -117,7 +114,9 @@ abstract class AbstractController {
             'neuinfektionen2022' => [
                 'title' => 'Neuinfektionen (wöchentlich)',
             ],
-
+            'hospitalisierungen' => [
+                'title' => 'Hospitalisierungen',
+            ],
             'todesfaelle' => [
                 'title' => 'Todesfälle',
             ],
