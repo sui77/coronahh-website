@@ -1,5 +1,4 @@
 10 */3 * * * php /var/www/scripts/scrape/divi.php
-15 */3 * * * cd /var/www/scripts/scrape; php weekly.php
 20 */3 * * * cd /var/www/scripts/scrape; php marlon.php
 25 */3 * * * cd /var/www/scripts/scrape/; php rki_hospitalisierungsinzidenz.php
 30 */8 * * * cd /var/www/scripts/survstat/; php import.php
