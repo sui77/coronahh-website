@@ -16,10 +16,13 @@ abstract class AbstractController {
         //$this->assign('ewz', 1899160);
         $this->assign('settings', $config['settings']);
 
+/*
         $inzidenz = $this->_pdo->query('SELECT date, cases FROM cases_weekly ORDER BY date desc LIMIT 1');
         $r = $inzidenz->fetch();
         $inzidenz = $r['cases'] / (1904444 / 100000);
         $this->assign('navbartext', 'Inzidenz (Stand ' . date('d.m.Y', strtotime($r['date'])) . '): ' . $this->nf($inzidenz,2));
+*/
+        $this->assign('navbartext', '');
     }
 
     abstract public function action();
