@@ -2,5 +2,4 @@
 20 */3 * * * cd /var/www/scripts/scrape; php marlon.php
 25 */3 * * * cd /var/www/scripts/scrape/; php rki_hospitalisierungsinzidenz.php
 30 */8 * * * cd /var/www/scripts/survstat/; php import.php
-35 */8 * * * cd /var/www/scripts/survstat-monkeypox/; php import.php
 
