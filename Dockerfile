@@ -11,7 +11,7 @@ RUN apk add --no-cache \
 
 
 
-RUN mkdir /etc/nginx/conf.d
+#RUN mkdir /etc/nginx/conf.d
 COPY ./config/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 WORKDIR /var/www
